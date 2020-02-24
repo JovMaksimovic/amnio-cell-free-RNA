@@ -1,0 +1,227 @@
+---
+title: "Salmon with Limma-Voom analysis"
+output: html_notebook
+---
+
+```{r}
+library(tximport)
+library(here)
+library(tidyverse)
+library(paletteer)
+library(EnsDb.Hsapiens.v86)
+library(readr)
+library(limma)
+library(edgeR)
+library(NMF)
+#library(EDASeq)
+#library(RUVSeq)
+library(EGSEA)
+library(EGSEAdata)
+```
+
+Load sample information and file names.
+
+```{r}
+samples <- read.csv(here("data/samples.csv"), stringsAsFactors = FALSE, header = TRUE)
+files <- list.files(here("data/fastq/new_salmon/quants"), recursive = TRUE, 
+                    pattern = "quant.sf", full.names = TRUE)
+names(files) <- strsplit2(files, "_")[,8]
+
+files <- files[names(files) %in% samples$SampleId]
+samples <- samples[match(names(files), samples$SampleId),]
+
+all(file.exists(files))
+```
+
+Load all the metadat and associate with samples.
+
+```{r}
+metadat <- read.csv(file = here("data/metadata.csv"), header = TRUE, 
+                    stringsAsFactors = FALSE)
+joindat <- read.csv(file = here("data/joindata.csv"), header = TRUE, 
+                    stringsAsFactors = FALSE)
+
+metadat %>% inner_join(joindat, by = c("Record.ID" = "UR")) %>% 
+  inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> a
+metadat %>% inner_join(joindat, by = c("Tube.ID" = "UR")) %>% 
+  inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> b
+
+alldat <- bind_rows(a,b)
+alldat %>% inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> targets
+targets <- targets[match(samples$SampleId, targets$ID.post.extraction),]
+targets$Sex <- toupper(targets$Sex)
+head(targets)
+```
+
+Associate transcripts with gene IDs for gene-level summarization.
+
+```{r}
+edb <- EnsDb.Hsapiens.v86
+tx2gene <- transcripts(edb, columns = c("tx_id", "gene_id"), return.type = "DataFrame")
+tx2gene
+```
+
+Import gene-level counts and abundances.
+
+```{r}
+txi.g <- tximport(files, type = "salmon", tx2gene = tx2gene, 
+                  countsFromAbundance = "lengthScaledTPM", 
+                  ignoreTxVersion = TRUE)
+head(txi.g$counts)
+```
+
+Set up data object for downstream analysis.
+
+```{r}
+z <- DGEList(txi.g$counts)
+z$genes <- ensembldb::genes(edb, filter = GeneIdFilter(rownames(z)), 
+                 columns = c("gene_id", "symbol", "entrezid"), return.type = "DataFrame")
+z$genes$entrezid <- sapply(z$genes$entrezid, function(x) x[1])
+z$genes$length <- rowMedians(txi.g$length)
+z$group <- ifelse(targets$TestResult.x == "neg","neg","pos")
+```
+
+Filter out lowly expressed genes.
+
+```{r}
+keep <- filterByExpr(z, group = z$group)
+y <- z[keep, ]
+y
+```
+
+Compare distributions of unfiltered and filtered counts per million (CPM).
+
+```{r}
+L <- mean(z$samples$lib.size) * 1e-6
+M <- median(z$samples$lib.size) * 1e-6
+
+par(mfrow=c(1,2))
+lcpmz <- cpm(z, log = TRUE)
+lcpm.cutoff <- log2(10/M + 2/L)
+nsamples <- ncol(z)
+col <- paletteer_d("Polychrome","dark")
+plot(density(lcpmz[,1]), col=col[1], lwd=2, ylim=c(0,1.5), las=2, main="", xlab="")
+title(main="Unfiltered data", xlab="Log-cpm")
+abline(v=lcpm.cutoff, lty=3)
+for (i in 2:nsamples){
+  den <- density(lcpmz[,i])
+  lines(den$x, den$y, col=col[i], lwd=2)
+}
+
+lcpmy <- cpm(y, log=TRUE)
+plot(density(lcpmy[,1]), col=col[1], lwd=2, ylim=c(0,0.25), las=2, main="", xlab="")
+title(main="Filtered data", xlab="Log-cpm")
+abline(v=lcpm.cutoff, lty=3)
+for (i in 2:nsamples){
+  den <- density(lcpmy[,i])
+  lines(den$x, den$y, col=col[i], lwd=2)
+}
+```
+
+
+```{r, fig.width=9}
+pal <- paletteer_d("LaCroixColoR","paired")
+
+par(mar=c(5,6,4,2)+0.1, mfrow=c(1,2))
+barplot(y$samples$lib.size, col=pal[factor(samples$TestResult)], cex.names = 0.8, 
+        names.arg = colnames(y), las = 2, main = "Library size", yaxt = "none")
+aty <- seq(0, 12000000, by = 2000000)
+axis(2, at=aty, labels=format(aty, scientific=FALSE), las=2, cex = 0.8)
+
+lcpm <- cpm(y, log=TRUE)
+par(mar=c(5,3,4,2)+0.1)
+boxplot(lcpm, las=2, col=pal[factor(samples$TestResult)], 
+        main="Normalised log2 CPM")
+legend("topright", legend = levels(factor(samples$TestResult)), fill = pal)
+```
+
+```{r, fig.height=8, fig.width=9}
+colourBy <- c("CMV_result" = "TestResult.x","GA_at_amnio" = "GA.at.amnio","Sex" = "Sex",
+              "Matched_pair" = "matchedpair", "Site" = "Site.y")
+
+for(i in 1:length(colourBy)){
+  
+  par(mfrow=c(2,2), oma = c(0,0,2,0))
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])]) 
+  legend("topleft", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(1,3))
+  legend("topright", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(2,3))
+  legend("topright", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(3,4))
+  legend("topleft", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  title(main = paste0("Coloured by ", names(colourBy)[i]), outer = TRUE)
+}
+```
+
+```{r}
+y <- calcNormFactors(y)
+design <- model.matrix(~y$group, data = targets)
+v <- voomWithQualityWeights(y, design, plot = TRUE)
+fit <- lmFit(v, design)
+fit2 <- eBayes(fit, robust = TRUE)
+summary(decideTests(fit))
+```
+
+```{r}
+top <- topTable(fit2, n = 100)
+head(top)
+```
+
+```{r, fig.width=8, fig.height=6}
+par(mfrow=c(3,3), mar=c(3,4,4,2) + 0.1)
+for(i in 1:9){
+stripchart(lcpm[rownames(lcpm) == top$gene_id[i],] ~ y$group,
+           vertical = TRUE, las = 2, cex.axis = 0.8, pch = 16, cex = 1.3,
+           method = "jitter", ylab = "log2 CPM", main = top$symbol[i],
+           col = pal[factor(y$group)])
+}
+```
+
+```{r}
+gs.annots <- buildIdx(entrezIDs = v$genes$entrezid, species = "human",
+                     msigdb.gsets = c("h", "c2", "c5"))
+
+ens.c2.file <- here("output/ens.msigdb.c2.RData")
+if(!file.exists(ens.c2.file)){
+  msigdb.c2 <- lapply(gs.annots$c2@original, function(x) {
+    tmp <- suppressMessages(select(org.Hs.eg.db, keys = x, columns = c("ENSEMBL"))$ENSEMBL)
+    tmp[!is.na(tmp)]
+  })
+  save(msigdb.c2, file = ens.c2.file)
+  
+} else {
+  load(ens.c2.file)
+}
+
+idx <- ids2indices(msigdb.c2, rownames(v))
+
+c <- camera(v, idx, design)
+head(c, n=10)
+```
+
+```{r, fig.width=9, fig.height=6}
+par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(fit2$t[,2], idx[[rownames(c)[i]]], main = rownames(c)[i])
+})
+```
+
+
+```{r}
+go <- goana(unlist(top$entrezid), universe = unlist(fit$genes$entrezid), trend = "length")
+topGO(go)
+```
+
+```{r}
+
+```
+
