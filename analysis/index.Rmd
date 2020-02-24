@@ -20,16 +20,16 @@ Analysis
 --------
 
 * Read mapping, quantification and quality control
-  * [MultiQC analysis](multiqc_report.html)
+    * [MultiQC analysis](multiqc_report.html)
   
 * Differential expression analysis
-  * [Limma-voom analysis](salmon-limma-voom.html) - This is the initial analysis comparing "normal" and CMV samples. Following quality control and normalisation, we preform a differential expression analysis between CMV and normal samples. We also perform gene set testing to identify any gene sets that may differentially expressed.   
+    * [Limma-voom analysis](salmon-limma-voom.html) - This is the initial analysis comparing "normal" and CMV samples. Following quality control and normalisation, we preform a differential expression analysis between CMV and normal samples. We also perform gene set testing to identify any gene sets that may differentially expressed.   
 
 * Differential expression analysis (exclude CMV11 and pairs)
-  * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 and its pairs. 
+    * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 and its pairs. 
   
 * Differential expression analysis (RUVseq)
-  * [RUVseq-edgeR analysis](salmon-ruvseq-edger.html) - This approach attempts to account for more of the variation in the data when preforming differential expression analysis.
+    * [RUVseq-edgeR analysis](salmon-ruvseq-edger.html) - This approach attempts to account for more of the variation in the data when preforming differential expression analysis.
 
 
 Licenses
