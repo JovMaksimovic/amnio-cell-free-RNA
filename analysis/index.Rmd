@@ -8,4 +8,39 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+# Amniotic fluid cfRNA
+
+This site contains the analysis of RNAseq data generated from amniotic fluid cell-free RNA (cfRNA). 
+
+The data is from Lisa Hui in the Embryionic Epidemiology group. They have collected amniotic fluid from pregnancies with suspected (and subsequently confirmed) cytomegalovirus (CMV) infection. They also have amniotic fluid from "normal" pregnancies i.e. pregnancies that were confirmed to not be infected with CMV. They are interested in differences in the cell-free RNA (cfRNA) between the CMV and "normal" pregnancies. There were 19 samples (10 "normal" and 9 CMV) sent for sequencing (150bp paired-end) at the MCRI TGU. 
+
+Follow the links below to explore the different parts of the analysis. 
+
+Analysis
+--------
+
+* Read mapping, quantification and quality control
+  * [MultiQC analysis](multiqc_report.html)
+  
+* Differential expression analysis
+  * [Limma-voom analysis](salmon-limma-voom.html) - This is the initial analysis comparing "normal" and CMV samples. Following quality control and normalisation, we preform a differential expression analysis between CMV and normal samples. We also perform gene set testing to identify any gene sets that may differentially expressed.   
+
+* Differential expression analysis (exclude CMV11 and pairs)
+  * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 and its pairs. 
+  
+* Differential expression analysis (RUVseq)
+  * [RUVseq-edgeR analysis](salmon-ruvseq-edger.html) - This approach attempts to account for more of the variation in the data when preforming differential expression analysis.
+
+
+Licenses
+--------
+
+The code in this analysis is covered by the [MIT license][mit] and the written
+content on this website is covered by a [Creative Commons CC-BY][cc] license.
+
+
+Citations
+---------
+
+[mit]: https://choosealicense.com/licenses/mit/ "MIT License"
+[cc]: https://creativecommons.org/licenses/by/4.0/ "CC-BY License"
