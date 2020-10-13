@@ -12,24 +12,33 @@ editor_options:
 
 This site contains the analysis of RNAseq data generated from amniotic fluid cell-free RNA (cfRNA). 
 
-The data is from Lisa Hui in the Embryionic Epidemiology group. They have collected amniotic fluid from pregnancies with suspected (and subsequently confirmed) cytomegalovirus (CMV) infection. They also have amniotic fluid from "normal" pregnancies i.e. pregnancies that were confirmed to not be infected with CMV. They are interested in differences in the cell-free RNA (cfRNA) between the CMV and "normal" pregnancies. There were 19 samples (10 "normal" and 9 CMV) sent for sequencing (150bp paired-end) at the MCRI TGU. 
+The data is from Lisa Hui in the Embryonic Epidemiology group. They have collected amniotic fluid from pregnancies with suspected (and subsequently confirmed) cytomegalovirus (CMV) infection. They also have amniotic fluid from "normal" pregnancies i.e. pregnancies that were confirmed to be negative for CMV infection. They are interested in differences in the cell-free RNA (cfRNA) between the CMV negative and positive pregnancies. There were originally 19 samples (10 CMV negative and 9 CMV positive) sent for sequencing (150bp paired-end) at the MCRI TGU. 
+
+Subsequently, another 9 samples were sequenced (150bp paired-end) at the MCRI TGU. 
 
 Follow the links below to explore the different parts of the analysis. 
 
-Analysis
---------
+New Analysis
+------------
 
-* Read mapping, quantification and quality control
+* Read mapping, counting and quality control.
     * [MultiQC analysis](multiqc_report.html)
-  
+
 * Differential expression analysis
-    * [Limma-voom analysis](salmon-limma-voom.html) - This is the initial analysis comparing "normal" and CMV samples. Following quality control and normalisation, we preform a differential expression analysis between CMV and normal samples. We also perform gene set testing to identify any gene sets that may differentially expressed.   
+    * [Analysis results](STAR-FC-all.html) - This is the new analysis comparing CMV negative and CMV positive samples of the full cohort.   
+
+* Differential expression analysis (exclude samples with ultrasound abnormality)
+    * [Anlaysis results](STAR-FC-exclude-abnormal.html) - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified.
+  
+  
+Pilot Analysis
+--------------
+
+* Differential expression analysis
+    * [Limma-voom analysis](salmon-limma-voom.html) - This is the initial analysis comparing CMV positive and CMV negative samples. Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets that may differentially expressed.   
 
 * Differential expression analysis (exclude CMV11 and pairs)
-    * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 and its pairs. 
-  
-* Differential expression analysis (RUVseq)
-    * [RUVseq-edgeR analysis](salmon-ruvseq-edger.html) - This approach attempts to account for more of the variation in the data when preforming differential expression analysis.
+    * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 (which had an ultrasound abnormality identified) and its pairs. 
 
 
 Licenses
