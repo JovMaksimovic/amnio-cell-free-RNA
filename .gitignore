@@ -12,3 +12,5 @@ analysis/site_libs
 data/*
 output/*
 code/*html
+code/.bpipe/
+*.swp
