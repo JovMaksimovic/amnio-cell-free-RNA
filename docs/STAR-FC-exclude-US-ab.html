@@ -11,7 +11,7 @@
 
 
 
-<title>Limma-voom paired analysis of ALL samples</title>
+<title>Limma-voom paired analysis EXCLUDING samples with ultrasound abnormality</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -376,7 +376,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Limma-voom paired analysis of ALL samples</h1>
+<h1 class="title toc-ignore">Limma-voom paired analysis EXCLUDING samples with ultrasound abnormality</h1>
 
 </div>
 
@@ -582,7 +582,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/STAR-FC-all.Rmd</code>) and HTML (<code>docs/STAR-FC-all.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/STAR-FC-exclude-US-ab.Rmd</code>) and HTML (<code>docs/STAR-FC-exclude-US-ab.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -611,7 +611,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/787e0a195e4863f0eb47d672e5689a3683f6ab43/analysis/STAR-FC-all.Rmd" target="_blank">787e0a1</a>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/787e0a195e4863f0eb47d672e5689a3683f6ab43/analysis/STAR-FC-exclude-US-ab.Rmd" target="_blank">787e0a1</a>
 </td>
 <td>
 Jovana Maksimovic
@@ -621,40 +621,6 @@ Jovana Maksimovic
 </td>
 <td>
 wflow_publish(c(“analysis/STAR-FC-all.Rmd”, “analysis/STAR-FC-exclude-US-ab.Rmd”,
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a91102dcce4c98868c8ad20f025d55dfb71d9ec4/docs/STAR-FC-all.html" target="_blank">a91102d</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-10-13
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/2ee5593cf8f25f38c0fae29032e77240be940634/analysis/STAR-FC-all.Rmd" target="_blank">2ee5593</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-10-13
-</td>
-<td>
-wflow_publish(c(“analysis/index.Rmd”, “analysis/STAR-FC-all.Rmd”,
 </td>
 </tr>
 </tbody>
@@ -707,8 +673,8 @@ $genes
 4 ENSG00000243485.5   1021
 5 ENSG00000284332.1    138
 60664 more rows ...</code></pre>
-<p>Load sample information and file names.</p>
-<pre><code># A tibble: 26 x 7
+<p>Load sample information and file names. Exclude samples with ultrasound abnormalities.</p>
+<pre><code># A tibble: 23 x 7
    id    CMV_status pair  sex   GA_at_amnio indication batch
    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;fct&gt;
  1 CMV30 pos        L1    F     21          no_us_ab   1    
@@ -721,7 +687,7 @@ $genes
  8 CMV20 pos        L5    M     21          no_us_ab   1    
  9 CMV21 neg        NC1   F     21          no_us_ab   1    
 10 CMV1  pos        M1    F     21          no_us_ab   1    
-# … with 16 more rows</code></pre>
+# … with 13 more rows</code></pre>
 </div>
 <div id="quality-control" class="section level1">
 <h1>Quality control</h1>
@@ -735,28 +701,22 @@ $counts
 55     6    15   17   15    15     9    14    13    12    7   10   16   12
 63   148   172  148  126   175   179   176   141   179  155  194  121  123
 64    14    15   14   11    20    14     9    13    14   13   13   19   10
-   CMV10 CMV11 CMV19 CMV35 CMV51 CMV52 CMV53 CMV54 CMV56 CMV57 CMV58 CMV60
-32    15    11    22    24    25    19    23    20    18    23    24     8
-52    69    11    35    47    59    49    42    37    38    49    65    49
-55     7     2    11     9    19     9     6    12     7     7     7     5
-63   156    44   107   164   144    71    71   137   136   122   131    88
-64     9     3     6     9    14     3     9    12     5     7    12     5
-   CMV61
-32    20
-52    49
-55     6
-63   108
-64     3
-12727 more rows ...
+   CMV19 CMV35 CMV51 CMV52 CMV54 CMV56 CMV57 CMV58 CMV60 CMV61
+32    22    24    25    19    20    18    23    24     8    20
+52    35    47    59    49    37    38    49    65    49    49
+55    11     9    19     9    12     7     7     7     5     6
+63   107   164   144    71   137   136   122   131    88   108
+64     6     9    14     3    12     5     7    12     5     3
+12794 more rows ...
 
 $samples
       group lib.size norm.factors
-CMV30     1  4673630     1.017563
-CMV31     1  5232010     1.052277
-CMV8      1  3594801     1.052059
-CMV9      1  3425478     1.026378
-CMV26     1  4892776     1.068518
-21 more rows ...
+CMV30     1  4673630     1.019470
+CMV31     1  5232010     1.060036
+CMV8      1  3594801     1.042513
+CMV9      1  3425478     1.024935
+CMV26     1  4892776     1.065154
+18 more rows ...
 
 $genes
                Geneid Length         Ensembl       symbol  entrezid
@@ -765,228 +725,101 @@ $genes
 55  ENSG00000230368.2   1971 ENSG00000230368       FAM41C    284593
 63 ENSG00000188976.11   5540 ENSG00000188976        NOC2L     26155
 64 ENSG00000187961.14   3402 ENSG00000187961       KLHL17    339451
-12727 more rows ...
+12794 more rows ...
 
 $group
 [1] &quot;pos&quot; &quot;neg&quot; &quot;neg&quot; &quot;pos&quot; &quot;pos&quot;
-21 more elements ...</code></pre>
+18 more elements ...</code></pre>
 <p>Plotting the distribution log-CPM values shows that a majority of genes within each sample are either not expressed or lowly-expressed with log-CPM values that are small or negative.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Although in excess of 30 million reads were obtained per sample, we can see that after mapping, duplicate removal and quantification of gene expression the median library size is just under than 4 million reads. This suggests that we are likely to only be capturing the most abundant cfRNAs.</p>
 <p>It is assumed that all samples should have a similar range and distribution of expression values. The raw data looks fairly uniform between samples, although TMM normalization further improves this.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a91102dcce4c98868c8ad20f025d55dfb71d9ec4/docs/figure/STAR-FC-all.Rmd/unnamed-chunk-6-1.png" target="_blank">a91102d</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-10-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>Multi-dimensional scaling (MDS) plots show the largest sources of variation in the data. They are a good way of exploring the relationships between the samples and identifying structure in the data. The following series of MDS plots examines the first four principal components. The samples are coloured by various known features of the samples such as CMV Status and foetal sex. The MDS plots do not show the samples strongly clustering by any of the known features of the data, although there does seem to be some separation between the CMV positive and negative samples in the 1st and 2nd principal components. This indicates that there are possibly some differentially expressed genes between CMV positive and negative samples.</p>
 <p>A weak batch effect is also evident in the 3rd principal component, when we examine the plots coloured by batch.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
-Past versions of unnamed-chunk-7-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-7-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a91102dcce4c98868c8ad20f025d55dfb71d9ec4/docs/figure/STAR-FC-all.Rmd/unnamed-chunk-7-1.png" target="_blank">a91102d</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-10-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="differential-expression-analysis" class="section level1">
 <h1>Differential expression analysis</h1>
 <p>Due to the variability in the data, the TMM normalised data was transformed using <code>voomWithQualityWeights</code>. This takes into account the differing library sizes and the mean variance relationship in the data as well as calculating sample-specific quality weights. Linear models were fit in <code>limma</code>, taking into account the <code>voom</code> weights. The CMV positive samples were compared to the CMV negative samples, taking into account the sample pairs. A summary of the number of differentially expressed genes is shown below.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
-Past versions of unnamed-chunk-8-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a91102dcce4c98868c8ad20f025d55dfb71d9ec4/docs/figure/STAR-FC-all.Rmd/unnamed-chunk-8-1.png" target="_blank">a91102d</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-10-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>       pos - neg
-Down          17
-NotSig     12505
-Up           210</code></pre>
-<p>There were 17 down-regulated and 210 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
+Down           0
+NotSig     12791
+Up             8</code></pre>
+<p>There were 0 down-regulated and 8 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
 <p>These are the top 10 differentially expressed genes.</p>
-<pre><code>                  Geneid Length         Ensembl symbol entrezid    logFC
-45751 ENSG00000140853.15  12386 ENSG00000140853  NLRC5    84166 2.797155
-8687  ENSG00000115415.20   9770 ENSG00000115415  STAT1     6772 1.199505
-19329 ENSG00000206337.12  11058 ENSG00000206337   HCP5    10866 4.440444
-15204 ENSG00000137628.17   6746 ENSG00000137628  DDX60    55601 1.590297
-8282   ENSG00000115267.8   5094 ENSG00000115267  IFIH1    64135 1.069293
-14201  ENSG00000138646.9   4764 ENSG00000138646  HERC5    51191 2.943603
-2095  ENSG00000137965.11   2038 ENSG00000137965  IFI44    10561 1.954652
-46903 ENSG00000132530.17   6615 ENSG00000132530   XAF1    54739 2.858189
-27479 ENSG00000107201.10   4640 ENSG00000107201  DDX58    23586 1.110450
-19309 ENSG00000234745.11   3051 ENSG00000234745  HLA-B     3106 3.138597
-       AveExpr        t      P.Value    adj.P.Val        B
-45751 2.163443 9.405942 4.679903e-08 0.0005193123 7.426915
-8687  7.926887 8.204584 3.789399e-07 0.0012061657 6.855860
-19329 1.845420 9.507407 8.157593e-08 0.0005193123 6.512669
-15204 5.968763 7.878387 9.119445e-07 0.0020294388 6.033060
-8282  5.614202 7.524000 9.868764e-07 0.0020294388 5.912610
-14201 1.990993 8.409535 2.397649e-07 0.0010175624 5.881695
-2095  4.394309 7.738868 1.138190e-06 0.0020294388 5.756492
-46903 4.797937 7.488143 1.705713e-06 0.0024130150 5.359573
-27479 5.639234 7.054829 2.755727e-06 0.0035085914 4.933196
-19309 4.348936 7.058890 3.844793e-06 0.0041278571 4.573300</code></pre>
+<pre><code>                  Geneid Length         Ensembl symbol entrezid     logFC
+8687  ENSG00000115415.20   9770 ENSG00000115415  STAT1     6772 1.0336003
+2095  ENSG00000137965.11   2038 ENSG00000137965  IFI44    10561 1.5521034
+8282   ENSG00000115267.8   5094 ENSG00000115267  IFIH1    64135 0.8848411
+15204 ENSG00000137628.17   6746 ENSG00000137628  DDX60    55601 1.3304615
+45751 ENSG00000140853.15  12386 ENSG00000140853  NLRC5    84166 2.4446384
+57140  ENSG00000221963.6  10065 ENSG00000221963  APOL6    80830 0.7363985
+30927 ENSG00000119922.10   4074 ENSG00000119922  IFIT2     3433 0.6197264
+11478 ENSG00000138496.16   8938 ENSG00000138496  PARP9    83666 0.7279588
+14201  ENSG00000138646.9   4764 ENSG00000138646  HERC5    51191 2.5801037
+2226  ENSG00000117228.10   4862 ENSG00000117228   GBP1     2633 1.7892937
+       AveExpr        t      P.Value  adj.P.Val        B
+8687  7.856738 7.295446 4.720523e-06 0.02036436 4.478385
+2095  4.268607 7.213721 6.578602e-06 0.02036436 3.946960
+8282  5.543087 6.760372 8.241465e-06 0.02036436 3.921731
+15204 5.889855 6.970727 1.205181e-05 0.02203586 3.626953
+45751 1.965882 7.117168 5.933974e-06 0.02036436 2.678514
+57140 6.217797 5.723505 5.105711e-05 0.05483173 2.207569
+30927 5.071207 5.558362 5.807211e-05 0.05483173 2.070201
+11478 6.764147 5.619835 6.357766e-05 0.05483173 1.998775
+14201 1.798125 6.773025 9.546537e-06 0.02036436 1.967012
+2226  3.910000 5.942386 5.355300e-05 0.05483173 1.904474</code></pre>
 <p>The following plots show the expression of the top 12 ranked differentially expressed genes for CMV positive and CMV negative samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a91102dcce4c98868c8ad20f025d55dfb71d9ec4/docs/figure/STAR-FC-all.Rmd/unnamed-chunk-11-1.png" target="_blank">a91102d</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-10-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="gene-set-enrichment-analysis-gsea" class="section level1">
 <h1>Gene set enrichment analysis (GSEA)</h1>
 <p>Testing for enrichment of Gene Ontology (GO) categories among statistically significant differentially expressed genes.</p>
-<pre><code>                                                  Term Ont    N DE         P.DE
-GO:0045087                      innate immune response  BP  541 50 1.955554e-22
-GO:0009615                           response to virus  BP  220 33 2.120536e-21
-GO:0071357      cellular response to type I interferon  BP   67 21 4.951621e-21
-GO:0060337         type I interferon signaling pathway  BP   67 21 4.951621e-21
-GO:0034340               response to type I interferon  BP   71 21 1.962161e-20
-GO:0051607                   defense response to virus  BP  161 28 4.623379e-20
-GO:0009607                 response to biotic stimulus  BP  562 47 2.783305e-19
-GO:0006952                            defense response  BP  885 58 1.115128e-18
-GO:0043207        response to external biotic stimulus  BP  534 45 1.357212e-18
-GO:0051707                  response to other organism  BP  534 45 1.357212e-18
-GO:0006955                             immune response  BP 1178 67 2.077724e-18
-GO:0098542          defense response to other organism  BP  256 29 1.545503e-15
-GO:0002376                       immune system process  BP 1835 80 2.510957e-15
-GO:0034341                response to interferon-gamma  BP  119 20 2.489356e-14
-GO:0071346       cellular response to interferon-gamma  BP  107 19 3.981477e-14
-GO:0060333 interferon-gamma-mediated signaling pathway  BP   61 15 1.311939e-13
-GO:0034097                        response to cytokine  BP  782 46 4.494706e-13
-GO:0009605               response to external stimulus  BP 1339 59 2.804582e-11
-GO:0002252                     immune effector process  BP  752 42 2.986903e-11
-GO:0071345      cellular response to cytokine stimulus  BP  724 41 3.479695e-11</code></pre>
+<pre><code>                                                          Term Ont    N DE
+GO:0009615                                   response to virus  BP  221  6
+GO:0051607                           defense response to virus  BP  161  5
+GO:0043207                response to external biotic stimulus  BP  535  6
+GO:0051707                          response to other organism  BP  535  6
+GO:0098542                  defense response to other organism  BP  257  5
+GO:0009607                         response to biotic stimulus  BP  563  6
+GO:0032479          regulation of type I interferon production  BP  107  4
+GO:0032606                        type I interferon production  BP  109  4
+GO:0032480 negative regulation of type I interferon production  BP   39  3
+GO:0001817                   regulation of cytokine production  BP  427  5
+GO:0001816                                 cytokine production  BP  469  5
+GO:0031347                      regulation of defense response  BP  486  5
+GO:0050688             regulation of defense response to virus  BP   58  3
+GO:0045087                              innate immune response  BP  542  5
+GO:0039530                             MDA-5 signaling pathway  BP    9  2
+GO:0045088                regulation of innate immune response  BP  305  4
+GO:0002831           regulation of response to biotic stimulus  BP   97  3
+GO:0009605                       response to external stimulus  BP 1350  6
+GO:0002252                             immune effector process  BP  754  5
+GO:0032727  positive regulation of interferon-alpha production  BP   16  2
+                   P.DE
+GO:0009615 6.863619e-10
+GO:0051607 1.632415e-08
+GO:0043207 1.377329e-07
+GO:0051707 1.377329e-07
+GO:0098542 1.699504e-07
+GO:0009607 1.865864e-07
+GO:0032479 3.188286e-07
+GO:0032606 3.435308e-07
+GO:0032480 1.462810e-06
+GO:0001817 2.112560e-06
+GO:0001816 3.355640e-06
+GO:0031347 3.998785e-06
+GO:0050688 4.911321e-06
+GO:0045087 6.835192e-06
+GO:0039530 1.235577e-05
+GO:0045088 2.077078e-05
+GO:0002831 2.319949e-05
+GO:0009605 3.218061e-05
+GO:0002252 3.428352e-05
+GO:0032727 4.109558e-05</code></pre>
 <p>GSEA helps us to interpret the results of a differential expression analysis. The <code>camera</code> function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute’s Molecular Signatures Database <a href="http://software.broadinstitute.org/gsea/msigdb/index.jsp">MSigDB</a>.</p>
 <p>Build gene set indexes.</p>
 <pre><code>[1] &quot;Loading MSigDB Gene Sets ... &quot;
@@ -1001,114 +834,135 @@ GO:0071345      cellular response to cytokine stimulus  BP  724 41 3.479695e-11<
 [1] &quot;Created annotation for the collection c5 ...&quot;
 [1] &quot;Building KEGG pathways annotation object ... &quot;</code></pre>
 <p>The GO gene sets consist of genes annotated by the same GO terms.</p>
-<pre><code>                                                                     NGenes
-GO_RESPONSE_TO_TYPE_I_INTERFERON                                         48
-GO_DEFENSE_RESPONSE_TO_VIRUS                                            111
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN     11
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN             13
-GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                           43
-GO_DIGESTION                                                             56
-GO_RESPONSE_TO_INTERFERON_GAMMA                                          71
-GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                                 59
-GO_REGULATION_OF_CELL_KILLING                                            32
-GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                         29
-GO_RESPONSE_TO_VIRUS                                                    166
-GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                      18
-GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                                  245
-GO_NEGATIVE_REGULATION_OF_CELL_KILLING                                   12
-GO_MHC_PROTEIN_COMPLEX                                                   11
-GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                            12
-GO_RESPONSE_TO_INTERFERON_ALPHA                                          18
-GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                    8
-GO_REGULATION_OF_PLASMA_LIPOPROTEIN_PARTICLE_LEVELS                      29
-GO_MHC_CLASS_I_PROTEIN_COMPLEX                                            7
-                                                                     Direction
-GO_RESPONSE_TO_TYPE_I_INTERFERON                                            Up
-GO_DEFENSE_RESPONSE_TO_VIRUS                                                Up
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN        Up
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN                Up
-GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                              Up
-GO_DIGESTION                                                                Up
-GO_RESPONSE_TO_INTERFERON_GAMMA                                             Up
-GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                                    Up
-GO_REGULATION_OF_CELL_KILLING                                               Up
-GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                            Up
-GO_RESPONSE_TO_VIRUS                                                        Up
-GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                         Up
-GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                                      Up
-GO_NEGATIVE_REGULATION_OF_CELL_KILLING                                      Up
-GO_MHC_PROTEIN_COMPLEX                                                      Up
-GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                               Up
-GO_RESPONSE_TO_INTERFERON_ALPHA                                             Up
-GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                      Up
-GO_REGULATION_OF_PLASMA_LIPOPROTEIN_PARTICLE_LEVELS                         Up
-GO_MHC_CLASS_I_PROTEIN_COMPLEX                                              Up
-                                                                           PValue
-GO_RESPONSE_TO_TYPE_I_INTERFERON                                     5.918561e-26
-GO_DEFENSE_RESPONSE_TO_VIRUS                                         5.511815e-14
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN 4.049629e-13
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN         4.365482e-13
-GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                       6.081715e-13
-GO_DIGESTION                                                         4.430786e-11
-GO_RESPONSE_TO_INTERFERON_GAMMA                                      6.699823e-11
-GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                             6.410894e-10
-GO_REGULATION_OF_CELL_KILLING                                        1.371315e-08
-GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                     2.794535e-08
-GO_RESPONSE_TO_VIRUS                                                 2.890393e-08
-GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                  5.791605e-08
-GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                               9.989903e-08
-GO_NEGATIVE_REGULATION_OF_CELL_KILLING                               1.023995e-07
-GO_MHC_PROTEIN_COMPLEX                                               2.027142e-07
-GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                        2.805316e-07
-GO_RESPONSE_TO_INTERFERON_ALPHA                                      3.328300e-07
-GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY               3.395518e-07
-GO_REGULATION_OF_PLASMA_LIPOPROTEIN_PARTICLE_LEVELS                  3.468113e-07
-GO_MHC_CLASS_I_PROTEIN_COMPLEX                                       3.535987e-07
-                                                                              FDR
-GO_RESPONSE_TO_TYPE_I_INTERFERON                                     3.646426e-22
-GO_DEFENSE_RESPONSE_TO_VIRUS                                         1.697915e-10
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN 6.723934e-10
-GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN         6.723934e-10
-GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                       7.493889e-10
-GO_DIGESTION                                                         4.549679e-08
-GO_RESPONSE_TO_INTERFERON_GAMMA                                      5.896801e-08
-GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                             4.937189e-07
-GO_REGULATION_OF_CELL_KILLING                                        9.387410e-06
-GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                     1.618883e-05
-GO_RESPONSE_TO_VIRUS                                                 1.618883e-05
-GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                  2.973507e-05
-GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                               4.506309e-05
-GO_NEGATIVE_REGULATION_OF_CELL_KILLING                               4.506309e-05
-GO_MHC_PROTEIN_COMPLEX                                               8.326149e-05
-GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                        1.080222e-04
-GO_RESPONSE_TO_INTERFERON_ALPHA                                      1.089261e-04
-GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY               1.089261e-04
-GO_REGULATION_OF_PLASMA_LIPOPROTEIN_PARTICLE_LEVELS                  1.089261e-04
-GO_MHC_CLASS_I_PROTEIN_COMPLEX                                       1.089261e-04</code></pre>
+<pre><code>                                                                      NGenes
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                          47
+GO_CYTOSOLIC_RIBOSOME                                                     98
+GO_ESTABLISHMENT_OF_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM         96
+GO_CYTOSOLIC_LARGE_RIBOSOMAL_SUBUNIT                                      54
+GO_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM                         111
+GO_RIBOSOMAL_SUBUNIT                                                     147
+GO_DEFENSE_RESPONSE_TO_VIRUS                                             110
+GO_TRANSLATIONAL_INITIATION                                              136
+GO_MULTI_ORGANISM_METABOLIC_PROCESS                                      132
+GO_NUCLEAR_TRANSCRIBED_MRNA_CATABOLIC_PROCESS_NONSENSE_MEDIATED_DECAY    112
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN      11
+GO_RIBOSOME                                                              198
+GO_STRUCTURAL_CONSTITUENT_OF_RIBOSOME                                    180
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN              13
+GO_LARGE_RIBOSOMAL_SUBUNIT                                                86
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                            44
+GO_PROTEIN_TARGETING_TO_MEMBRANE                                         136
+GO_CYTOSOLIC_PART                                                        181
+GO_CYTOSOLIC_SMALL_RIBOSOMAL_SUBUNIT                                      38
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                                  60
+                                                                      Direction
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                             Up
+GO_CYTOSOLIC_RIBOSOME                                                      Down
+GO_ESTABLISHMENT_OF_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM          Down
+GO_CYTOSOLIC_LARGE_RIBOSOMAL_SUBUNIT                                       Down
+GO_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM                           Down
+GO_RIBOSOMAL_SUBUNIT                                                       Down
+GO_DEFENSE_RESPONSE_TO_VIRUS                                                 Up
+GO_TRANSLATIONAL_INITIATION                                                Down
+GO_MULTI_ORGANISM_METABOLIC_PROCESS                                        Down
+GO_NUCLEAR_TRANSCRIBED_MRNA_CATABOLIC_PROCESS_NONSENSE_MEDIATED_DECAY      Down
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN         Up
+GO_RIBOSOME                                                                Down
+GO_STRUCTURAL_CONSTITUENT_OF_RIBOSOME                                      Down
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN                 Up
+GO_LARGE_RIBOSOMAL_SUBUNIT                                                 Down
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                               Up
+GO_PROTEIN_TARGETING_TO_MEMBRANE                                           Down
+GO_CYTOSOLIC_PART                                                          Down
+GO_CYTOSOLIC_SMALL_RIBOSOMAL_SUBUNIT                                       Down
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                                     Up
+                                                                            PValue
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                      2.369414e-21
+GO_CYTOSOLIC_RIBOSOME                                                 3.563809e-15
+GO_ESTABLISHMENT_OF_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM     1.137495e-14
+GO_CYTOSOLIC_LARGE_RIBOSOMAL_SUBUNIT                                  3.133500e-13
+GO_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM                      1.481488e-12
+GO_RIBOSOMAL_SUBUNIT                                                  2.383730e-12
+GO_DEFENSE_RESPONSE_TO_VIRUS                                          6.241218e-12
+GO_TRANSLATIONAL_INITIATION                                           8.835365e-12
+GO_MULTI_ORGANISM_METABOLIC_PROCESS                                   4.758185e-11
+GO_NUCLEAR_TRANSCRIBED_MRNA_CATABOLIC_PROCESS_NONSENSE_MEDIATED_DECAY 4.915947e-11
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN  1.377141e-10
+GO_RIBOSOME                                                           1.590702e-10
+GO_STRUCTURAL_CONSTITUENT_OF_RIBOSOME                                 2.135680e-10
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN          3.513223e-10
+GO_LARGE_RIBOSOMAL_SUBUNIT                                            3.513654e-10
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                        5.574902e-10
+GO_PROTEIN_TARGETING_TO_MEMBRANE                                      1.988825e-09
+GO_CYTOSOLIC_PART                                                     2.458605e-09
+GO_CYTOSOLIC_SMALL_RIBOSOMAL_SUBUNIT                                  2.135698e-08
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                              4.370187e-08
+                                                                               FDR
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                      1.459796e-17
+GO_CYTOSOLIC_RIBOSOME                                                 1.097831e-11
+GO_ESTABLISHMENT_OF_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM     2.336036e-11
+GO_CYTOSOLIC_LARGE_RIBOSOMAL_SUBUNIT                                  4.826374e-10
+GO_PROTEIN_LOCALIZATION_TO_ENDOPLASMIC_RETICULUM                      1.825489e-09
+GO_RIBOSOMAL_SUBUNIT                                                  2.447693e-09
+GO_DEFENSE_RESPONSE_TO_VIRUS                                          5.493163e-09
+GO_TRANSLATIONAL_INITIATION                                           6.804335e-09
+GO_MULTI_ORGANISM_METABOLIC_PROCESS                                   3.028715e-08
+GO_NUCLEAR_TRANSCRIBED_MRNA_CATABOLIC_PROCESS_NONSENSE_MEDIATED_DECAY 3.028715e-08
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN  7.713243e-08
+GO_RIBOSOME                                                           8.166927e-08
+GO_STRUCTURAL_CONSTITUENT_OF_RIBOSOME                                 1.012148e-07
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN          1.443175e-07
+GO_LARGE_RIBOSOMAL_SUBUNIT                                            1.443175e-07
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                        2.146686e-07
+GO_PROTEIN_TARGETING_TO_MEMBRANE                                      7.207734e-07
+GO_CYTOSOLIC_PART                                                     8.415260e-07
+GO_CYTOSOLIC_SMALL_RIBOSOMAL_SUBUNIT                                  6.925280e-06
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                              1.346236e-05</code></pre>
 <p>The Hallmark gene sets are coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.</p>
-<pre><code>                                   NGenes Direction       PValue          FDR
-HALLMARK_INTERFERON_ALPHA_RESPONSE     81        Up 4.065265e-46 2.032632e-44
-HALLMARK_INTERFERON_GAMMA_RESPONSE    147        Up 5.643640e-33 1.410910e-31
-HALLMARK_E2F_TARGETS                  196      Down 5.883620e-08 9.806033e-07
-HALLMARK_INFLAMMATORY_RESPONSE        116        Up 8.645708e-08 1.080713e-06
-HALLMARK_MYC_TARGETS_V1               198      Down 1.853964e-07 1.853964e-06
-HALLMARK_TNFA_SIGNALING_VIA_NFKB      162        Up 2.346065e-06 1.955054e-05
-HALLMARK_KRAS_SIGNALING_UP            133        Up 3.327963e-06 2.377116e-05
-HALLMARK_IL6_JAK_STAT3_SIGNALING       47        Up 4.590363e-05 2.868977e-04
-HALLMARK_COMPLEMENT                   140        Up 1.187809e-04 6.598941e-04
-HALLMARK_G2M_CHECKPOINT               194      Down 1.898061e-04 9.490303e-04
-HALLMARK_ALLOGRAFT_REJECTION          102        Up 3.379307e-04 1.536049e-03
-HALLMARK_MITOTIC_SPINDLE              192      Down 1.686661e-03 7.027753e-03
-HALLMARK_MYC_TARGETS_V2                54      Down 9.271710e-03 3.566042e-02
-HALLMARK_DNA_REPAIR                   145      Down 1.106814e-02 3.952908e-02
-HALLMARK_XENOBIOTIC_METABOLISM        139        Up 2.211981e-02 7.373271e-02
-HALLMARK_COAGULATION                   84        Up 2.375926e-02 7.424769e-02
-HALLMARK_IL2_STAT5_SIGNALING          142        Up 3.101322e-02 9.121536e-02
-HALLMARK_ADIPOGENESIS                 182        Up 4.278309e-02 1.188419e-01
-HALLMARK_MYOGENESIS                   122      Down 5.072696e-02 1.334920e-01
-HALLMARK_ANDROGEN_RESPONSE             96        Up 5.671960e-02 1.417990e-01</code></pre>
+<pre><code>                                         NGenes Direction       PValue
+HALLMARK_INTERFERON_ALPHA_RESPONSE           80        Up 4.978711e-36
+HALLMARK_INTERFERON_GAMMA_RESPONSE          147        Up 2.315239e-26
+HALLMARK_MYC_TARGETS_V1                     198      Down 2.437045e-07
+HALLMARK_INFLAMMATORY_RESPONSE              116        Up 6.830235e-07
+HALLMARK_KRAS_SIGNALING_UP                  133        Up 7.943461e-06
+HALLMARK_OXIDATIVE_PHOSPHORYLATION          197      Down 4.249647e-05
+HALLMARK_TNFA_SIGNALING_VIA_NFKB            163        Up 5.381291e-05
+HALLMARK_E2F_TARGETS                        196      Down 1.803760e-04
+HALLMARK_COMPLEMENT                         141        Up 8.361858e-04
+HALLMARK_ALLOGRAFT_REJECTION                103        Up 9.474904e-04
+HALLMARK_IL6_JAK_STAT3_SIGNALING             48        Up 1.725236e-03
+HALLMARK_DNA_REPAIR                         145      Down 2.229696e-03
+HALLMARK_MYOGENESIS                         123      Down 8.439562e-03
+HALLMARK_APICAL_SURFACE                      31        Up 1.517137e-02
+HALLMARK_G2M_CHECKPOINT                     194      Down 3.088973e-02
+HALLMARK_REACTIVE_OXIGEN_SPECIES_PATHWAY     44      Down 3.464657e-02
+HALLMARK_MYC_TARGETS_V2                      54      Down 4.381103e-02
+HALLMARK_ANDROGEN_RESPONSE                   96        Up 4.695885e-02
+HALLMARK_APICAL_JUNCTION                    147      Down 5.484607e-02
+HALLMARK_TGF_BETA_SIGNALING                  52        Up 6.336816e-02
+                                                  FDR
+HALLMARK_INTERFERON_ALPHA_RESPONSE       2.489356e-34
+HALLMARK_INTERFERON_GAMMA_RESPONSE       5.788097e-25
+HALLMARK_MYC_TARGETS_V1                  4.061742e-06
+HALLMARK_INFLAMMATORY_RESPONSE           8.537793e-06
+HALLMARK_KRAS_SIGNALING_UP               7.943461e-05
+HALLMARK_OXIDATIVE_PHOSPHORYLATION       3.541372e-04
+HALLMARK_TNFA_SIGNALING_VIA_NFKB         3.843779e-04
+HALLMARK_E2F_TARGETS                     1.127350e-03
+HALLMARK_COMPLEMENT                      4.645476e-03
+HALLMARK_ALLOGRAFT_REJECTION             4.737452e-03
+HALLMARK_IL6_JAK_STAT3_SIGNALING         7.841982e-03
+HALLMARK_DNA_REPAIR                      9.290400e-03
+HALLMARK_MYOGENESIS                      3.245985e-02
+HALLMARK_APICAL_SURFACE                  5.418346e-02
+HALLMARK_G2M_CHECKPOINT                  1.029658e-01
+HALLMARK_REACTIVE_OXIGEN_SPECIES_PATHWAY 1.082705e-01
+HALLMARK_MYC_TARGETS_V2                  1.288560e-01
+HALLMARK_ANDROGEN_RESPONSE               1.304412e-01
+HALLMARK_APICAL_JUNCTION                 1.443318e-01
+HALLMARK_TGF_BETA_SIGNALING              1.584204e-01</code></pre>
 <p>Barcode plots show the enrichment of gene sets among up or down-regulated genes. The following barcode plots show the enrichment of the top 4 hallmark gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -1121,50 +975,71 @@ NULL
 [[4]]
 NULL</code></pre>
 <p>The curated gene sets are compiled from online pathway databases, publications in PubMed, and knowledge of domain experts.</p>
-<pre><code>                                                  NGenes Direction       PValue
-MOSERLE_IFNA_RESPONSE                                 27        Up 4.452715e-42
-BROWNE_INTERFERON_RESPONSIVE_GENES                    55        Up 2.853789e-40
-HECKER_IFNB1_TARGETS                                  59        Up 1.074420e-36
-SANA_RESPONSE_TO_IFNG_UP                              48        Up 4.805722e-36
-FARMER_BREAST_CANCER_CLUSTER_1                        15        Up 2.184050e-27
-DAUER_STAT3_TARGETS_DN                                49        Up 8.940232e-27
-BOSCO_INTERFERON_INDUCED_ANTIVIRAL_MODULE             59        Up 4.536072e-26
-SANA_TNF_SIGNALING_UP                                 63        Up 1.091778e-24
-EINAV_INTERFERON_SIGNATURE_IN_CANCER                  24        Up 5.226263e-22
-REACTOME_INTERFERON_ALPHA_BETA_SIGNALING              44        Up 7.206877e-22
-BOWIE_RESPONSE_TO_TAMOXIFEN                           16        Up 7.637944e-21
-RADAEVA_RESPONSE_TO_IFNA1_UP                          45        Up 1.858830e-20
-BENNETT_SYSTEMIC_LUPUS_ERYTHEMATOSUS                  24        Up 2.002087e-20
-BOWIE_RESPONSE_TO_EXTRACELLULAR_MATRIX                16        Up 1.543851e-19
-ZHANG_INTERFERON_RESPONSE                             18        Up 1.924959e-18
-DER_IFN_ALPHA_RESPONSE_UP                             67        Up 9.637826e-18
-SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP     56        Up 1.992852e-17
-KRASNOSELSKAYA_ILF3_TARGETS_UP                        30        Up 4.035282e-17
-TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP           129        Up 1.819293e-16
-ROETH_TERT_TARGETS_UP                                 13        Up 5.131494e-16
-                                                           FDR
-MOSERLE_IFNA_RESPONSE                             1.665761e-38
-BROWNE_INTERFERON_RESPONSIVE_GENES                5.338013e-37
-HECKER_IFNB1_TARGETS                              1.339802e-33
-SANA_RESPONSE_TO_IFNG_UP                          4.494551e-33
-FARMER_BREAST_CANCER_CLUSTER_1                    1.634106e-24
-DAUER_STAT3_TARGETS_DN                            5.574235e-24
-BOSCO_INTERFERON_INDUCED_ANTIVIRAL_MODULE         2.424206e-23
-SANA_TNF_SIGNALING_UP                             5.105427e-22
-EINAV_INTERFERON_SIGNATURE_IN_CANCER              2.172383e-19
-REACTOME_INTERFERON_ALPHA_BETA_SIGNALING          2.696093e-19
-BOWIE_RESPONSE_TO_TAMOXIFEN                       2.597595e-18
-RADAEVA_RESPONSE_TO_IFNA1_UP                      5.761389e-18
-BENNETT_SYSTEMIC_LUPUS_ERYTHEMATOSUS              5.761389e-18
-BOWIE_RESPONSE_TO_EXTRACELLULAR_MATRIX            4.125391e-17
-ZHANG_INTERFERON_RESPONSE                         4.800848e-16
-DER_IFN_ALPHA_RESPONSE_UP                         2.253444e-15
-SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP 4.385447e-15
-KRASNOSELSKAYA_ILF3_TARGETS_UP                    8.386661e-15
-TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP        3.582092e-14
-ROETH_TERT_TARGETS_UP                             9.598459e-14</code></pre>
+<pre><code>                                                           NGenes Direction
+MOSERLE_IFNA_RESPONSE                                          27        Up
+BROWNE_INTERFERON_RESPONSIVE_GENES                             54        Up
+SANA_RESPONSE_TO_IFNG_UP                                       47        Up
+HECKER_IFNB1_TARGETS                                           60        Up
+FARMER_BREAST_CANCER_CLUSTER_1                                 15        Up
+DAUER_STAT3_TARGETS_DN                                         49        Up
+BOSCO_INTERFERON_INDUCED_ANTIVIRAL_MODULE                      60        Up
+SANA_TNF_SIGNALING_UP                                          62        Up
+REACTOME_INTERFERON_ALPHA_BETA_SIGNALING                       44        Up
+BOWIE_RESPONSE_TO_TAMOXIFEN                                    16        Up
+BENNETT_SYSTEMIC_LUPUS_ERYTHEMATOSUS                           24        Up
+EINAV_INTERFERON_SIGNATURE_IN_CANCER                           23        Up
+SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP              57        Up
+REACTOME_PEPTIDE_CHAIN_ELONGATION                              78      Down
+BOWIE_RESPONSE_TO_EXTRACELLULAR_MATRIX                         16        Up
+REACTOME_INFLUENZA_VIRAL_RNA_TRANSCRIPTION_AND_REPLICATION     94      Down
+ROETH_TERT_TARGETS_UP                                          13        Up
+RADAEVA_RESPONSE_TO_IFNA1_UP                                   44        Up
+ZHANG_INTERFERON_RESPONSE                                      18        Up
+TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP                    128        Up
+                                                                 PValue
+MOSERLE_IFNA_RESPONSE                                      2.833989e-38
+BROWNE_INTERFERON_RESPONSIVE_GENES                         7.682355e-33
+SANA_RESPONSE_TO_IFNG_UP                                   2.467671e-30
+HECKER_IFNB1_TARGETS                                       1.293510e-29
+FARMER_BREAST_CANCER_CLUSTER_1                             1.386829e-26
+DAUER_STAT3_TARGETS_DN                                     1.310550e-23
+BOSCO_INTERFERON_INDUCED_ANTIVIRAL_MODULE                  3.965900e-22
+SANA_TNF_SIGNALING_UP                                      3.370875e-20
+REACTOME_INTERFERON_ALPHA_BETA_SIGNALING                   1.836713e-19
+BOWIE_RESPONSE_TO_TAMOXIFEN                                5.912614e-18
+BENNETT_SYSTEMIC_LUPUS_ERYTHEMATOSUS                       2.432679e-17
+EINAV_INTERFERON_SIGNATURE_IN_CANCER                       3.543423e-17
+SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP          7.897881e-17
+REACTOME_PEPTIDE_CHAIN_ELONGATION                          8.938704e-17
+BOWIE_RESPONSE_TO_EXTRACELLULAR_MATRIX                     1.812358e-16
+REACTOME_INFLUENZA_VIRAL_RNA_TRANSCRIPTION_AND_REPLICATION 2.803150e-16
+ROETH_TERT_TARGETS_UP                                      3.364616e-16
+RADAEVA_RESPONSE_TO_IFNA1_UP                               3.702857e-16
+ZHANG_INTERFERON_RESPONSE                                  6.362348e-16
+TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP                 3.778996e-15
+                                                                    FDR
+MOSERLE_IFNA_RESPONSE                                      1.060195e-34
+BROWNE_INTERFERON_RESPONSIVE_GENES                         1.436984e-29
+SANA_RESPONSE_TO_IFNG_UP                                   3.077186e-27
+HECKER_IFNB1_TARGETS                                       1.209755e-26
+FARMER_BREAST_CANCER_CLUSTER_1                             1.037625e-23
+DAUER_STAT3_TARGETS_DN                                     8.171278e-21
+BOSCO_INTERFERON_INDUCED_ANTIVIRAL_MODULE                  2.119490e-19
+SANA_TNF_SIGNALING_UP                                      1.576305e-17
+REACTOME_INTERFERON_ALPHA_BETA_SIGNALING                   7.634602e-17
+BOWIE_RESPONSE_TO_TAMOXIFEN                                2.211909e-15
+BENNETT_SYSTEMIC_LUPUS_ERYTHEMATOSUS                       8.273321e-15
+EINAV_INTERFERON_SIGNATURE_IN_CANCER                       1.104662e-14
+SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP          2.272767e-14
+REACTOME_PEPTIDE_CHAIN_ELONGATION                          2.388549e-14
+BOWIE_RESPONSE_TO_EXTRACELLULAR_MATRIX                     4.520021e-14
+REACTOME_INFLUENZA_VIRAL_RNA_TRANSCRIPTION_AND_REPLICATION 6.554114e-14
+ROETH_TERT_TARGETS_UP                                      7.404134e-14
+RADAEVA_RESPONSE_TO_IFNA1_UP                               7.695771e-14
+ZHANG_INTERFERON_RESPONSE                                  1.252713e-13
+TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP                 7.065823e-13</code></pre>
 <p>The following barcode plots show the enrichment of the top 4 curated gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -1178,48 +1053,48 @@ NULL
 NULL</code></pre>
 <p>The KEGG gene sets encompass all of the pathways defined in the <a href="https://www.genome.jp/kegg/pathway.html">Kegg pathway database</a>.</p>
 <pre><code>                                       NGenes Direction       PValue
-Mineral absorption                         36        Up 1.375770e-10
-Fat digestion and absorption               21        Up 4.933923e-08
-Type I diabetes mellitus                   12        Up 4.088334e-07
-Antigen processing and presentation        39        Up 9.194603e-07
-Graft-versus-host disease                   8        Up 1.542188e-06
-Autoimmune thyroid disease                 10        Up 2.363013e-06
-Cytokine-cytokine receptor interaction     83        Up 2.773616e-06
-Allograft rejection                         9        Up 7.401576e-06
-Ribosome                                  125      Down 1.150378e-05
-Spliceosome                               128      Down 1.501836e-05
-Vitamin digestion and absorption           19        Up 1.620295e-05
-NOD-like receptor signaling pathway       117        Up 1.756741e-05
-Bile secretion                             34        Up 2.845918e-05
-Hepatitis C                                98        Up 4.236596e-05
-Influenza A                               119        Up 1.399519e-04
-Measles                                    89        Up 2.186454e-04
-Maturity onset diabetes of the young        9        Up 3.538335e-04
-Cell adhesion molecules (CAMs)             54        Up 3.720338e-04
-Mismatch repair                            22      Down 4.258843e-04
-Leishmaniasis                              39        Up 4.565431e-04
+Ribosome                                  125      Down 5.467771e-14
+Oxidative phosphorylation                 117      Down 4.406319e-08
+Parkinson&#39;s disease                       122      Down 1.474938e-07
+Huntington&#39;s disease                      172      Down 4.040371e-07
+Type I diabetes mellitus                   12        Up 1.366555e-05
+Antigen processing and presentation        39        Up 1.938401e-05
+Autoimmune thyroid disease                 10        Up 2.015510e-05
+Mineral absorption                         36        Up 2.605430e-05
+Graft-versus-host disease                   8        Up 3.659843e-05
+Cytokine-cytokine receptor interaction     86        Up 4.035295e-05
+Spliceosome                               128      Down 5.755402e-05
+Fat digestion and absorption               22        Up 6.783409e-05
+Allograft rejection                         9        Up 6.867511e-05
+NOD-like receptor signaling pathway       117        Up 1.126757e-04
+Measles                                    88        Up 2.312677e-04
+Hepatitis C                                98        Up 9.464125e-04
+Cysteine and methionine metabolism         32      Down 1.307476e-03
+Systemic lupus erythematosus               79      Down 1.455051e-03
+Bile secretion                             34        Up 1.577369e-03
+Nucleotide excision repair                 43      Down 1.693497e-03
                                                 FDR
-Mineral absorption                     4.003492e-08
-Fat digestion and absorption           7.178858e-06
-Type I diabetes mellitus               3.965684e-05
-Antigen processing and presentation    6.689074e-05
-Graft-versus-host disease              8.975534e-05
-Autoimmune thyroid disease             1.146062e-04
-Cytokine-cytokine receptor interaction 1.153032e-04
-Allograft rejection                    2.692323e-04
-Ribosome                               3.719557e-04
-Spliceosome                            4.260096e-04
-Vitamin digestion and absorption       4.260096e-04
-NOD-like receptor signaling pathway    4.260096e-04
-Bile secretion                         6.370478e-04
-Hepatitis C                            8.806067e-04
-Influenza A                            2.715068e-03
-Measles                                3.976612e-03
-Maturity onset diabetes of the young   6.014546e-03
-Cell adhesion molecules (CAMs)         6.014546e-03
-Mismatch repair                        6.522754e-03
-Leishmaniasis                          6.642703e-03</code></pre>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" /></p>
+Ribosome                               1.591121e-11
+Oxidative phosphorylation              6.411194e-06
+Parkinson&#39;s disease                    1.430690e-05
+Huntington&#39;s disease                   2.939370e-05
+Type I diabetes mellitus               7.953348e-04
+Antigen processing and presentation    8.378764e-04
+Autoimmune thyroid disease             8.378764e-04
+Mineral absorption                     9.477253e-04
+Graft-versus-host disease              1.174271e-03
+Cytokine-cytokine receptor interaction 1.174271e-03
+Spliceosome                            1.522565e-03
+Fat digestion and absorption           1.537266e-03
+Allograft rejection                    1.537266e-03
+NOD-like receptor signaling pathway    2.342046e-03
+Measles                                4.486594e-03
+Hepatitis C                            1.721288e-02
+Cysteine and methionine metabolism     2.238091e-02
+Systemic lupus erythematosus           2.352333e-02
+Bile secretion                         2.415866e-02
+Nucleotide excision repair             2.464038e-02</code></pre>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -1250,108 +1125,73 @@ NULL</code></pre>
 10 CNTN4     
 # … with 41 more rows</code></pre>
 <pre><code>       pos - neg
-Down           1
-NotSig        26
+Down           0
+NotSig        28
 Up             0</code></pre>
 <pre><code>                  Geneid Length         Ensembl  symbol entrezid        logFC
-54718 ENSG00000053438.11   1329 ENSG00000053438    NNAT     4826 -0.658397816
-46775 ENSG00000040531.16   4949 ENSG00000040531    CTNS     1497  0.207087793
-47853  ENSG00000176749.9   3948 ENSG00000176749  CDK5R1     8851  0.197638751
-59499 ENSG00000102038.15   4363 ENSG00000102038 SMARCA1     6594 -0.169096017
-28963 ENSG00000167081.18   4904 ENSG00000167081    PBX3     5090  0.162490669
-7681  ENSG00000074047.21   7341 ENSG00000074047    GLI2     2736 -0.136586759
-59824 ENSG00000155966.14  14241 ENSG00000155966    AFF2     2334 -0.114952294
-13911  ENSG00000132467.4   2020 ENSG00000132467    UTP3    57050  0.103859874
-3760  ENSG00000185630.19  21370 ENSG00000185630    PBX1     5087 -0.099918011
-51917 ENSG00000130479.11   4933 ENSG00000130479   MAP1S    55201  0.089549092
-9697  ENSG00000144619.15   9123 ENSG00000144619   CNTN4   152330  0.015179716
-45778 ENSG00000205336.13   8659 ENSG00000205336  ADGRG1     9289  0.131955954
-58386 ENSG00000158352.15  10333 ENSG00000158352 SHROOM4    57477  0.080489267
-24536  ENSG00000164690.8   5234 ENSG00000164690     SHH     6469  0.069843390
-39080 ENSG00000102805.16  22814 ENSG00000102805    CLN5     1203 -0.063771691
-42132 ENSG00000114062.21  12808 ENSG00000114062   UBE3A     7337  0.050810995
-10970 ENSG00000185008.17  16663 ENSG00000185008   ROBO2     6092 -0.036031512
-33637 ENSG00000110697.13   6442 ENSG00000110697 PITPNM1     9600  0.089169404
-2823  ENSG00000092621.12   9217 ENSG00000092621   PHGDH    26227  0.030791118
-1293  ENSG00000131238.17   5088 ENSG00000131238    PPT1     5538  0.034873502
-16275 ENSG00000164258.12   1174 ENSG00000164258  NDUFS4     4724  0.019761214
-49155 ENSG00000171634.18  15119 ENSG00000171634    BPTF     2186  0.022251393
-57747 ENSG00000146950.13   8218 ENSG00000146950 SHROOM2      357 -0.025131407
-23659 ENSG00000128573.26  16334 ENSG00000128573   FOXP2    93986  0.040384825
-47791 ENSG00000196712.18  27130 ENSG00000196712     NF1     4763  0.001432021
-37089 ENSG00000198707.16  10442 ENSG00000198707  CEP290    80184 -0.009571616
-54624 ENSG00000198646.14  11133 ENSG00000198646   NCOA6    23054 -0.006603637
-       AveExpr           t      P.Value  adj.P.Val          B
-54718 6.704590 -4.03247492 0.0008889658 0.02400208 -0.5600968
-46775 2.783450  2.12484119 0.0481112739 0.64950220 -3.8586145
-47853 3.817792  1.70114074 0.1074223665 0.81797536 -4.7434003
-59499 7.397718 -1.61608178 0.1247714223 0.81797536 -5.0555150
-28963 4.749400  1.42912478 0.1713709361 0.81797536 -5.1513516
-7681  2.125700 -0.92352083 0.3682863535 0.85268245 -5.1713022
-59824 1.620371 -0.51390733 0.6137403741 0.95281611 -5.2117635
-13911 4.929279  1.33379242 0.1993605308 0.81797536 -5.2983565
-3760  8.662670 -1.28478125 0.2156034668 0.81797536 -5.4118594
-51917 4.779260  1.16607815 0.2592187731 0.81797536 -5.5049297
-9697  2.365792  0.10097458 0.9207177180 0.97006631 -5.5409852
-45778 4.413092  0.99341767 0.3346552258 0.85268245 -5.6086049
-58386 5.385050  1.13258409 0.2726584540 0.81797536 -5.6225705
-24536 3.394605  0.51655473 0.6119286850 0.95281611 -5.6786584
-39080 3.405381 -0.73383954 0.4727578109 0.91174721 -5.7417837
-42132 7.708283  0.90263101 0.3789699778 0.85268245 -5.8709223
-10970 3.886193 -0.24404785 0.8101607935 0.95281611 -5.9016656
-33637 5.297035  0.75961566 0.4580529238 0.91174721 -5.9082439
-2823  3.987221  0.27427429 0.7870829789 0.95281611 -5.9084511
-1293  4.185204  0.38936485 0.7017004855 0.95281611 -5.9459601
-16275 4.834618  0.24191244 0.8116581647 0.95281611 -6.0689442
-49155 9.098445  0.33664492 0.7403851592 0.95281611 -6.1661418
-57747 5.863156 -0.40069222 0.6934930242 0.95281611 -6.2123748
-23659 5.960003  0.28640956 0.7780801393 0.95281611 -6.2473473
-47791 7.809457  0.01968990 0.9845133510 0.98451335 -6.2771041
-37089 6.668566 -0.08389176 0.9341379292 0.97006631 -6.2818256
-54624 7.381450 -0.13412714 0.8948314579 0.97006631 -6.2842430</code></pre>
+54718 ENSG00000053438.11   1329 ENSG00000053438    NNAT     4826 -0.671253771
+39440 ENSG00000041515.16   8816 ENSG00000041515   MYO16    23026 -0.958193686
+28963 ENSG00000167081.18   4904 ENSG00000167081    PBX3     5090  0.263042136
+13911  ENSG00000132467.4   2020 ENSG00000132467    UTP3    57050  0.162177553
+47853  ENSG00000176749.9   3948 ENSG00000176749  CDK5R1     8851  0.223325396
+59824 ENSG00000155966.14  14241 ENSG00000155966    AFF2     2334 -0.254200766
+42132 ENSG00000114062.21  12808 ENSG00000114062   UBE3A     7337  0.088421118
+58386 ENSG00000158352.15  10333 ENSG00000158352 SHROOM4    57477  0.120895231
+46775 ENSG00000040531.16   4949 ENSG00000040531    CTNS     1497  0.093812550
+51917 ENSG00000130479.11   4933 ENSG00000130479   MAP1S    55201  0.108409627
+7681  ENSG00000074047.21   7341 ENSG00000074047    GLI2     2736 -0.065380582
+9697  ENSG00000144619.15   9123 ENSG00000144619   CNTN4   152330  0.034211454
+24536  ENSG00000164690.8   5234 ENSG00000164690     SHH     6469 -0.001461867
+16275 ENSG00000164258.12   1174 ENSG00000164258  NDUFS4     4724 -0.063426303
+2823  ENSG00000092621.12   9217 ENSG00000092621   PHGDH    26227 -0.053357285
+10970 ENSG00000185008.17  16663 ENSG00000185008   ROBO2     6092  0.005403312
+39080 ENSG00000102805.16  22814 ENSG00000102805    CLN5     1203 -0.026947082
+33637 ENSG00000110697.13   6442 ENSG00000110697 PITPNM1     9600 -0.071638601
+1293  ENSG00000131238.17   5088 ENSG00000131238    PPT1     5538  0.028771229
+23659 ENSG00000128573.26  16334 ENSG00000128573   FOXP2    93986  0.125395481
+59499 ENSG00000102038.15   4363 ENSG00000102038 SMARCA1     6594 -0.081586540
+3760  ENSG00000185630.19  21370 ENSG00000185630    PBX1     5087 -0.048850485
+49155 ENSG00000171634.18  15119 ENSG00000171634    BPTF     2186  0.040226945
+45778 ENSG00000205336.13   8659 ENSG00000205336  ADGRG1     9289 -0.006772197
+37089 ENSG00000198707.16  10442 ENSG00000198707  CEP290    80184  0.073359789
+54624 ENSG00000198646.14  11133 ENSG00000198646   NCOA6    23054 -0.028751755
+57747 ENSG00000146950.13   8218 ENSG00000146950 SHROOM2      357  0.033310722
+47791 ENSG00000196712.18  27130 ENSG00000196712     NF1     4763  0.003135780
+       AveExpr            t     P.Value  adj.P.Val         B
+54718 6.646431 -3.797925139 0.002367258 0.06628323 -1.305597
+39440 1.411656 -3.236118384 0.006489455 0.09085238 -2.558795
+28963 4.793740  2.385178368 0.032963634 0.30766059 -3.607496
+13911 4.977024  1.954714456 0.072436951 0.50705866 -4.303918
+47853 3.878266  1.710310012 0.110919416 0.54334632 -4.594751
+59824 1.578799 -1.003174606 0.334060225 0.86423014 -4.803199
+42132 7.748895  1.681774765 0.116431355 0.54334632 -4.808212
+58386 5.389718  1.567090877 0.141071492 0.56428597 -4.942793
+46775 2.751101  1.036721102 0.318740904 0.86423014 -5.081451
+51917 4.775790  1.284054604 0.221506533 0.77527287 -5.211570
+7681  2.112496 -0.392976968 0.700696331 0.93426178 -5.293660
+9697  2.407472  0.197888671 0.846188890 0.98722037 -5.345686
+24536 3.392759 -0.009363569 0.992671041 0.99267104 -5.617361
+16275 4.808265 -0.779859955 0.449420732 0.86423014 -5.625039
+2823  3.977978 -0.457835764 0.654618830 0.91646636 -5.657967
+10970 3.905148  0.034246958 0.973199784 0.99267104 -5.747075
+39080 3.481041 -0.310175288 0.761337604 0.96421974 -5.773269
+33637 5.227589 -0.666949836 0.516452303 0.86423014 -5.803551
+1293  4.202823  0.269143882 0.792037648 0.96421974 -5.804152
+23659 6.003777  0.732523068 0.477358226 0.86423014 -5.858972
+59499 7.461855 -0.713181950 0.488321941 0.86423014 -5.878765
+3760  8.685181 -0.560970385 0.584345101 0.86423014 -5.884258
+49155 9.126759  0.557806300 0.586441881 0.86423014 -5.898067
+45778 4.380813 -0.052270083 0.959107091 0.99267104 -5.910225
+37089 6.751345  0.606263488 0.554765186 0.86423014 -5.940557
+54624 7.405733 -0.599379346 0.559207914 0.86423014 -5.950306
+57747 5.907350  0.600226106 0.558660411 0.86423014 -5.951425
+47791 7.838658  0.038879216 0.969576624 0.99267104 -6.112922</code></pre>
 <p>The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status.</p>
-<p><img src="figure/STAR-FC-all.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-24-1">
-Past versions of unnamed-chunk-24-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-24-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a91102dcce4c98868c8ad20f025d55dfb71d9ec4/docs/figure/STAR-FC-all.Rmd/unnamed-chunk-24-1.png" target="_blank">a91102d</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-10-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p>Although the effective library sizes were low, the data is generally of good quality. We found at total of 1 differentially expressed genes at FDR &lt; 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.</p>
+<p>Although the effective library sizes were low, the data is generally of good quality. We found at total of 0 differentially expressed genes at FDR &lt; 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.</p>
 <pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: CentOS Linux 7 (Core)
