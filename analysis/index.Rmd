@@ -28,7 +28,7 @@ New Analysis
     * [Analysis results](STAR-FC-all.html) - This is the new analysis comparing CMV negative and CMV positive samples of the full cohort.   
 
 * Differential expression analysis (exclude samples with ultrasound abnormality)
-    * [Anlaysis results](STAR-FC-exclude-abnormal.html) - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified.
+    * [Anlaysis results](STAR-FC-exclude-US-ab.html) - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified.
   
   
 Pilot Analysis

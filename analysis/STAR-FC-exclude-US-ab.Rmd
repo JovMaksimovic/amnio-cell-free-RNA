@@ -1,5 +1,5 @@
 ---
-title: "Limma-voom paired analysis of ALL samples"
+title: "Limma-voom paired analysis EXCLUDING samples with ultrasound abnormality"
 output:
   html_document:
     df_print: paged
@@ -40,7 +40,7 @@ dge <- DGEList(counts = counts,
 dge
 ```
 
-Load sample information and file names.
+Load sample information and file names. Exclude samples with ultrasound abnormalities.
 
 ```{r, echo=FALSE, message=FALSE}
 samps1 <- read_csv(here("data/CMV-AF-database-corrected-oct-2020.csv"))
@@ -80,7 +80,8 @@ read_csv(file = here("data/metadata.csv")) %>%
 
 m <- match(colnames(dge), targets$id)
 targets <- targets[m[!is.na(m)], ]
-  
+targets <- targets[targets$indication %in% "no_us_ab",]
+
 targets
 ```
 
@@ -279,7 +280,7 @@ wrap_plots(p, guides = "collect", ncol = 3) &
 ```
 
 ```{r, fig.height=8, fig.width=7, echo=FALSE, message=FALSE}
-cut <- 0.01
+cut <- 0.05
 aheatmap(v$E[v$genes$Geneid %in% top$Geneid[top$adj.P.Val < cut],], 
           annCol = list(CMV_result = targets$CMV_status),
           labRow = v$genes$symbol[v$genes$Geneid %in% 
