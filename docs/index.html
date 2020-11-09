@@ -325,7 +325,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-06
+<strong>Last updated:</strong> 2020-11-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -356,16 +356,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree787e0a195e4863f0eb47d672e5689a3683f6ab43targetblank787e0a1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/787e0a195e4863f0eb47d672e5689a3683f6ab43" target="_blank">787e0a1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree787e0a195e4863f0eb47d672e5689a3683f6ab43targetblank787e0a1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/787e0a195e4863f0eb47d672e5689a3683f6ab43" target="_blank">787e0a1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -418,15 +418,17 @@ Ignored files:
     Ignored:    output/salmon-limma-voom.Rmd/
     Ignored:    output/salmon-limma-voom.csv
     Ignored:    output/salmon-ruvseq-edger.csv
+    Ignored:    output/star-fc-limma-voom-all-gsea-c2.csv
     Ignored:    output/star-fc-limma-voom-all-gsea-c5.csv
     Ignored:    output/star-fc-limma-voom-all.csv
+    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c2.csv
     Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c5.csv
     Ignored:    output/star-fc-limma-voom-no_us_ab.csv
+    Ignored:    output/star-fc-ruv-all-gsea-c2.csv
     Ignored:    output/star-fc-ruv-all-gsea-c5.csv
     Ignored:    output/star-fc-ruv-all.csv
 
 Untracked files:
-    Untracked:  analysis/STAR-FC-RUV-all.Rmd
     Untracked:  analysis/salmon-ruvseq-edger.Rmd
 
 Unstaged changes:
@@ -470,6 +472,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d32e63b606d16b69ae5c35eae7e7615e92ac90c3/analysis/index.Rmd" target="_blank">d32e63b</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-09
+</td>
+<td>
+wflow_publish(c(“analysis/STAR-FC-all.Rmd”, “analysis/STAR-FC-exclude-US-ab.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/10dcedf7a44e759df3760eaf3a109c4c33ebefeb/docs/index.html" target="_blank">10dcedf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -628,12 +664,13 @@ Start workflowr project.
 </ul></li>
 <li>Differential expression analysis
 <ul>
-<li><a href="STAR-FC-all.html">Analysis results</a> - This is the new analysis comparing CMV negative and CMV positive samples of the full cohort.</li>
+<li><a href="STAR-FC-all.html">Analysis results</a> - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort.</li>
 </ul></li>
 <li>Differential expression analysis (exclude samples with ultrasound abnormality)
 <ul>
 <li><a href="STAR-FC-exclude-US-ab.html">Anlaysis results</a> - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified.</li>
 </ul></li>
+<li><a href="STAR-FC-RUV-all.html">Analysis results</a> - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort, using <a href="https://bioconductor.org/packages/release/bioc/html/RUVSeq.html">RUVseq</a> to remove additional unwanted variation.</li>
 </ul>
 </div>
 <div id="pilot-analysis" class="section level2">

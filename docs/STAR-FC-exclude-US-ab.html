@@ -401,7 +401,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-06
+<strong>Last updated:</strong> 2020-11-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -492,16 +492,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree787e0a195e4863f0eb47d672e5689a3683f6ab43targetblank787e0a1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/787e0a195e4863f0eb47d672e5689a3683f6ab43" target="_blank">787e0a1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree787e0a195e4863f0eb47d672e5689a3683f6ab43targetblank787e0a1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/787e0a195e4863f0eb47d672e5689a3683f6ab43" target="_blank">787e0a1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -554,15 +554,17 @@ Ignored files:
     Ignored:    output/salmon-limma-voom.Rmd/
     Ignored:    output/salmon-limma-voom.csv
     Ignored:    output/salmon-ruvseq-edger.csv
+    Ignored:    output/star-fc-limma-voom-all-gsea-c2.csv
     Ignored:    output/star-fc-limma-voom-all-gsea-c5.csv
     Ignored:    output/star-fc-limma-voom-all.csv
+    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c2.csv
     Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c5.csv
     Ignored:    output/star-fc-limma-voom-no_us_ab.csv
+    Ignored:    output/star-fc-ruv-all-gsea-c2.csv
     Ignored:    output/star-fc-ruv-all-gsea-c5.csv
     Ignored:    output/star-fc-ruv-all.csv
 
 Untracked files:
-    Untracked:  analysis/STAR-FC-RUV-all.Rmd
     Untracked:  analysis/salmon-ruvseq-edger.Rmd
 
 Unstaged changes:
@@ -606,6 +608,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d32e63b606d16b69ae5c35eae7e7615e92ac90c3/analysis/STAR-FC-exclude-US-ab.Rmd" target="_blank">d32e63b</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-09
+</td>
+<td>
+wflow_publish(c(“analysis/STAR-FC-all.Rmd”, “analysis/STAR-FC-exclude-US-ab.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/10dcedf7a44e759df3760eaf3a109c4c33ebefeb/docs/STAR-FC-exclude-US-ab.html" target="_blank">10dcedf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -732,17 +768,714 @@ $group
 18 more elements ...</code></pre>
 <p>Plotting the distribution log-CPM values shows that a majority of genes within each sample are either not expressed or lowly-expressed with log-CPM values that are small or negative.</p>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/10dcedf7a44e759df3760eaf3a109c4c33ebefeb/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-5-1.png" target="_blank">10dcedf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Although in excess of 30 million reads were obtained per sample, we can see that after mapping, duplicate removal and quantification of gene expression the median library size is just under than 4 million reads. This suggests that we are likely to only be capturing the most abundant cfRNAs.</p>
 <p>It is assumed that all samples should have a similar range and distribution of expression values. The raw data looks fairly uniform between samples, although TMM normalization further improves this.</p>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/10dcedf7a44e759df3760eaf3a109c4c33ebefeb/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-6-1.png" target="_blank">10dcedf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Multi-dimensional scaling (MDS) plots show the largest sources of variation in the data. They are a good way of exploring the relationships between the samples and identifying structure in the data. The following series of MDS plots examines the first four principal components. The samples are coloured by various known features of the samples such as CMV Status and foetal sex. The MDS plots do not show the samples strongly clustering by any of the known features of the data, although there does seem to be some separation between the CMV positive and negative samples in the 1st and 2nd principal components. This indicates that there are possibly some differentially expressed genes between CMV positive and negative samples.</p>
 <p>A weak batch effect is also evident in the 3rd principal component, when we examine the plots coloured by batch.</p>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/10dcedf7a44e759df3760eaf3a109c4c33ebefeb/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-7-1.png" target="_blank">10dcedf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Check XIST expression to confirm that all sex assignments are correct.</p>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#drwezkmbzr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#drwezkmbzr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#drwezkmbzr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#drwezkmbzr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#drwezkmbzr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#drwezkmbzr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#drwezkmbzr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#drwezkmbzr .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#drwezkmbzr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#drwezkmbzr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#drwezkmbzr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#drwezkmbzr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#drwezkmbzr .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#drwezkmbzr .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#drwezkmbzr .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#drwezkmbzr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#drwezkmbzr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#drwezkmbzr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#drwezkmbzr .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#drwezkmbzr .gt_left {
+  text-align: left;
+}
+
+#drwezkmbzr .gt_center {
+  text-align: center;
+}
+
+#drwezkmbzr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#drwezkmbzr .gt_font_normal {
+  font-weight: normal;
+}
+
+#drwezkmbzr .gt_font_bold {
+  font-weight: bold;
+}
+
+#drwezkmbzr .gt_font_italic {
+  font-style: italic;
+}
+
+#drwezkmbzr .gt_super {
+  font-size: 65%;
+}
+
+#drwezkmbzr .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="drwezkmbzr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;">id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;">CMV_status</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;">pair</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;">sex</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;">GA_at_amnio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-weight: bold;">indication</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="font-weight: bold;">batch</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-weight: bold;">XIST</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">CMV30</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L1</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">108</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV31</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L1</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">422</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV8</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L2</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">23</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">240</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV9</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L2</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">23</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">190</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV26</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L3</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">22</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">345</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV14</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L4</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">273</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV15</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L4</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">22</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">273</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV20</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L5</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">6</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV21</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">NC1</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">204</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV1</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">M1</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">281</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV2</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">M1</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">20</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">177</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV3</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">M2</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">22</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">0</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV4</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">M2</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV19</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">NC2</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">18</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">192</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV35</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L5</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">3</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV51</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L6</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">22</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">0</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV52</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L8</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">22</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">0</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV54</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L9</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">173</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV56</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L3</td>
+      <td class="gt_row gt_left">F</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">130</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV57</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L6</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">21</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">0</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV58</td>
+      <td class="gt_row gt_left">pos</td>
+      <td class="gt_row gt_left">L7</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">20</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">1</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV60</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L7</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">20</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">2</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CMV61</td>
+      <td class="gt_row gt_left">neg</td>
+      <td class="gt_row gt_left">L8</td>
+      <td class="gt_row gt_left">M</td>
+      <td class="gt_row gt_left">22</td>
+      <td class="gt_row gt_left">no_us_ab</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">3</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
 </div>
 <div id="differential-expression-analysis" class="section level1">
 <h1>Differential expression analysis</h1>
 <p>Due to the variability in the data, the TMM normalised data was transformed using <code>voomWithQualityWeights</code>. This takes into account the differing library sizes and the mean variance relationship in the data as well as calculating sample-specific quality weights. Linear models were fit in <code>limma</code>, taking into account the <code>voom</code> weights. The CMV positive samples were compared to the CMV negative samples, taking into account the sample pairs. A summary of the number of differentially expressed genes is shown below.</p>
-<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>       pos - neg
 Down           0
 NotSig     12791
@@ -772,8 +1505,45 @@ Up             8</code></pre>
 14201 1.798125 6.773025 9.546537e-06 0.02036436 1.967012
 2226  3.910000 5.942386 5.355300e-05 0.05483173 1.904474</code></pre>
 <p>The following plots show the expression of the top 12 ranked differentially expressed genes for CMV positive and CMV negative samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.</p>
-<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/10dcedf7a44e759df3760eaf3a109c4c33ebefeb/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-11-1.png" target="_blank">10dcedf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="gene-set-enrichment-analysis-gsea" class="section level1">
 <h1>Gene set enrichment analysis (GSEA)</h1>
@@ -962,7 +1732,7 @@ HALLMARK_ANDROGEN_RESPONSE               1.304412e-01
 HALLMARK_APICAL_JUNCTION                 1.443318e-01
 HALLMARK_TGF_BETA_SIGNALING              1.584204e-01</code></pre>
 <p>Barcode plots show the enrichment of gene sets among up or down-regulated genes. The following barcode plots show the enrichment of the top 4 hallmark gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
-<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -1039,7 +1809,7 @@ RADAEVA_RESPONSE_TO_IFNA1_UP                               7.695771e-14
 ZHANG_INTERFERON_RESPONSE                                  1.252713e-13
 TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP                 7.065823e-13</code></pre>
 <p>The following barcode plots show the enrichment of the top 4 curated gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
-<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -1094,7 +1864,7 @@ Cysteine and methionine metabolism     2.238091e-02
 Systemic lupus erythematosus           2.352333e-02
 Bile secretion                         2.415866e-02
 Nucleotide excision repair             2.464038e-02</code></pre>
-<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -1109,7 +1879,7 @@ NULL</code></pre>
 </div>
 <div id="brain-development-genes" class="section level1">
 <h1>Brain development genes</h1>
-<p>Test only the specialised brain development gene set.</p>
+<p>Test only the specialised brain development gene set for differential expression between CMV positive and CMV negative samples. This reduces the multiple testing burden and can identify DEGs from a particular set of interest.</p>
 <pre><code># A tibble: 51 x 1
    BRAIN_DEV 
    &lt;chr&gt;     
@@ -1187,126 +1957,11 @@ Up             0</code></pre>
 57747 5.907350  0.600226106 0.558660411 0.86423014 -5.951425
 47791 7.838658  0.038879216 0.969576624 0.99267104 -6.112922</code></pre>
 <p>The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status.</p>
-<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
 <p>Although the effective library sizes were low, the data is generally of good quality. We found at total of 0 differentially expressed genes at FDR &lt; 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.</p>
-<pre><code>R version 3.6.1 (2019-07-05)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: CentOS Linux 7 (Core)
-
-Matrix products: default
-BLAS:   /config/RStudio/R/3.6.1/lib64/R/lib/libRblas.so
-LAPACK: /config/RStudio/R/3.6.1/lib64/R/lib/libRlapack.so
-
-locale:
- [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_AU.UTF-8        LC_COLLATE=en_AU.UTF-8    
- [5] LC_MONETARY=en_AU.UTF-8    LC_MESSAGES=en_AU.UTF-8   
- [7] LC_PAPER=en_AU.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_AU.UTF-8 LC_IDENTIFICATION=C       
-
-attached base packages:
-[1] stats4    parallel  stats     graphics  grDevices utils     datasets 
-[8] methods   base     
-
-other attached packages:
- [1] RColorBrewer_1.1-2        EGSEA_1.12.0             
- [3] pathview_1.24.0           org.Hs.eg.db_3.8.2       
- [5] topGO_2.36.0              SparseM_1.77             
- [7] GO.db_3.8.2               graph_1.62.0             
- [9] gage_2.34.0               patchwork_1.0.1          
-[11] NMF_0.22.0                cluster_2.1.0            
-[13] rngtools_1.4              pkgmaker_0.27            
-[15] registry_0.5-1            edgeR_3.26.8             
-[17] limma_3.42.2              EnsDb.Hsapiens.v86_2.99.0
-[19] ensembldb_2.8.0           AnnotationFilter_1.8.0   
-[21] GenomicFeatures_1.36.4    AnnotationDbi_1.46.1     
-[23] Biobase_2.46.0            GenomicRanges_1.38.0     
-[25] GenomeInfoDb_1.22.1       IRanges_2.20.2           
-[27] S4Vectors_0.24.4          BiocGenerics_0.32.0      
-[29] forcats_0.4.0             stringr_1.4.0            
-[31] dplyr_1.0.0               purrr_0.3.4              
-[33] readr_1.3.1               tidyr_1.1.0              
-[35] tibble_3.0.1              ggplot2_3.3.2            
-[37] tidyverse_1.3.0           here_0.1                 
-[39] workflowr_1.6.2          
-
-loaded via a namespace (and not attached):
-  [1] utf8_1.1.4                  tidyselect_1.1.0           
-  [3] RSQLite_2.1.2               htmlwidgets_1.3            
-  [5] grid_3.6.1                  KEGG.db_3.2.3              
-  [7] BiocParallel_1.20.1         R2HTML_2.3.2               
-  [9] munsell_0.5.0               codetools_0.2-16           
- [11] statmod_1.4.32              DT_0.9                     
- [13] KEGGdzPathwaysGEO_1.22.0    withr_2.2.0                
- [15] colorspace_1.4-1            knitr_1.29                 
- [17] rstudioapi_0.11             gbRd_0.4-11                
- [19] labeling_0.3                Rdpack_0.11-0              
- [21] git2r_0.27.1                KEGGgraph_1.44.0           
- [23] org.Rn.eg.db_3.8.2          GenomeInfoDbData_1.2.1     
- [25] hwriter_1.3.2               farver_2.0.3               
- [27] bit64_0.9-7                 rprojroot_1.3-2            
- [29] vctrs_0.3.1                 generics_0.0.2             
- [31] xfun_0.15                   BiocFileCache_1.10.2       
- [33] R6_2.4.1                    doParallel_1.0.15          
- [35] Glimma_1.12.0               locfit_1.5-9.1             
- [37] bitops_1.0-6                DelayedArray_0.12.3        
- [39] assertthat_0.2.1            promises_1.1.1             
- [41] scales_1.1.1                gtable_0.3.0               
- [43] org.Mm.eg.db_3.8.2          rlang_0.4.6                
- [45] splines_3.6.1               rtracklayer_1.44.4         
- [47] lazyeval_0.2.2              PADOG_1.26.0               
- [49] broom_0.5.2                 yaml_2.2.1                 
- [51] reshape2_1.4.3              modelr_0.1.8               
- [53] backports_1.1.8             httpuv_1.5.4               
- [55] tools_3.6.1                 gridBase_0.4-7             
- [57] ellipsis_0.3.1              gplots_3.0.1.1             
- [59] HTMLUtils_0.1.7             Rcpp_1.0.4.6               
- [61] plyr_1.8.6                  progress_1.2.2             
- [63] zlibbioc_1.30.0             RCurl_1.95-4.12            
- [65] prettyunits_1.1.1           openssl_1.4.1              
- [67] hgu133plus2.db_3.2.3        SummarizedExperiment_1.16.1
- [69] haven_2.3.1                 fs_1.4.2                   
- [71] magrittr_1.5                data.table_1.12.8          
- [73] reprex_0.3.0                whisker_0.4                
- [75] ProtGenerics_1.16.0         matrixStats_0.56.0         
- [77] hms_0.5.3                   mime_0.9                   
- [79] evaluate_0.14               GSVA_1.32.0                
- [81] xtable_1.8-4                globaltest_5.40.0          
- [83] XML_3.98-1.20               hgu133a.db_3.2.3           
- [85] readxl_1.3.1                EGSEAdata_1.12.0           
- [87] compiler_3.6.1              biomaRt_2.42.1             
- [89] safe_3.24.0                 KernSmooth_2.23-15         
- [91] crayon_1.3.4                htmltools_0.5.0            
- [93] later_1.1.0.1               geneplotter_1.62.0         
- [95] lubridate_1.7.4             DBI_1.0.0                  
- [97] dbplyr_1.4.2                rappdirs_0.3.1             
- [99] Matrix_1.2-18               cli_2.0.2                  
-[101] gdata_2.18.0                metap_1.1                  
-[103] pkgconfig_2.0.3             GenomicAlignments_1.20.1   
-[105] plotly_4.9.0                xml2_1.3.2                 
-[107] foreach_1.5.0               annotate_1.62.0            
-[109] XVector_0.24.0              bibtex_0.4.2               
-[111] rvest_0.3.5                 doRNG_1.7.1                
-[113] digest_0.6.25               Biostrings_2.54.0          
-[115] rmarkdown_2.3               cellranger_1.1.0           
-[117] GSEABase_1.46.0             curl_4.3                   
-[119] shiny_1.3.2                 Rsamtools_2.0.1            
-[121] gtools_3.8.1                GSA_1.03.1                 
-[123] lifecycle_0.2.0             nlme_3.1-148               
-[125] jsonlite_1.7.0              viridisLite_0.3.0          
-[127] askpass_1.1                 fansi_0.4.1                
-[129] pillar_1.4.4                lattice_0.20-41            
-[131] survival_2.44-1.1           KEGGREST_1.24.0            
-[133] httr_1.4.1                  glue_1.4.1                 
-[135] png_0.1-7                   shinythemes_1.1.2          
-[137] iterators_1.0.12            bit_1.1-14                 
-[139] Rgraphviz_2.28.0            stringi_1.4.6              
-[141] blob_1.2.0                  caTools_1.17.1.2           
-[143] memoise_1.1.0              </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1336,26 +1991,26 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] RColorBrewer_1.1-2        EGSEA_1.12.0             
- [3] pathview_1.24.0           org.Hs.eg.db_3.8.2       
- [5] topGO_2.36.0              SparseM_1.77             
- [7] GO.db_3.8.2               graph_1.62.0             
- [9] gage_2.34.0               patchwork_1.0.1          
-[11] NMF_0.22.0                cluster_2.1.0            
-[13] rngtools_1.4              pkgmaker_0.27            
-[15] registry_0.5-1            edgeR_3.26.8             
-[17] limma_3.42.2              EnsDb.Hsapiens.v86_2.99.0
-[19] ensembldb_2.8.0           AnnotationFilter_1.8.0   
-[21] GenomicFeatures_1.36.4    AnnotationDbi_1.46.1     
-[23] Biobase_2.46.0            GenomicRanges_1.38.0     
-[25] GenomeInfoDb_1.22.1       IRanges_2.20.2           
-[27] S4Vectors_0.24.4          BiocGenerics_0.32.0      
-[29] forcats_0.4.0             stringr_1.4.0            
-[31] dplyr_1.0.0               purrr_0.3.4              
-[33] readr_1.3.1               tidyr_1.1.0              
-[35] tibble_3.0.1              ggplot2_3.3.2            
-[37] tidyverse_1.3.0           here_0.1                 
-[39] workflowr_1.6.2          
+ [1] RColorBrewer_1.1-2        gt_0.2.2                 
+ [3] EGSEA_1.12.0              pathview_1.24.0          
+ [5] org.Hs.eg.db_3.8.2        topGO_2.36.0             
+ [7] SparseM_1.77              GO.db_3.8.2              
+ [9] graph_1.62.0              gage_2.34.0              
+[11] patchwork_1.0.1           NMF_0.22.0               
+[13] cluster_2.1.0             rngtools_1.4             
+[15] pkgmaker_0.27             registry_0.5-1           
+[17] edgeR_3.26.8              limma_3.42.2             
+[19] EnsDb.Hsapiens.v86_2.99.0 ensembldb_2.8.0          
+[21] AnnotationFilter_1.8.0    GenomicFeatures_1.36.4   
+[23] AnnotationDbi_1.46.1      Biobase_2.46.0           
+[25] GenomicRanges_1.38.0      GenomeInfoDb_1.22.1      
+[27] IRanges_2.20.2            S4Vectors_0.24.4         
+[29] BiocGenerics_0.32.0       forcats_0.4.0            
+[31] stringr_1.4.0             dplyr_1.0.0              
+[33] purrr_0.3.4               readr_1.3.1              
+[35] tidyr_1.1.0               tibble_3.0.1             
+[37] ggplot2_3.3.2             tidyverse_1.3.0          
+[39] here_0.1                  workflowr_1.6.2          
 
 loaded via a namespace (and not attached):
   [1] utf8_1.1.4                  tidyselect_1.1.0           
@@ -1381,55 +2036,56 @@ loaded via a namespace (and not attached):
  [41] scales_1.1.1                gtable_0.3.0               
  [43] org.Mm.eg.db_3.8.2          rlang_0.4.6                
  [45] splines_3.6.1               rtracklayer_1.44.4         
- [47] lazyeval_0.2.2              PADOG_1.26.0               
- [49] broom_0.5.2                 yaml_2.2.1                 
- [51] reshape2_1.4.3              modelr_0.1.8               
- [53] backports_1.1.8             httpuv_1.5.4               
- [55] tools_3.6.1                 gridBase_0.4-7             
- [57] ellipsis_0.3.1              gplots_3.0.1.1             
- [59] HTMLUtils_0.1.7             Rcpp_1.0.4.6               
- [61] plyr_1.8.6                  progress_1.2.2             
- [63] zlibbioc_1.30.0             RCurl_1.95-4.12            
- [65] prettyunits_1.1.1           openssl_1.4.1              
- [67] hgu133plus2.db_3.2.3        SummarizedExperiment_1.16.1
- [69] haven_2.3.1                 fs_1.4.2                   
- [71] magrittr_1.5                data.table_1.12.8          
- [73] reprex_0.3.0                whisker_0.4                
- [75] ProtGenerics_1.16.0         matrixStats_0.56.0         
- [77] hms_0.5.3                   mime_0.9                   
- [79] evaluate_0.14               GSVA_1.32.0                
- [81] xtable_1.8-4                globaltest_5.40.0          
- [83] XML_3.98-1.20               hgu133a.db_3.2.3           
- [85] readxl_1.3.1                EGSEAdata_1.12.0           
- [87] compiler_3.6.1              biomaRt_2.42.1             
- [89] safe_3.24.0                 KernSmooth_2.23-15         
- [91] crayon_1.3.4                htmltools_0.5.0            
- [93] later_1.1.0.1               geneplotter_1.62.0         
- [95] lubridate_1.7.4             DBI_1.0.0                  
- [97] dbplyr_1.4.2                rappdirs_0.3.1             
- [99] Matrix_1.2-18               cli_2.0.2                  
-[101] gdata_2.18.0                metap_1.1                  
-[103] pkgconfig_2.0.3             GenomicAlignments_1.20.1   
-[105] plotly_4.9.0                xml2_1.3.2                 
-[107] foreach_1.5.0               annotate_1.62.0            
-[109] XVector_0.24.0              bibtex_0.4.2               
-[111] rvest_0.3.5                 doRNG_1.7.1                
-[113] digest_0.6.25               Biostrings_2.54.0          
-[115] rmarkdown_2.3               cellranger_1.1.0           
-[117] GSEABase_1.46.0             curl_4.3                   
-[119] shiny_1.3.2                 Rsamtools_2.0.1            
-[121] gtools_3.8.1                GSA_1.03.1                 
-[123] lifecycle_0.2.0             nlme_3.1-148               
-[125] jsonlite_1.7.0              viridisLite_0.3.0          
-[127] askpass_1.1                 fansi_0.4.1                
-[129] pillar_1.4.4                lattice_0.20-41            
-[131] survival_2.44-1.1           KEGGREST_1.24.0            
-[133] httr_1.4.1                  glue_1.4.1                 
-[135] png_0.1-7                   shinythemes_1.1.2          
-[137] iterators_1.0.12            bit_1.1-14                 
-[139] Rgraphviz_2.28.0            stringi_1.4.6              
-[141] blob_1.2.0                  caTools_1.17.1.2           
-[143] memoise_1.1.0              </code></pre>
+ [47] lazyeval_0.2.2              checkmate_2.0.0            
+ [49] PADOG_1.26.0                broom_0.5.2                
+ [51] yaml_2.2.1                  reshape2_1.4.3             
+ [53] modelr_0.1.8                backports_1.1.8            
+ [55] httpuv_1.5.4                tools_3.6.1                
+ [57] gridBase_0.4-7              ellipsis_0.3.1             
+ [59] gplots_3.0.1.1              HTMLUtils_0.1.7            
+ [61] Rcpp_1.0.4.6                plyr_1.8.6                 
+ [63] progress_1.2.2              zlibbioc_1.30.0            
+ [65] RCurl_1.95-4.12             prettyunits_1.1.1          
+ [67] openssl_1.4.1               hgu133plus2.db_3.2.3       
+ [69] SummarizedExperiment_1.16.1 haven_2.3.1                
+ [71] fs_1.4.2                    magrittr_1.5               
+ [73] data.table_1.12.8           reprex_0.3.0               
+ [75] whisker_0.4                 ProtGenerics_1.16.0        
+ [77] matrixStats_0.56.0          hms_0.5.3                  
+ [79] mime_0.9                    evaluate_0.14              
+ [81] GSVA_1.32.0                 xtable_1.8-4               
+ [83] globaltest_5.40.0           XML_3.98-1.20              
+ [85] hgu133a.db_3.2.3            readxl_1.3.1               
+ [87] EGSEAdata_1.12.0            compiler_3.6.1             
+ [89] biomaRt_2.42.1              safe_3.24.0                
+ [91] KernSmooth_2.23-15          crayon_1.3.4               
+ [93] htmltools_0.5.0             later_1.1.0.1              
+ [95] geneplotter_1.62.0          lubridate_1.7.4            
+ [97] DBI_1.0.0                   dbplyr_1.4.2               
+ [99] rappdirs_0.3.1              Matrix_1.2-18              
+[101] cli_2.0.2                   gdata_2.18.0               
+[103] metap_1.1                   pkgconfig_2.0.3            
+[105] GenomicAlignments_1.20.1    plotly_4.9.0               
+[107] xml2_1.3.2                  foreach_1.5.0              
+[109] annotate_1.62.0             XVector_0.24.0             
+[111] bibtex_0.4.2                rvest_0.3.5                
+[113] doRNG_1.7.1                 digest_0.6.25              
+[115] Biostrings_2.54.0           rmarkdown_2.3              
+[117] cellranger_1.1.0            GSEABase_1.46.0            
+[119] curl_4.3                    shiny_1.3.2                
+[121] Rsamtools_2.0.1             gtools_3.8.1               
+[123] GSA_1.03.1                  lifecycle_0.2.0            
+[125] nlme_3.1-148                jsonlite_1.7.0             
+[127] viridisLite_0.3.0           askpass_1.1                
+[129] fansi_0.4.1                 pillar_1.4.4               
+[131] lattice_0.20-41             survival_2.44-1.1          
+[133] KEGGREST_1.24.0             httr_1.4.1                 
+[135] glue_1.4.1                  png_0.1-7                  
+[137] shinythemes_1.1.2           iterators_1.0.12           
+[139] bit_1.1-14                  Rgraphviz_2.28.0           
+[141] sass_0.2.0                  stringi_1.4.6              
+[143] blob_1.2.0                  caTools_1.17.1.2           
+[145] memoise_1.1.0              </code></pre>
 </div>
 </div>
 

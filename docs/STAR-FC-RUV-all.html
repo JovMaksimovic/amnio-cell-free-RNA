@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Limma-voom paired analysis of ALL samples</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">amnio-cell-free-RNA</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Limma-voom paired analysis of ALL samples</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-11-09
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>amnio-cell-free-RNA/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200224code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200224)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200224code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200224)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    code/.bpipe/
+    Ignored:    code/.rnaseq-test.groovy.swp
+    Ignored:    code/fastqc/
+    Ignored:    data/.bpipe/
+    Ignored:    data/190717_A00692_0021_AHLLHFDSXX/
+    Ignored:    data/190729_A00692_0022_AHLLHFDSXX/
+    Ignored:    data/190802_A00692_0023_AHLLHFDSXX/
+    Ignored:    data/200612_A00692_0107_AHN3YCDMXX.tar
+    Ignored:    data/200612_A00692_0107_AHN3YCDMXX/
+    Ignored:    data/200626_A00692_0111_AHNJH7DMXX.tar
+    Ignored:    data/200626_A00692_0111_AHNJH7DMXX/
+    Ignored:    data/CMV-AF-database-corrected-oct-2020.csv
+    Ignored:    data/CMV-AF-database-final-included-samples.csv
+    Ignored:    data/GONE4.10.13.txt
+    Ignored:    data/HK_genes.txt
+    Ignored:    data/IPA molecule summary.xls
+    Ignored:    data/IPA-molecule-summary.csv
+    Ignored:    data/bpipe.config
+    Ignored:    data/brain-development-geneset.txt
+    Ignored:    data/catfastq/
+    Ignored:    data/commandlog.txt
+    Ignored:    data/counts-pe/
+    Ignored:    data/counts-se/
+    Ignored:    data/deduped/
+    Ignored:    data/fastqc/
+    Ignored:    data/joindata.csv
+    Ignored:    data/mapped/
+    Ignored:    data/metadata.csv
+    Ignored:    data/multiqc_data/
+    Ignored:    data/multiqc_report.html
+    Ignored:    data/old/
+    Ignored:    data/samples.csv
+    Ignored:    data/sorted/
+    Ignored:    data/test/
+    Ignored:    data/trimmed/
+    Ignored:    output/c2Ens.RData
+    Ignored:    output/c5Ens.RData
+    Ignored:    output/exclude-CMV11/
+    Ignored:    output/hEns.RData
+    Ignored:    output/keggEns.RData
+    Ignored:    output/salmon-limma-voom-c5Cam.csv
+    Ignored:    output/salmon-limma-voom.Rmd/
+    Ignored:    output/salmon-limma-voom.csv
+    Ignored:    output/salmon-ruvseq-edger.csv
+    Ignored:    output/star-fc-limma-voom-all-gsea-c2.csv
+    Ignored:    output/star-fc-limma-voom-all-gsea-c5.csv
+    Ignored:    output/star-fc-limma-voom-all.csv
+    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c2.csv
+    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c5.csv
+    Ignored:    output/star-fc-limma-voom-no_us_ab.csv
+    Ignored:    output/star-fc-ruv-all-gsea-c2.csv
+    Ignored:    output/star-fc-ruv-all-gsea-c5.csv
+    Ignored:    output/star-fc-ruv-all.csv
+
+Untracked files:
+    Untracked:  analysis/salmon-ruvseq-edger.Rmd
+
+Unstaged changes:
+    Modified:   analysis/salmon-limma-voom-exclude-CMV11.Rmd
+    Modified:   analysis/salmon-limma-voom.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/STAR-FC-RUV-all.Rmd</code>) and HTML (<code>docs/STAR-FC-RUV-all.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d32e63b606d16b69ae5c35eae7e7615e92ac90c3/analysis/STAR-FC-RUV-all.Rmd" target="_blank">d32e63b</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-09
+</td>
+<td>
+wflow_publish(c(“analysis/STAR-FC-all.Rmd”, “analysis/STAR-FC-exclude-US-ab.Rmd”,
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>The data showed some adapter contamination and sequence duplication issues. Adapters were removed using <code>Trimmomatic</code> and both paired and unpaired reads were retained. Only paired reads were initially mapped with <code>Star</code> in conjunction with <code>GRCh38</code> and <code>gencode_v34</code> to detect all junctions, across all samples. Paired and unpaired reads were then mapped to <code>GRCh38</code> separately using <code>Star</code>. Duplicates were removed from paired and unpaired mapped data using <code>Picard MarkDuplicates</code>. Reads were then counted across features from <code>gencode_v34</code> using <code>featureCounts</code>.</p>
+<div id="data-import" class="section level1">
+<h1>Data import</h1>
+<p>Set up <code>DGElist</code> object for downstream analysis. Sum paired and unpaired counts prior to downstream analysis.</p>
+<pre><code>An object of class &quot;DGEList&quot;
+$counts
+  CMV30 CMV31 CMV8 CMV9 CMV26 CMV27 CMV14 CMV15 CMV20 CMV21 CMV1 CMV2 CMV3 CMV4
+1     0     0    0    0     2     2     0     1     0     1    1    0    1    0
+2    58    95   58   59   113   101    60    48    79    71   54   63   39   46
+3     1     0    0    0     0     0     0     0     0     0    0    0    0    0
+4     0     0    0    0     0     0     0     0     0     0    1    0    1    0
+5     0     0    0    0     0     0     0     0     0     0    0    0    0    0
+  CMV10 CMV11 CMV18 CMV19 CMV35 Corriel NTC-2 CMV51 CMV52 CMV53 CMV54 CMV56
+1     0     0     0     0     1       1     0     0     0     0     0     0
+2    62    35    51    45    59      84     0    63    28    49    46    37
+3     0     0     0     0     0       1     0     0     0     0     0     0
+4     0     0     0     0     0       0     0     0     0     0     0     0
+5     0     0     0     0     0       0     0     0     0     0     0     0
+  CMV57 CMV58 CMV60 CMV61
+1     0     2     1     2
+2    59    82    44    36
+3     0     0     0     0
+4     0     0     1     0
+5     0     0     0     0
+60664 more rows ...
+
+$samples
+      group lib.size norm.factors
+CMV30     1  4673630            1
+CMV31     1  5232010            1
+CMV8      1  3594801            1
+CMV9      1  3425478            1
+CMV26     1  4892776            1
+25 more rows ...
+
+$genes
+             Geneid Length
+1 ENSG00000223972.5   1735
+2 ENSG00000227232.5   1351
+3 ENSG00000278267.1     68
+4 ENSG00000243485.5   1021
+5 ENSG00000284332.1    138
+60664 more rows ...</code></pre>
+<p>Load sample information and file names.</p>
+<pre><code># A tibble: 26 x 7
+   id    CMV_status pair  sex   GA_at_amnio indication batch
+   &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;fct&gt;
+ 1 CMV30 pos        L1    F     21          no_us_ab   1    
+ 2 CMV31 neg        L1    F     21          no_us_ab   1    
+ 3 CMV8  neg        L2    F     23          no_us_ab   1    
+ 4 CMV9  pos        L2    F     23          no_us_ab   1    
+ 5 CMV26 pos        L3    F     22          no_us_ab   1    
+ 6 CMV14 neg        L4    F     21          no_us_ab   1    
+ 7 CMV15 pos        L4    F     22          no_us_ab   1    
+ 8 CMV20 pos        L5    M     21          no_us_ab   1    
+ 9 CMV21 neg        NC1   F     21          no_us_ab   1    
+10 CMV1  pos        M1    F     21          no_us_ab   1    
+# … with 16 more rows</code></pre>
+</div>
+<div id="quality-control" class="section level1">
+<h1>Quality control</h1>
+<p>Genes that do not have an adequate number of reads in any sample should be filtered out prior to downstream analyses. From a biological perspective, genes that are not expressed at a biologically meaningful level in any condition are not of interest. Statistically, we get a better estimate of the mean-variance relationship in the data and reduce the number of statistical tests that are performed during differential expression analyses.</p>
+<p>Filter out lowly expressed genes and genes without Entrez IDs and calculate TMM normalization factors.</p>
+<pre><code>An object of class &quot;DGEList&quot;
+$counts
+   CMV30 CMV31 CMV8 CMV9 CMV26 CMV14 CMV15 CMV20 CMV21 CMV1 CMV2 CMV3 CMV4
+32    20    36   28   42    28    25    19    26    18   32   25   55   31
+52    88    73   55   43    55    75    53    64    55   61   68   36   62
+55     6    15   17   15    15     9    14    13    12    7   10   16   12
+63   148   172  148  126   175   179   176   141   179  155  194  121  123
+64    14    15   14   11    20    14     9    13    14   13   13   19   10
+   CMV10 CMV11 CMV19 CMV35 CMV51 CMV52 CMV53 CMV54 CMV56 CMV57 CMV58 CMV60
+32    15    11    22    24    25    19    23    20    18    23    24     8
+52    69    11    35    47    59    49    42    37    38    49    65    49
+55     7     2    11     9    19     9     6    12     7     7     7     5
+63   156    44   107   164   144    71    71   137   136   122   131    88
+64     9     3     6     9    14     3     9    12     5     7    12     5
+   CMV61
+32    20
+52    49
+55     6
+63   108
+64     3
+12727 more rows ...
+
+$samples
+      group lib.size norm.factors
+CMV30     1  4673630     1.017563
+CMV31     1  5232010     1.052277
+CMV8      1  3594801     1.052059
+CMV9      1  3425478     1.026378
+CMV26     1  4892776     1.068518
+21 more rows ...
+
+$genes
+               Geneid Length         Ensembl       symbol  entrezid
+32 ENSG00000230021.10   5495 ENSG00000230021 RP5-857K21.4 101928626
+52 ENSG00000228794.10  15682 ENSG00000228794    LINC01128    643837
+55  ENSG00000230368.2   1971 ENSG00000230368       FAM41C    284593
+63 ENSG00000188976.11   5540 ENSG00000188976        NOC2L     26155
+64 ENSG00000187961.14   3402 ENSG00000187961       KLHL17    339451
+12727 more rows ...
+
+$group
+[1] &quot;pos&quot; &quot;neg&quot; &quot;neg&quot; &quot;pos&quot; &quot;pos&quot;
+21 more elements ...</code></pre>
+<p>Plotting the distribution log-CPM values shows that a majority of genes within each sample are either not expressed or lowly-expressed with log-CPM values that are small or negative.</p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Although in excess of 30 million reads were obtained per sample, we can see that after mapping, duplicate removal and quantification of gene expression the median library size is just under than 4 million reads. This suggests that we are likely to only be capturing the most abundant cfRNAs.</p>
+<p>It is assumed that all samples should have a similar range and distribution of expression values. The raw data looks fairly uniform between samples, although TMM normalization further improves this.</p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>Multi-dimensional scaling (MDS) plots show the largest sources of variation in the data. They are a good way of exploring the relationships between the samples and identifying structure in the data. The following series of MDS plots examines the first four principal components. The samples are coloured by various known features of the samples such as CMV Status and foetal sex. The MDS plots do not show the samples strongly clustering by any of the known features of the data, although there does seem to be some separation between the CMV positive and negative samples in the 1st and 2nd principal components. This indicates that there are possibly some differentially expressed genes between CMV positive and negative samples.</p>
+<p>A weak batch effect is also evident in the 3rd principal component, when we examine the plots coloured by batch.</p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ruvseq-analysis" class="section level1">
+<h1>RUVSeq analysis</h1>
+<p>Given that there is a lot ov variability between the samples and it is not clearly associated with any of the known features of the data, we will use and <code>RUVSeq</code> analysis to remove some of the unwanted variation from the data. We will estimate the unwanted variation using the expression of known house-keeping genes (HKG), as defined using the Human BodyMap 2.0 <a href="https://www.tau.ac.il/~elieis/HKG/">data</a>, in our dataset.</p>
+<p>The heatmap below shows the expression of the HKG in our samples. Although the expression is fairly uniform, some variability is apparent between the samples.</p>
+<pre class="r"><code>hkGenes &lt;- read.delim(here(&quot;data/HK_genes.txt&quot;), stringsAsFactors = FALSE, 
+                      header = FALSE, col.names = c(&quot;SYMBOL&quot;,&quot;REFSEQ&quot;), 
+                      strip.white = TRUE)
+
+aheatmap(cpm(y[y$genes$symbol %in% hkGenes$SYMBOL,], log = TRUE),
+         main = &quot;log2 CPM Expression of HKG&quot;, labRow = NA,  
+         annCol = list(GA_at_amnio = targets$GA_at_amnio, 
+                       CMV_result = targets$CMV_status, 
+                       Pair = targets$pair,
+                       Sex = targets$sex),
+         annColors = list(scales::brewer_pal(palette = &quot;Dark2&quot;)(length(unique(targets$GA_at_amnio))),
+                          scales::hue_pal()(length(unique(targets$CMV_status))),
+                          scales::hue_pal()(length(unique(targets$pair))),
+                          scales::brewer_pal(palette = &quot;Set1&quot;)(length(unique(targets$sex)))),
+         scale = &quot;none&quot;)</code></pre>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The scree plot shows that most of the variation in the negative control genes is captured by the first principal component.</p>
+<pre class="r"><code>PCs &lt;- prcomp(t(y$counts[which(y$genes$symbol %in% hkGenes$SYMBOL),]), 
+              center = TRUE, scale = TRUE, retx=TRUE)
+loadings = PCs$x # pc loadings
+plot(PCs, type=&quot;lines&quot;) # scree plot</code></pre>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Using the <code>RUVg</code> function, we will estimate the unwanted variation in our data using the HKG for k = 1, 2 and 3.</p>
+<pre class="r"><code>yRg1 &lt;- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=1)
+yRg2 &lt;- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=2)
+yRg3 &lt;- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=3)</code></pre>
+<p>The RLE plots below show that <code>RUVg</code> adjustment is a significant improvement over the raw data with k=1. The improvements with k=2 and k=3 are relatively minor in comparison.</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+plotRLE(y$counts, ylim=c(-0.5,0.5), las=2, main=&quot;Raw&quot;, 
+        cex.axis = 0.6)
+plotRLE(yRg1$normalizedCounts, ylim=c(-0.5,0.5), las=2, main=&quot;RUVg k=1&quot;, 
+        cex.axis = 0.6)
+plotRLE(yRg2$normalizedCounts, ylim=c(-0.5,0.5), las=2, main=&quot;RUVg k=2&quot;, 
+        cex.axis = 0.6)
+plotRLE(yRg3$normalizedCounts, ylim=c(-0.5,0.5), las=2, main=&quot;RUVg k=3&quot;, 
+        cex.axis = 0.6)</code></pre>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /> The MDS plots of the <code>RUVg</code> normalised counts show clearer separation between the CMV positive and CMV negative samples.</p>
+<pre class="r"><code>mds &lt;- plotMDS(cpm(y$counts, log = TRUE), top = 1000, gene.selection=&quot;common&quot;, 
+               plot = FALSE)
+dat &lt;- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p &lt;- ggplot(dat, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = &quot;Principal component 1&quot;, 
+       y = &quot;Principal component 2&quot;,
+       colour = &quot;CMV status&quot;) +
+  ggtitle(&quot;Raw&quot;)
+
+mds &lt;- plotMDS(cpm(yRg1$normalizedCounts, log = TRUE), top = 1000, 
+               gene.selection=&quot;common&quot;, plot = FALSE)
+dat1 &lt;- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p1 &lt;- ggplot(dat1, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = &quot;Principal component 1&quot;, 
+       y = &quot;Principal component 2&quot;,
+       colour = &quot;CMV status&quot;) +
+  ggtitle(&quot;RUVg k=1&quot;)
+
+mds &lt;- plotMDS(cpm(yRg2$normalizedCounts, log = TRUE), top = 1000, 
+               gene.selection=&quot;common&quot;, plot = FALSE)
+dat2 &lt;- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p2 &lt;- ggplot(dat2, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = &quot;Principal component 1&quot;, 
+       y = &quot;Principal component 2&quot;,
+       colour = &quot;CMV status&quot;) +
+  ggtitle(&quot;RUVg k=2&quot;)
+
+mds &lt;- plotMDS(cpm(yRg3$normalizedCounts, log = TRUE), top = 1000, 
+               gene.selection=&quot;common&quot;, plot = FALSE)
+dat3 &lt;- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p3 &lt;- ggplot(dat3, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = &quot;Principal component 1&quot;, 
+       y = &quot;Principal component 2&quot;,
+       colour = &quot;CMV status&quot;) +
+  ggtitle(&quot;RUVg k=3&quot;)
+
+((p | p1) / (p2 | p3)) + 
+  plot_layout(guides = &quot;collect&quot;) &amp; 
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="differential-expression-analysis" class="section level1">
+<h1>Differential expression analysis</h1>
+<p>We will look for differentially expressed genes, using the negative binomial GLM approach implemented in <code>edgeR</code>. This is done by considering a design matrix that includes both the covariates of interest (CMV result) and the factors of unwanted variation calculated by <code>RUVg</code>. The CMV positive samples were compared to the CMV negative (normal) samples. A summary of the numbers of differentially expressed genes is shown below, as well as the top 20 differentially expressed genes. The full results tables were exported as csv files.</p>
+<pre class="r"><code>norm &lt;- yRg1
+design &lt;- model.matrix(~targets$CMV_status + targets$pair + norm$W)
+colnames(design)[2] &lt;- &quot;CMV_status&quot;
+y &lt;- estimateGLMCommonDisp(y, design)
+y &lt;- estimateGLMTagwiseDisp(y, design)
+fit &lt;- glmFit(y, design)
+lrt &lt;- glmLRT(fit, coef = 2)
+fitSum &lt;- summary(decideTests(lrt, p.value = 0.05))
+fitSum</code></pre>
+<pre><code>       CMV_status
+Down           32
+NotSig      12391
+Up            309</code></pre>
+<p>There were 32 down-regulated and 309 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
+<p>These are the top 10 differentially expressed genes.</p>
+<pre><code>                  Geneid Length         Ensembl symbol entrezid    logFC
+51897 ENSG00000130303.13   1101 ENSG00000130303   BST2      684 3.362931
+19329 ENSG00000206337.12  11058 ENSG00000206337   HCP5    10866 4.774945
+45751 ENSG00000140853.15  12386 ENSG00000140853  NLRC5    84166 2.719464
+14201  ENSG00000138646.9   4764 ENSG00000138646  HERC5    51191 2.990825
+2240   ENSG00000225492.6   2352 ENSG00000225492 GBP1P1   400759 1.921814
+8687  ENSG00000115415.20   9770 ENSG00000115415  STAT1     6772 1.214164
+15204 ENSG00000137628.17   6746 ENSG00000137628  DDX60    55601 1.601443
+56048 ENSG00000157601.14   8616 ENSG00000157601    MX1     4599 1.662165
+46903 ENSG00000132530.17   6615 ENSG00000132530   XAF1    54739 2.660971
+2095  ENSG00000137965.11   2038 ENSG00000137965  IFI44    10561 1.949726
+        logCPM        LR       PValue          FDR
+51897 3.753005 127.21029 1.670963e-29 2.127470e-25
+19329 3.767357  94.03723 3.096454e-22 1.971203e-18
+45751 3.086826  79.24646 5.482552e-19 2.326795e-15
+14201 3.088271  77.12931 1.601235e-18 5.096730e-15
+2240  2.478891  64.45998 9.851325e-16 2.508541e-12
+8687  8.158754  59.08642 1.508967e-14 3.202028e-11
+15204 6.361836  58.45469 2.080272e-14 3.783718e-11
+56048 7.264249  56.24278 6.405258e-14 9.498385e-11
+46903 5.948849  56.15016 6.714221e-14 9.498385e-11
+2095  5.029527  53.51359 2.568103e-13 3.269708e-10</code></pre>
+<p>The following plots show the expression of the top 12 ranked differentially expressed genes for CMV positive and CMV negative samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.</p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="gene-set-enrichment-analysis-gsea" class="section level1">
+<h1>Gene set enrichment analysis (GSEA)</h1>
+<p>Testing for enrichment of Gene Ontology (GO) categories among statistically significant differentially expressed genes.</p>
+<pre><code>                                                  Term Ont    N  DE
+GO:0045087                      innate immune response  BP  541  74
+GO:0006952                            defense response  BP  885  90
+GO:0006955                             immune response  BP 1178 104
+GO:0034340               response to type I interferon  BP   71  29
+GO:0071357      cellular response to type I interferon  BP   67  28
+GO:0060337         type I interferon signaling pathway  BP   67  28
+GO:0002376                       immune system process  BP 1835 126
+GO:0009607                 response to biotic stimulus  BP  562  66
+GO:0043207        response to external biotic stimulus  BP  534  64
+GO:0051707                  response to other organism  BP  534  64
+GO:0051607                   defense response to virus  BP  161  36
+GO:0009615                           response to virus  BP  220  41
+GO:0098542          defense response to other organism  BP  256  41
+GO:0034097                        response to cytokine  BP  782  70
+GO:0019221         cytokine-mediated signaling pathway  BP  495  53
+GO:0071345      cellular response to cytokine stimulus  BP  724  63
+GO:0034341                response to interferon-gamma  BP  119  26
+GO:0002252                     immune effector process  BP  752  64
+GO:0060333 interferon-gamma-mediated signaling pathway  BP   61  19
+GO:0050776               regulation of immune response  BP  577  53
+                   P.DE
+GO:0045087 1.750093e-32
+GO:0006952 1.202172e-29
+GO:0006955 2.320386e-29
+GO:0034340 2.106878e-27
+GO:0071357 7.837183e-27
+GO:0060337 7.837183e-27
+GO:0002376 1.236255e-25
+GO:0009607 5.453308e-25
+GO:0043207 1.022823e-24
+GO:0051707 1.022823e-24
+GO:0051607 2.415105e-23
+GO:0009615 3.105690e-23
+GO:0098542 1.195193e-20
+GO:0034097 1.217924e-19
+GO:0019221 2.893450e-18
+GO:0071345 4.652282e-17
+GO:0034341 6.949759e-17
+GO:0002252 7.560317e-17
+GO:0060333 9.238736e-16
+GO:0050776 2.191970e-15</code></pre>
+<p>GSEA helps us to interpret the results of a differential expression analysis. The <code>camera</code> function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute’s Molecular Signatures Database <a href="http://software.broadinstitute.org/gsea/msigdb/index.jsp">MSigDB</a>.</p>
+<p>Build gene set indexes.</p>
+<pre><code>[1] &quot;Loading MSigDB Gene Sets ... &quot;
+[1] &quot;Loaded gene sets for the collection h ...&quot;
+[1] &quot;Indexed the collection h ...&quot;
+[1] &quot;Created annotation for the collection h ...&quot;
+[1] &quot;Loaded gene sets for the collection c2 ...&quot;
+[1] &quot;Indexed the collection c2 ...&quot;
+[1] &quot;Created annotation for the collection c2 ...&quot;
+[1] &quot;Loaded gene sets for the collection c5 ...&quot;
+[1] &quot;Indexed the collection c5 ...&quot;
+[1] &quot;Created annotation for the collection c5 ...&quot;
+[1] &quot;Building KEGG pathways annotation object ... &quot;</code></pre>
+<p>The GO gene sets consist of genes annotated by the same GO terms.</p>
+<pre><code>                                                                     NGenes
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                         48
+GO_DEFENSE_RESPONSE_TO_VIRUS                                            111
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN             13
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN     11
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                           43
+GO_RESPONSE_TO_INTERFERON_GAMMA                                          71
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                                 59
+GO_REGULATION_OF_CELL_KILLING                                            32
+GO_LUMENAL_SIDE_OF_MEMBRANE                                              21
+GO_RESPONSE_TO_VIRUS                                                    166
+GO_DIGESTION                                                             56
+GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                      18
+GO_INTRINSIC_COMPONENT_OF_ENDOPLASMIC_RETICULUM_MEMBRANE                108
+GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                         29
+GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                                  245
+GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                    8
+GO_MHC_PROTEIN_COMPLEX                                                   11
+GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                            12
+GO_MHC_CLASS_I_PROTEIN_COMPLEX                                            7
+GO_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION                       40
+                                                                     Direction
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                            Up
+GO_DEFENSE_RESPONSE_TO_VIRUS                                                Up
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN                Up
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN        Up
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                              Up
+GO_RESPONSE_TO_INTERFERON_GAMMA                                             Up
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                                    Up
+GO_REGULATION_OF_CELL_KILLING                                               Up
+GO_LUMENAL_SIDE_OF_MEMBRANE                                                 Up
+GO_RESPONSE_TO_VIRUS                                                        Up
+GO_DIGESTION                                                                Up
+GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                         Up
+GO_INTRINSIC_COMPONENT_OF_ENDOPLASMIC_RETICULUM_MEMBRANE                    Up
+GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                            Up
+GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                                      Up
+GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                      Up
+GO_MHC_PROTEIN_COMPLEX                                                      Up
+GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                               Up
+GO_MHC_CLASS_I_PROTEIN_COMPLEX                                              Up
+GO_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION                          Up
+                                                                           PValue
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                     5.460966e-25
+GO_DEFENSE_RESPONSE_TO_VIRUS                                         2.434725e-13
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN         2.746440e-13
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN 6.883739e-13
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                       1.811001e-12
+GO_RESPONSE_TO_INTERFERON_GAMMA                                      1.074724e-10
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                             1.666906e-09
+GO_REGULATION_OF_CELL_KILLING                                        2.399265e-08
+GO_LUMENAL_SIDE_OF_MEMBRANE                                          2.459483e-08
+GO_RESPONSE_TO_VIRUS                                                 4.041720e-08
+GO_DIGESTION                                                         4.496659e-08
+GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                  4.719346e-08
+GO_INTRINSIC_COMPONENT_OF_ENDOPLASMIC_RETICULUM_MEMBRANE             6.625694e-08
+GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                     9.594453e-08
+GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                               1.196610e-07
+GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY               1.447534e-07
+GO_MHC_PROTEIN_COMPLEX                                               1.668634e-07
+GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                        1.986332e-07
+GO_MHC_CLASS_I_PROTEIN_COMPLEX                                       2.335797e-07
+GO_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION                   2.829899e-07
+                                                                              FDR
+GO_RESPONSE_TO_TYPE_I_INTERFERON                                     3.364501e-21
+GO_DEFENSE_RESPONSE_TO_VIRUS                                         5.640272e-10
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_ANTIGEN         5.640272e-10
+GO_ANTIGEN_PROCESSING_AND_PRESENTATION_OF_ENDOGENOUS_PEPTIDE_ANTIGEN 1.060268e-09
+GO_INTERFERON_GAMMA_MEDIATED_SIGNALING_PATHWAY                       2.231515e-09
+GO_RESPONSE_TO_INTERFERON_GAMMA                                      1.103563e-07
+GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                             1.467115e-06
+GO_REGULATION_OF_CELL_KILLING                                        1.683653e-05
+GO_LUMENAL_SIDE_OF_MEMBRANE                                          1.683653e-05
+GO_RESPONSE_TO_VIRUS                                                 2.422991e-05
+GO_DIGESTION                                                         2.422991e-05
+GO_SOLUTE_PROTON_SYMPORTER_ACTIVITY                                  2.422991e-05
+GO_INTRINSIC_COMPONENT_OF_ENDOPLASMIC_RETICULUM_MEMBRANE             3.140069e-05
+GO_REGULATION_OF_LEUKOCYTE_MEDIATED_CYTOTOXICITY                     4.222245e-05
+GO_CYTOKINE_MEDIATED_SIGNALING_PATHWAY                               4.914876e-05
+GO_POSITIVE_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY               5.573912e-05
+GO_MHC_PROTEIN_COMPLEX                                               6.047327e-05
+GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                        6.798773e-05
+GO_MHC_CLASS_I_PROTEIN_COMPLEX                                       7.574131e-05
+GO_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION                   8.376287e-05</code></pre>
+<p>The Hallmark gene sets are coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.</p>
+<pre><code>                                   NGenes Direction       PValue          FDR
+HALLMARK_INTERFERON_ALPHA_RESPONSE     81        Up 2.406322e-46 1.203161e-44
+HALLMARK_INTERFERON_GAMMA_RESPONSE    147        Up 5.488726e-30 1.372182e-28
+HALLMARK_E2F_TARGETS                  196      Down 3.429932e-11 5.716553e-10
+HALLMARK_MYC_TARGETS_V1               198      Down 3.847175e-07 4.808968e-06
+HALLMARK_G2M_CHECKPOINT               194      Down 9.179905e-07 9.179905e-06
+HALLMARK_TNFA_SIGNALING_VIA_NFKB      162        Up 1.668633e-06 1.390528e-05
+HALLMARK_INFLAMMATORY_RESPONSE        116        Up 2.403865e-06 1.717046e-05
+HALLMARK_IL6_JAK_STAT3_SIGNALING       47        Up 2.432785e-05 1.520491e-04
+HALLMARK_KRAS_SIGNALING_UP            133        Up 6.152943e-05 3.418301e-04
+HALLMARK_MITOTIC_SPINDLE              192      Down 1.023657e-04 5.118287e-04
+HALLMARK_COMPLEMENT                   140        Up 2.342297e-04 1.064680e-03
+HALLMARK_ALLOGRAFT_REJECTION          102        Up 1.145769e-03 4.774039e-03
+HALLMARK_XENOBIOTIC_METABOLISM        139        Up 1.009094e-02 3.881132e-02
+HALLMARK_MYC_TARGETS_V2                54      Down 1.308009e-02 4.671462e-02
+HALLMARK_ADIPOGENESIS                 182        Up 2.598614e-02 8.662048e-02
+HALLMARK_IL2_STAT5_SIGNALING          142        Up 2.789494e-02 8.717168e-02
+HALLMARK_P53_PATHWAY                  180        Up 3.083296e-02 8.718515e-02
+HALLMARK_COAGULATION                   84        Up 3.138665e-02 8.718515e-02
+HALLMARK_TGF_BETA_SIGNALING            52        Up 4.110544e-02 1.081722e-01
+HALLMARK_SPERMATOGENESIS               68      Down 4.658228e-02 1.150502e-01</code></pre>
+<p>Barcode plots show the enrichment of gene sets among up or down-regulated genes. The following barcode plots show the enrichment of the top 4 hallmark gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>[[1]]
+NULL
+
+[[2]]
+NULL
+
+[[3]]
+NULL
+
+[[4]]
+NULL</code></pre>
+<p>The curated gene sets are compiled from online pathway databases, publications in PubMed, and knowledge of domain experts.</p>
+<pre><code>                                                  NGenes Direction       PValue
+MOSERLE_IFNA_RESPONSE                                 27        Up 1.516967e-39
+BROWNE_INTERFERON_RESPONSIVE_GENES                    55        Up 1.246524e-37
+HECKER_IFNB1_TARGETS                                  59        Up 6.933020e-33
+SANA_RESPONSE_TO_IFNG_UP                              48        Up 7.638648e-33
+DAUER_STAT3_TARGETS_DN                                49        Up 2.512081e-26
+FARMER_BREAST_CANCER_CLUSTER_1                        15        Up 2.572179e-26
+BOSCO_INTERFERON_INDUCED_ANTIVIRAL_MODULE             59        Up 5.242782e-25
+EINAV_INTERFERON_SIGNATURE_IN_CANCER                  24        Up 1.176125e-23
+BOWIE_RESPONSE_TO_TAMOXIFEN                           16        Up 1.011723e-21
+SANA_TNF_SIGNALING_UP                                 63        Up 1.456173e-21
+REACTOME_INTERFERON_ALPHA_BETA_SIGNALING              44        Up 2.904207e-21
+BOWIE_RESPONSE_TO_EXTRACELLULAR_MATRIX                16        Up 9.206406e-21
+BENNETT_SYSTEMIC_LUPUS_ERYTHEMATOSUS                  24        Up 1.626105e-20
+RADAEVA_RESPONSE_TO_IFNA1_UP                          45        Up 1.793889e-20
+ZHANG_INTERFERON_RESPONSE                             18        Up 1.496721e-18
+DER_IFN_ALPHA_RESPONSE_UP                             67        Up 2.137283e-18
+KRASNOSELSKAYA_ILF3_TARGETS_UP                        30        Up 8.179429e-17
+SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP     56        Up 6.939545e-16
+ZHU_CMV_8_HR_UP                                       40        Up 3.488281e-15
+TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP           129        Up 7.223615e-15
+                                                           FDR
+MOSERLE_IFNA_RESPONSE                             5.674975e-36
+BROWNE_INTERFERON_RESPONSIVE_GENES                2.331623e-34
+HECKER_IFNB1_TARGETS                              7.144045e-30
+SANA_RESPONSE_TO_IFNG_UP                          7.144045e-30
+DAUER_STAT3_TARGETS_DN                            1.603754e-23
+FARMER_BREAST_CANCER_CLUSTER_1                    1.603754e-23
+BOSCO_INTERFERON_INDUCED_ANTIVIRAL_MODULE         2.801893e-22
+EINAV_INTERFERON_SIGNATURE_IN_CANCER              5.499856e-21
+BOWIE_RESPONSE_TO_TAMOXIFEN                       4.205397e-19
+SANA_TNF_SIGNALING_UP                             5.447544e-19
+REACTOME_INTERFERON_ALPHA_BETA_SIGNALING          9.876944e-19
+BOWIE_RESPONSE_TO_EXTRACELLULAR_MATRIX            2.870097e-18
+BENNETT_SYSTEMIC_LUPUS_ERYTHEMATOSUS              4.679430e-18
+RADAEVA_RESPONSE_TO_IFNA1_UP                      4.793527e-18
+ZHANG_INTERFERON_RESPONSE                         3.732823e-16
+DER_IFN_ALPHA_RESPONSE_UP                         4.997235e-16
+KRASNOSELSKAYA_ILF3_TARGETS_UP                    1.799955e-14
+SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP 1.442269e-13
+ZHU_CMV_8_HR_UP                                   6.868243e-13
+TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP        1.351177e-12</code></pre>
+<p>The following barcode plots show the enrichment of the top 4 curated gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>[[1]]
+NULL
+
+[[2]]
+NULL
+
+[[3]]
+NULL
+
+[[4]]
+NULL</code></pre>
+<p>The KEGG gene sets encompass all of the pathways defined in the <a href="https://www.genome.jp/kegg/pathway.html">Kegg pathway database</a>.</p>
+<pre><code>                                       NGenes Direction       PValue
+Mineral absorption                         36        Up 1.610996e-09
+Type I diabetes mellitus                   12        Up 5.757472e-07
+Antigen processing and presentation        39        Up 6.116985e-07
+Fat digestion and absorption               21        Up 7.875436e-07
+Graft-versus-host disease                   8        Up 3.845748e-06
+Hepatitis C                                98        Up 5.251118e-06
+Cytokine-cytokine receptor interaction     83        Up 8.146892e-06
+Autoimmune thyroid disease                 10        Up 1.425005e-05
+Allograft rejection                         9        Up 2.050983e-05
+NOD-like receptor signaling pathway       117        Up 2.719493e-05
+Spliceosome                               128      Down 3.902381e-05
+N-Glycan biosynthesis                      43        Up 4.188361e-05
+Vitamin digestion and absorption           19        Up 4.223115e-05
+Mismatch repair                            22      Down 7.330810e-05
+Lysosome                                  106        Up 7.369917e-05
+Influenza A                               119        Up 1.142647e-04
+Bile secretion                             34        Up 1.150673e-04
+Measles                                    89        Up 1.208825e-04
+DNA replication                            33      Down 1.522974e-04
+Cell adhesion molecules (CAMs)             54        Up 1.703345e-04
+                                                FDR
+Mineral absorption                     4.687998e-07
+Type I diabetes mellitus               5.729380e-05
+Antigen processing and presentation    5.729380e-05
+Fat digestion and absorption           5.729380e-05
+Graft-versus-host disease              2.238225e-04
+Hepatitis C                            2.546792e-04
+Cytokine-cytokine receptor interaction 3.386779e-04
+Autoimmune thyroid disease             5.183456e-04
+Allograft rejection                    6.631511e-04
+NOD-like receptor signaling pathway    7.913725e-04
+Spliceosome                            9.453280e-04
+N-Glycan biosynthesis                  9.453280e-04
+Vitamin digestion and absorption       9.453280e-04
+Mismatch repair                        1.429764e-03
+Lysosome                               1.429764e-03
+Influenza A                            1.954267e-03
+Bile secretion                         1.954267e-03
+Measles                                1.954267e-03
+DNA replication                        2.332555e-03
+Cell adhesion molecules (CAMs)         2.478367e-03</code></pre>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>[[1]]
+NULL
+
+[[2]]
+NULL
+
+[[3]]
+NULL
+
+[[4]]
+NULL</code></pre>
+</div>
+<div id="brain-development-genes" class="section level1">
+<h1>Brain development genes</h1>
+<p>Test only the specialised brain development gene set.</p>
+<pre><code># A tibble: 51 x 1
+   BRAIN_DEV 
+   &lt;chr&gt;     
+ 1 AC139768.1
+ 2 ADGRG1    
+ 3 AFF2      
+ 4 ALK       
+ 5 ALX1      
+ 6 BPTF      
+ 7 CDK5R1    
+ 8 CEP290    
+ 9 CLN5      
+10 CNTN4     
+# … with 41 more rows</code></pre>
+<pre><code>       CMV_status
+Down            1
+NotSig         26
+Up              0</code></pre>
+<pre><code>                  Geneid Length         Ensembl  symbol entrezid        logFC
+54718 ENSG00000053438.11   1329 ENSG00000053438    NNAT     4826 -0.660321228
+47853  ENSG00000176749.9   3948 ENSG00000176749  CDK5R1     8851  0.266990157
+46775 ENSG00000040531.16   4949 ENSG00000040531    CTNS     1497  0.226446331
+59499 ENSG00000102038.15   4363 ENSG00000102038 SMARCA1     6594 -0.168383655
+45778 ENSG00000205336.13   8659 ENSG00000205336  ADGRG1     9289  0.224428395
+58386 ENSG00000158352.15  10333 ENSG00000158352 SHROOM4    57477  0.095044294
+33637 ENSG00000110697.13   6442 ENSG00000110697 PITPNM1     9600  0.134345216
+10970 ENSG00000185008.17  16663 ENSG00000185008   ROBO2     6092 -0.155347930
+3760  ENSG00000185630.19  21370 ENSG00000185630    PBX1     5087 -0.078888760
+7681  ENSG00000074047.21   7341 ENSG00000074047    GLI2     2736 -0.147297363
+37089 ENSG00000198707.16  10442 ENSG00000198707  CEP290    80184 -0.103458016
+13911  ENSG00000132467.4   2020 ENSG00000132467    UTP3    57050  0.079435464
+42132 ENSG00000114062.21  12808 ENSG00000114062   UBE3A     7337  0.043409657
+59824 ENSG00000155966.14  14241 ENSG00000155966    AFF2     2334 -0.112142953
+16275 ENSG00000164258.12   1174 ENSG00000164258  NDUFS4     4724  0.054771948
+23659 ENSG00000128573.26  16334 ENSG00000128573   FOXP2    93986 -0.074926883
+9697  ENSG00000144619.15   9123 ENSG00000144619   CNTN4   152330 -0.059042531
+47791 ENSG00000196712.18  27130 ENSG00000196712     NF1     4763 -0.032140447
+51917 ENSG00000130479.11   4933 ENSG00000130479   MAP1S    55201  0.037520138
+57747 ENSG00000146950.13   8218 ENSG00000146950 SHROOM2      357 -0.024115264
+39080 ENSG00000102805.16  22814 ENSG00000102805    CLN5     1203 -0.029818655
+2823  ENSG00000092621.12   9217 ENSG00000092621   PHGDH    26227  0.031690508
+24536  ENSG00000164690.8   5234 ENSG00000164690     SHH     6469  0.028604977
+1293  ENSG00000131238.17   5088 ENSG00000131238    PPT1     5538  0.013587601
+49155 ENSG00000171634.18  15119 ENSG00000171634    BPTF     2186 -0.008428348
+28963 ENSG00000167081.18   4904 ENSG00000167081    PBX3     5090  0.010594881
+54624 ENSG00000198646.14  11133 ENSG00000198646   NCOA6    23054 -0.003680951
+        logCPM           LR       PValue         FDR
+54718 6.823447 16.738118275 4.291014e-05 0.001158574
+47853 3.961239  2.993631993 8.359249e-02 0.959243167
+46775 2.886082  2.357949224 1.246460e-01 0.959243167
+59499 7.435227  1.679359575 1.950096e-01 0.959243167
+45778 4.487531  1.659694591 1.976446e-01 0.959243167
+58386 5.420720  0.988830785 3.200283e-01 0.959243167
+33637 5.388541  0.955275608 3.283801e-01 0.959243167
+10970 3.995737  0.891791209 3.449924e-01 0.959243167
+3760  8.695596  0.748535365 3.869403e-01 0.959243167
+7681  2.350163  0.675304935 4.112082e-01 0.959243167
+37089 6.738311  0.581460223 4.457405e-01 0.959243167
+13911 4.964853  0.536041714 4.640778e-01 0.959243167
+42132 7.720255  0.346348698 5.561874e-01 0.959243167
+59824 1.889596  0.301986579 5.826397e-01 0.959243167
+16275 4.867642  0.255776167 6.130369e-01 0.959243167
+23659 6.031793  0.205700418 6.501584e-01 0.959243167
+9697  2.553732  0.118168613 7.310293e-01 0.959243167
+47791 7.822985  0.117429764 7.318390e-01 0.959243167
+51917 4.816698  0.106828675 7.437839e-01 0.959243167
+57747 5.891511  0.071056296 7.898050e-01 0.959243167
+39080 3.552256  0.051663157 8.201941e-01 0.959243167
+2823  4.107238  0.049314881 8.242597e-01 0.959243167
+24536 3.482613  0.035804872 8.499190e-01 0.959243167
+1293  4.260414  0.011925231 9.130417e-01 0.959243167
+49155 9.113674  0.009409434 9.227246e-01 0.959243167
+28963 4.824794  0.005441858 9.411942e-01 0.959243167
+54624 7.391416  0.002611552 9.592432e-01 0.959243167</code></pre>
+<p>The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status.</p>
+<p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>Although the effective library sizes were low, the data is generally of good quality. We found at total of 1 differentially expressed genes at FDR &lt; 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS:   /config/RStudio/R/3.6.1/lib64/R/lib/libRblas.so
+LAPACK: /config/RStudio/R/3.6.1/lib64/R/lib/libRlapack.so
+
+locale:
+ [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_AU.UTF-8        LC_COLLATE=en_AU.UTF-8    
+ [5] LC_MONETARY=en_AU.UTF-8    LC_MESSAGES=en_AU.UTF-8   
+ [7] LC_PAPER=en_AU.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_AU.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats4    parallel  stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+ [1] RColorBrewer_1.1-2          RUVSeq_1.18.0              
+ [3] EDASeq_2.18.0               ShortRead_1.42.0           
+ [5] GenomicAlignments_1.20.1    SummarizedExperiment_1.16.1
+ [7] DelayedArray_0.12.3         matrixStats_0.56.0         
+ [9] Rsamtools_2.0.1             Biostrings_2.54.0          
+[11] XVector_0.24.0              BiocParallel_1.20.1        
+[13] EGSEA_1.12.0                pathview_1.24.0            
+[15] org.Hs.eg.db_3.8.2          topGO_2.36.0               
+[17] SparseM_1.77                GO.db_3.8.2                
+[19] graph_1.62.0                gage_2.34.0                
+[21] patchwork_1.0.1             NMF_0.22.0                 
+[23] cluster_2.1.0               rngtools_1.4               
+[25] pkgmaker_0.27               registry_0.5-1             
+[27] edgeR_3.26.8                limma_3.42.2               
+[29] EnsDb.Hsapiens.v86_2.99.0   ensembldb_2.8.0            
+[31] AnnotationFilter_1.8.0      GenomicFeatures_1.36.4     
+[33] AnnotationDbi_1.46.1        Biobase_2.46.0             
+[35] GenomicRanges_1.38.0        GenomeInfoDb_1.22.1        
+[37] IRanges_2.20.2              S4Vectors_0.24.4           
+[39] BiocGenerics_0.32.0         forcats_0.4.0              
+[41] stringr_1.4.0               dplyr_1.0.0                
+[43] purrr_0.3.4                 readr_1.3.1                
+[45] tidyr_1.1.0                 tibble_3.0.1               
+[47] ggplot2_3.3.2               tidyverse_1.3.0            
+[49] here_0.1                    workflowr_1.6.2            
+
+loaded via a namespace (and not attached):
+  [1] utf8_1.1.4               R.utils_2.9.0            tidyselect_1.1.0        
+  [4] RSQLite_2.1.2            htmlwidgets_1.3          grid_3.6.1              
+  [7] KEGG.db_3.2.3            R2HTML_2.3.2             DESeq_1.36.0            
+ [10] munsell_0.5.0            codetools_0.2-16         DT_0.9                  
+ [13] KEGGdzPathwaysGEO_1.22.0 withr_2.2.0              colorspace_1.4-1        
+ [16] knitr_1.29               rstudioapi_0.11          gbRd_0.4-11             
+ [19] labeling_0.3             Rdpack_0.11-0            git2r_0.27.1            
+ [22] KEGGgraph_1.44.0         org.Rn.eg.db_3.8.2       GenomeInfoDbData_1.2.1  
+ [25] hwriter_1.3.2            farver_2.0.3             bit64_0.9-7             
+ [28] rprojroot_1.3-2          vctrs_0.3.1              generics_0.0.2          
+ [31] xfun_0.15                BiocFileCache_1.10.2     R6_2.4.1                
+ [34] doParallel_1.0.15        Glimma_1.12.0            locfit_1.5-9.1          
+ [37] bitops_1.0-6             assertthat_0.2.1         promises_1.1.1          
+ [40] scales_1.1.1             gtable_0.3.0             org.Mm.eg.db_3.8.2      
+ [43] rlang_0.4.6              genefilter_1.68.0        splines_3.6.1           
+ [46] rtracklayer_1.44.4       lazyeval_0.2.2           PADOG_1.26.0            
+ [49] broom_0.5.2              yaml_2.2.1               reshape2_1.4.3          
+ [52] modelr_0.1.8             backports_1.1.8          httpuv_1.5.4            
+ [55] tools_3.6.1              gridBase_0.4-7           ellipsis_0.3.1          
+ [58] gplots_3.0.1.1           HTMLUtils_0.1.7          Rcpp_1.0.4.6            
+ [61] plyr_1.8.6               progress_1.2.2           zlibbioc_1.30.0         
+ [64] RCurl_1.95-4.12          prettyunits_1.1.1        openssl_1.4.1           
+ [67] hgu133plus2.db_3.2.3     haven_2.3.1              fs_1.4.2                
+ [70] magrittr_1.5             data.table_1.12.8        reprex_0.3.0            
+ [73] whisker_0.4              ProtGenerics_1.16.0      aroma.light_3.14.0      
+ [76] hms_0.5.3                mime_0.9                 evaluate_0.14           
+ [79] GSVA_1.32.0              xtable_1.8-4             globaltest_5.40.0       
+ [82] XML_3.98-1.20            hgu133a.db_3.2.3         readxl_1.3.1            
+ [85] EGSEAdata_1.12.0         compiler_3.6.1           biomaRt_2.42.1          
+ [88] safe_3.24.0              KernSmooth_2.23-15       crayon_1.3.4            
+ [91] R.oo_1.22.0              htmltools_0.5.0          later_1.1.0.1           
+ [94] geneplotter_1.62.0       lubridate_1.7.4          DBI_1.0.0               
+ [97] dbplyr_1.4.2             MASS_7.3-51.6            rappdirs_0.3.1          
+[100] Matrix_1.2-18            cli_2.0.2                R.methodsS3_1.7.1       
+[103] gdata_2.18.0             metap_1.1                pkgconfig_2.0.3         
+[106] plotly_4.9.0             xml2_1.3.2               foreach_1.5.0           
+[109] annotate_1.62.0          bibtex_0.4.2             rvest_0.3.5             
+[112] doRNG_1.7.1              digest_0.6.25            rmarkdown_2.3           
+[115] cellranger_1.1.0         GSEABase_1.46.0          curl_4.3                
+[118] shiny_1.3.2              gtools_3.8.1             GSA_1.03.1              
+[121] lifecycle_0.2.0          nlme_3.1-148             jsonlite_1.7.0          
+[124] viridisLite_0.3.0        askpass_1.1              fansi_0.4.1             
+[127] pillar_1.4.4             lattice_0.20-41          survival_2.44-1.1       
+[130] KEGGREST_1.24.0          httr_1.4.1               glue_1.4.1              
+[133] png_0.1-7                shinythemes_1.1.2        iterators_1.0.12        
+[136] bit_1.1-14               Rgraphviz_2.28.0         stringi_1.4.6           
+[139] blob_1.2.0               latticeExtra_0.6-28      caTools_1.17.1.2        
+[142] memoise_1.1.0           </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
