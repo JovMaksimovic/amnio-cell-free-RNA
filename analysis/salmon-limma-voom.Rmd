@@ -25,7 +25,7 @@ source(here("code/output.R"))
 
 # Data import
 
-The data was quasi-mapped and quantified using Salmon (v0.14.1) with the GENCODE (v31) human (hg38) transcriptome and decoy sequences. The mapping statistics can be found [here](multiqc_report.html). There appeared to be an issue with adapter contamination, with all samples having relatively low mapping percentages. 
+The data was quasi-mapped and quantified using Salmon (v0.14.1) with the GENCODE (v31) human (hg38) transcriptome and decoy sequences. There appeared to be an issue with adapter contamination, with all samples having relatively low mapping percentages. 
 
 Load sample information and file names.
 
