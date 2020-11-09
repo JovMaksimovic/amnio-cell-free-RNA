@@ -25,10 +25,12 @@ New Analysis
     * [MultiQC analysis](multiqc_report.html)
 
 * Differential expression analysis
-    * [Analysis results](STAR-FC-all.html) - This is the new analysis comparing CMV negative and CMV positive samples of the full cohort.   
+    * [Analysis results](STAR-FC-all.html) - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort.   
 
 * Differential expression analysis (exclude samples with ultrasound abnormality)
     * [Anlaysis results](STAR-FC-exclude-US-ab.html) - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified.
+
+* [Analysis results](STAR-FC-RUV-all.html) - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort, using [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to remove additional unwanted variation.    
   
   
 Pilot Analysis

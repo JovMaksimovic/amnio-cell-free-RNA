@@ -1,5 +1,5 @@
 ---
-title: "Limma-voom paired analysis EXCLUDING samples with ultrasound abnormality"
+title: "Limma-voom paired analysis of ALL samples"
 output:
   html_document:
     df_print: paged
@@ -15,7 +15,7 @@ library(edgeR)
 library(NMF)
 library(patchwork)
 library(EGSEA)
-library(gt)
+library(RUVSeq)
 source(here("code/output.R"))
 ```
 
@@ -41,7 +41,7 @@ dge <- DGEList(counts = counts,
 dge
 ```
 
-Load sample information and file names. Exclude samples with ultrasound abnormalities.
+Load sample information and file names.
 
 ```{r, echo=FALSE, message=FALSE}
 samps1 <- read_csv(here("data/CMV-AF-database-corrected-oct-2020.csv"))
@@ -81,8 +81,7 @@ read_csv(file = here("data/metadata.csv")) %>%
 
 m <- match(colnames(dge), targets$id)
 targets <- targets[m[!is.na(m)], ]
-targets <- targets[targets$indication %in% "no_us_ab",]
-
+  
 targets
 ```
 
@@ -225,37 +224,135 @@ for(i in 1:length(vars)){
 
 wrap_plots(patches, ncol = 1)
 ```
-Check XIST expression to confirm that all sex assignments are correct.
 
-```{r, message=FALSE, echo=FALSE}
-dat <- data.frame(targets, XIST = z$counts[which(z$genes$symbol == "XIST"),]) 
-dat %>% gt() %>%
-  tab_style(
-    style = cell_fill(color = "lightgreen"),
-    locations = cells_body(
-      rows = (sex == "F" & XIST < 10) | (sex == "M" & XIST >= 10))
-  ) %>% 
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_column_labels(columns = 1:ncol(dat))
-  ) 
+# RUVSeq analysis
 
+Given that there is a lot ov variability between the samples and it is not clearly associated with any of the known features of the data, we will use and `RUVSeq` analysis to remove some of the unwanted variation from the data. We will estimate the unwanted variation using the expression of known house-keeping genes (HKG), as defined using the Human BodyMap 2.0 [data](https://www.tau.ac.il/~elieis/HKG/), in our dataset.
+
+The heatmap below shows the expression of the HKG in our samples. Although the expression is fairly uniform, some variability is apparent between the samples.
+
+```{r, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
+hkGenes <- read.delim(here("data/HK_genes.txt"), stringsAsFactors = FALSE, 
+                      header = FALSE, col.names = c("SYMBOL","REFSEQ"), 
+                      strip.white = TRUE)
+
+aheatmap(cpm(y[y$genes$symbol %in% hkGenes$SYMBOL,], log = TRUE),
+         main = "log2 CPM Expression of HKG", labRow = NA,  
+         annCol = list(GA_at_amnio = targets$GA_at_amnio, 
+                       CMV_result = targets$CMV_status, 
+                       Pair = targets$pair,
+                       Sex = targets$sex),
+         annColors = list(scales::brewer_pal(palette = "Dark2")(length(unique(targets$GA_at_amnio))),
+                          scales::hue_pal()(length(unique(targets$CMV_status))),
+                          scales::hue_pal()(length(unique(targets$pair))),
+                          scales::brewer_pal(palette = "Set1")(length(unique(targets$sex)))),
+         scale = "none")
+```
+
+The scree plot shows that most of the variation in the negative control genes is captured by the first principal component.
+
+```{r}
+PCs <- prcomp(t(y$counts[which(y$genes$symbol %in% hkGenes$SYMBOL),]), 
+              center = TRUE, scale = TRUE, retx=TRUE)
+loadings = PCs$x # pc loadings
+plot(PCs, type="lines") # scree plot
+```
+
+Using the `RUVg` function, we will estimate the unwanted variation in our data using the HKG for k = 1, 2 and 3.
+
+```{r}
+yRg1 <- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=1)
+yRg2 <- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=2)
+yRg3 <- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=3)
+```
+
+The RLE plots below show that `RUVg` adjustment is a significant improvement over the raw data with k=1. The improvements with k=2 and k=3 are relatively minor in comparison.
+
+```{r, warning=FALSE, message=FALSE, fig.height=6, fig.width=7}
+par(mfrow=c(2,2))
+plotRLE(y$counts, ylim=c(-0.5,0.5), las=2, main="Raw", 
+        cex.axis = 0.6)
+plotRLE(yRg1$normalizedCounts, ylim=c(-0.5,0.5), las=2, main="RUVg k=1", 
+        cex.axis = 0.6)
+plotRLE(yRg2$normalizedCounts, ylim=c(-0.5,0.5), las=2, main="RUVg k=2", 
+        cex.axis = 0.6)
+plotRLE(yRg3$normalizedCounts, ylim=c(-0.5,0.5), las=2, main="RUVg k=3", 
+        cex.axis = 0.6)
+```
+The MDS plots of the `RUVg` normalised counts show clearer separation between the CMV positive and CMV negative samples.
+
+```{r, fig.height=6, fig.width=7}
+mds <- plotMDS(cpm(y$counts, log = TRUE), top = 1000, gene.selection="common", 
+               plot = FALSE)
+dat <- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p <- ggplot(dat, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = "Principal component 1", 
+       y = "Principal component 2",
+       colour = "CMV status") +
+  ggtitle("Raw")
+
+mds <- plotMDS(cpm(yRg1$normalizedCounts, log = TRUE), top = 1000, 
+               gene.selection="common", plot = FALSE)
+dat1 <- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p1 <- ggplot(dat1, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = "Principal component 1", 
+       y = "Principal component 2",
+       colour = "CMV status") +
+  ggtitle("RUVg k=1")
+
+mds <- plotMDS(cpm(yRg2$normalizedCounts, log = TRUE), top = 1000, 
+               gene.selection="common", plot = FALSE)
+dat2 <- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p2 <- ggplot(dat2, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = "Principal component 1", 
+       y = "Principal component 2",
+       colour = "CMV status") +
+  ggtitle("RUVg k=2")
+
+mds <- plotMDS(cpm(yRg3$normalizedCounts, log = TRUE), top = 1000, 
+               gene.selection="common", plot = FALSE)
+dat3 <- tibble::tibble(x = mds$x, y = mds$y,
+                      sample = targets$id,
+                      status = targets$CMV_status)
+
+p3 <- ggplot(dat3, aes(x = x, y = y, colour = status)) +
+  geom_text(aes(label = sample), size = 2.5) +
+  labs(x = "Principal component 1", 
+       y = "Principal component 2",
+       colour = "CMV status") +
+  ggtitle("RUVg k=3")
+
+((p | p1) / (p2 | p3)) + 
+  plot_layout(guides = "collect") & 
+  theme(legend.position = "bottom")
 ```
 
 # Differential expression analysis
 
-Due to the variability in the data, the TMM normalised data was transformed using `voomWithQualityWeights`. This takes into account the differing library sizes and the mean variance relationship in the data as well as calculating sample-specific quality weights. Linear models were fit in `limma`, taking into account the `voom` weights. The CMV positive samples were compared to the CMV negative samples, taking into account the sample pairs. A summary of the number of differentially expressed genes is shown below.
+We will look for differentially expressed genes, using the negative binomial GLM approach implemented in `edgeR`.
+This is done by considering a design matrix that includes both the covariates of interest (CMV result) and the factors of unwanted variation calculated by `RUVg`. The CMV positive samples were compared to the CMV negative (normal) samples. A summary of the numbers of differentially expressed genes is shown below, as well as the top 20 differentially expressed genes. The full results tables were exported as csv files. 
 
-```{r, echo=FALSE, message=FALSE}
-design <- model.matrix(~0 + y$group + targets$pair, data = targets)
-colnames(design) <- c(levels(factor(y$group)), unique(targets$pair)[-1])
-v <- voomWithQualityWeights(y, design, plot = TRUE)
-cont <- makeContrasts(contrasts = "pos - neg",
-                      levels = design)
-fit <- lmFit(v, design)
-cfit <- contrasts.fit(fit, cont)
-fit2 <- eBayes(cfit, robust = TRUE)
-fitSum <- summary(decideTests(fit2, p.value = 0.05))
+```{r}
+norm <- yRg1
+design <- model.matrix(~targets$CMV_status + targets$pair + norm$W)
+colnames(design)[2] <- "CMV_status"
+y <- estimateGLMCommonDisp(y, design)
+y <- estimateGLMTagwiseDisp(y, design)
+fit <- glmFit(y, design)
+lrt <- glmLRT(fit, coef = 2)
+fitSum <- summary(decideTests(lrt, p.value = 0.05))
 fitSum
 ```
 
@@ -264,15 +361,14 @@ There were `r fitSum["Down",]` down-regulated and `r fitSum["Up",]` up-regulated
 These are the top 10 differentially expressed genes.
 
 ```{r, echo=FALSE, message=FALSE}
-top <- topTable(fit2, n = 500)
-readr::write_csv(top, path = here("output/star-fc-limma-voom-no_us_ab.csv"))
+top <- topTags(lrt, n = 500)$table
+readr::write_csv(top, path = here("output/star-fc-ruv-all.csv"))
 head(top, n=10)
 ```
-
 The following plots show the expression of the top 12 ranked differentially expressed genes for CMV positive and CMV negative samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.
 
 ```{r, fig.width=7, fig.height=8, echo=FALSE, message=FALSE}
-dat <- reshape2::melt(cpm(y, log = TRUE),
+dat <- reshape2::melt(cpm(norm$normalizedCounts, log = TRUE),
                       value.name = "cpm")
 dat$status <- rep(y$group, each = nrow(y))
 dat$gene <- rep(y$genes$Geneid, ncol(y))
@@ -297,13 +393,13 @@ wrap_plots(p, guides = "collect", ncol = 3) &
 ```
 
 ```{r, fig.height=8, fig.width=7, echo=FALSE, message=FALSE}
-cut <- 0.1
-aheatmap(v$E[v$genes$Geneid %in% top$Geneid[top$adj.P.Val < cut],], 
+cut <- 0.05
+aheatmap(cpm(norm$normalizedCounts[y$genes$Geneid %in% 
+                                     top$Geneid[top$FDR < cut], ], 
+             log = TRUE), 
           annCol = list(CMV_result = targets$CMV_status),
-          labRow = v$genes$symbol[v$genes$Geneid %in% 
-                                    top$Geneid[top$adj.P.Val < cut]],
-          main = glue::glue("DEGs at FDR < {cut}"),
-         scale = "none")
+          labRow = NA,
+          main = glue::glue("DEGs at FDR < {cut}"))
 ```
 
 # Gene set enrichment analysis (GSEA)
@@ -311,8 +407,8 @@ aheatmap(v$E[v$genes$Geneid %in% top$Geneid[top$adj.P.Val < cut],],
 Testing for enrichment of Gene Ontology (GO) categories among statistically significant differentially expressed genes.
 
 ```{r, echo=FALSE, message=FALSE}
-go <- goana(top$entrezid[top$adj.P.Val < 0.05], universe = v$genes$entrezid, 
-            trend = v$genes$Length)
+go <- goana(top$entrezid[top$FDR < 0.05], universe = y$genes$entrezid, 
+            trend = y$genes$Length)
 topGO(go)
 ```
 
@@ -321,23 +417,25 @@ GSEA helps us to interpret the results of a differential expression analysis. Th
 Build gene set indexes. 
 
 ```{r, echo=FALSE, message=FALSE}
-gsAnnots <- buildIdx(entrezIDs = v$genes$entrezid, species = "human",
+gsAnnots <- buildIdx(entrezIDs = y$genes$entrezid, species = "human",
                      msigdb.gsets = c("h", "c2", "c5"))
 ```
 
 The GO gene sets consist of genes annotated by the same GO terms.
 
 ```{r, echo=FALSE, message=FALSE}
-c5Cam <- camera(v, gsAnnots$c5@idx, design, contrast = cont, trend.var = TRUE)
+c5Cam <- camera(cpm(norm$normalizedCounts, log = TRUE), 
+                gsAnnots$c5@idx, design, contrast = 2, trend.var = TRUE)
 write.csv(c5Cam[c5Cam$FDR < 0.05,], 
-          file = here("output/star-fc-limma-voom-no_us_ab-gsea-c5.csv"))
+          file = here("output/star-fc-ruv-all-gsea-c5.csv"))
 head(c5Cam, n = 20)
 ```
 
 The Hallmark gene sets  are coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.
 
 ```{r, echo=FALSE, message=FALSE}
-hCam <- camera(v, gsAnnots$h@idx, design, contrast = cont, trend.var = TRUE)
+hCam <- camera(cpm(norm$normalizedCounts, log = TRUE), 
+               gsAnnots$h@idx, design, contrast = 2, trend.var = TRUE)
 head(hCam, n = 20)
 ```
 
@@ -346,7 +444,7 @@ Barcode plots show the enrichment of gene sets among up or down-regulated genes.
 ```{r, fig.width=8, fig.height=6, echo=FALSE, message=FALSE}
 par(mfrow=c(2,2))
 sapply(1:4, function(i){
-  barcodeplot(fit2$t[,1], gsAnnots$h@idx[[rownames(hCam)[i]]], 
+  barcodeplot(lrt$table$logFC, gsAnnots$h@idx[[rownames(hCam)[i]]], 
               main = rownames(hCam)[i], cex.main = 0.75)
 })
 ```
@@ -354,9 +452,10 @@ sapply(1:4, function(i){
 The curated gene sets are compiled from online pathway databases, publications in PubMed, and knowledge of domain experts.
 
 ```{r, echo=FALSE, message=FALSE}
-c2Cam <- camera(v, gsAnnots$c2@idx, design, contrast = cont, trend.var = TRUE)
+c2Cam <- camera(cpm(norm$normalizedCounts, log = TRUE), 
+                gsAnnots$c2@idx, design, contrast = 2, trend.var = TRUE)
 write.csv(c2Cam[c2Cam$FDR < 0.05,], 
-          file = here("output/star-fc-limma-voom-no_us_ab-gsea-c2.csv"))
+          file = here("output/star-fc-ruv-all-gsea-c2.csv"))
 head(c2Cam, n = 20)
 ```
 
@@ -365,7 +464,7 @@ The following barcode plots show the enrichment of the top 4 curated gene sets a
 ```{r, fig.width=8, fig.height=6, echo=FALSE, message=FALSE}
 par(mfrow=c(2,2))
 sapply(1:4, function(i){
-  barcodeplot(fit2$t[,1], gsAnnots$c2@idx[[rownames(c2Cam)[i]]], 
+  barcodeplot(lrt$table$logFC, gsAnnots$c2@idx[[rownames(c2Cam)[i]]], 
               main = rownames(c2Cam)[i], cex.main = 0.75)
 })
 ```
@@ -373,7 +472,8 @@ sapply(1:4, function(i){
 The KEGG gene sets encompass all of the pathways defined in the [Kegg pathway database](https://www.genome.jp/kegg/pathway.html). 
 
 ```{r, echo=FALSE, message=FALSE}
-keggCam <- camera(v, gsAnnots$kegg@idx, design, contrast = cont, 
+keggCam <- camera(cpm(norm$normalizedCounts, log = TRUE), 
+                  gsAnnots$kegg@idx, design, contrast = 2,
                   trend.var = TRUE)
 head(keggCam, n = 20)
 ```
@@ -381,50 +481,53 @@ head(keggCam, n = 20)
 ```{r, fig.width=8, fig.height=7, echo=FALSE, message=FALSE}
 par(mfrow=c(2,2))
 sapply(1:4, function(i){
-  barcodeplot(fit2$t[,1], gsAnnots$kegg@idx[[rownames(keggCam)[i]]], 
+  barcodeplot(lrt$table$logFC, gsAnnots$kegg@idx[[rownames(keggCam)[i]]], 
               main = rownames(keggCam)[i], cex.main = 0.75)
 })
 ```
 
 # Brain development genes
 
-Test only the specialised brain development gene set for differential expression between CMV positive and CMV negative samples. This reduces the multiple testing burden and can identify DEGs from a particular set of interest.
+Test only the specialised brain development gene set.
 
 ```{r, echo=FALSE, message=FALSE}
 brainSet <- readr::read_delim(file = here("data/brain-development-geneset.txt"),
                               delim = "\t", skip = 2, col_names = "BRAIN_DEV")
 brainSet
 ```
+
 ```{r, echo=FALSE, message=FALSE}
-fit <- lmFit(v[v$genes$symbol %in% brainSet$BRAIN_DEV, ], design)
-cfit <- contrasts.fit(fit, cont)
-fit2 <- eBayes(cfit, robust = TRUE)
-fitSum <- summary(decideTests(fit2, p.value = 0.05))
+bd <- estimateGLMCommonDisp(y[y$genes$symbol %in% brainSet$BRAIN_DEV, ], design)
+bd <- estimateGLMTagwiseDisp(bd, design)
+fit <- glmFit(bd, design)
+lrt <- glmLRT(fit, coef = 2)
+fitSum <- summary(decideTests(lrt, p.value = 0.05))
 fitSum
 ```
 
 ```{r, echo=FALSE, message=FALSE}
-top <- topTable(fit2, n = Inf)
-top
+topBD <- topTags(lrt, n = Inf)$table
+topBD
 ```
 The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status. 
 
 ```{r, fig.width=7, fig.height=8, echo=FALSE, message=FALSE}
-b <- y[y$genes$entrezid %in% top$entrezid[1:9], ]
+b <- norm$normalizedCounts[y$genes$entrezid %in% topBD$entrezid[1:9], ]
 dat <- reshape2::melt(cpm(b, log = TRUE),
                       value.name = "cpm")
-dat$status <- rep(b$group, each = nrow(b))
-dat$gene <- rep(b$genes$Geneid, ncol(b))
+dat$status <- rep(targets$CMV_status, each = nrow(b))
+dat$gene <- rep(y$genes$Geneid[y$genes$entrezid %in% topBD$entrezid[1:9]], 
+                ncol(b))
 
 p <- vector("list", 9)
 
 for(i in 1:length(p)){
-p[[i]] <- ggplot(data = subset(dat, dat$gene == top$Geneid[i]), 
+p[[i]] <- ggplot(data = subset(dat, dat$gene == topBD$Geneid[i]), 
        aes(x = status, y = cpm, colour = status)) +
   geom_jitter(width = 0.25) +
   stat_summary(fun = "mean", geom = "crossbar") +
   labs(x = "Status", y = "log2 CPM", colour = "Status") +
-  ggtitle(top$symbol[i]) +
+  ggtitle(topBD$symbol[i]) +
   theme(plot.title = element_text(size = 8),
         plot.subtitle = element_text(size = 7),
         axis.title = element_text(size = 8),
@@ -437,5 +540,6 @@ wrap_plots(p, guides = "collect", ncol = 3) &
 
 # Summary
 
-Although the effective library sizes were low, the data is generally of good quality. We found at total of `r sum(abs(decideTests(fit2, p.value = 0.05)[,1]))` differentially expressed genes at FDR < 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.
+Although the effective library sizes were low, the data is generally of good quality. We found at total of `r sum(abs(decideTests(lrt, p.value = 0.05)[,1]))` differentially expressed genes at FDR < 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.
+
 

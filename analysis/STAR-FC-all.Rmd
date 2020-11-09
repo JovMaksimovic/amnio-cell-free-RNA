@@ -336,6 +336,8 @@ The curated gene sets are compiled from online pathway databases, publications i
 
 ```{r, echo=FALSE, message=FALSE}
 c2Cam <- camera(v, gsAnnots$c2@idx, design, contrast = cont, trend.var = TRUE)
+write.csv(c2Cam[c2Cam$FDR < 0.05,], 
+          file = here("output/star-fc-limma-voom-all-gsea-c2.csv"))
 head(c2Cam, n = 20)
 ```
 
@@ -367,7 +369,7 @@ sapply(1:4, function(i){
 
 # Brain development genes
 
-Test only the specialised brain development gene set.
+Test only the specialised brain development gene set for differential expression between CMV positive and CMV negative samples. This reduces the multiple testing burden and can identify DEGs from a particular set of interest.
 
 ```{r, echo=FALSE, message=FALSE}
 brainSet <- readr::read_delim(file = here("data/brain-development-geneset.txt"),
@@ -395,7 +397,7 @@ dat <- reshape2::melt(cpm(b, log = TRUE),
 dat$status <- rep(b$group, each = nrow(b))
 dat$gene <- rep(b$genes$Geneid, ncol(b))
 
-p <- vector("list", 12)
+p <- vector("list", 9)
 
 for(i in 1:length(p)){
 p[[i]] <- ggplot(data = subset(dat, dat$gene == top$Geneid[i]), 
