@@ -18,6 +18,22 @@ library(EGSEA)
 source(here("code/output.R"))
 ```
 
+```{r}
+foo <- read.table(here("data/sorted/rRNA_counts.txt"), header = FALSE,
+                  stringsAsFactors = FALSE)
+rownames(foo) <- sapply(1:nrow(foo), function(i) 
+  paste(foo[i,1:4], collapse = "."))
+foo <- foo[,13:72]
+summary(colSums(foo))
+
+blah <- read.table(here("data/deduped/rRNA_counts_deduped.txt"), header = FALSE,
+                  stringsAsFactors = FALSE)
+rownames(blah) <- sapply(1:nrow(blah), function(i) 
+  paste(blah[i,1:4], collapse = "."))
+blah <- blah[,13:72]
+summary(colSums(blah))
+```
+
 The data showed some adapter contamination and sequence duplication issues. Adapters were removed using `Trimmomatic` and both paired and unpaired reads were retained. Only paired reads were initially mapped with `Star` in conjunction with `GRCh38` and `gencode_v34` to detect all junctions, across all samples. Paired and unpaired reads were then mapped to `GRCh38` separately using `Star`. Duplicates were removed from paired and unpaired mapped data using `Picard MarkDuplicates`. Reads were then counted across features from `gencode_v34` using `featureCounts`.        
 
 # Data import
