@@ -33,7 +33,9 @@ New Analysis
 * Differential expression analysis (RUVseq)
     * [Analysis results](STAR-FC-RUV-all.html) - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort, using [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to remove additional unwanted variation.    
   
-  
+* Differential expression analysis (RUVseq)
+    * [Analysis results](STAR-FC-RUV-exclude-US-ab.html) - RUVseq analysis comparing CMV positive and CMV negative samples, excluding samples with ultrasound abnormalities. 
+    
 Pilot Analysis
 --------------
 
