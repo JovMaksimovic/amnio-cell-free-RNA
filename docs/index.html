@@ -13,6 +13,7 @@
 
 <title>Home</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -30,6 +31,17 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -75,6 +87,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -325,7 +338,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-21
+<strong>Last updated:</strong> 2021-07-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -356,16 +369,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree3ba9d96b4fc74711107b340259dfb4a113f68a65targetblank3ba9d96a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/3ba9d96b4fc74711107b340259dfb4a113f68a65" target="_blank">3ba9d96</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree7c667ac36ae19589df66aaff65cefadabd648f78targetblank7c667aca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/7c667ac36ae19589df66aaff65cefadabd648f78" target="_blank">7c667ac</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree3ba9d96b4fc74711107b340259dfb4a113f68a65targetblank3ba9d96a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree7c667ac36ae19589df66aaff65cefadabd648f78targetblank7c667aca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/3ba9d96b4fc74711107b340259dfb4a113f68a65" target="_blank">3ba9d96</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/7c667ac36ae19589df66aaff65cefadabd648f78" target="_blank">7c667ac</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -376,7 +389,6 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    code/.bpipe/
     Ignored:    code/.rnaseq-test.groovy.swp
-    Ignored:    code/fastqc/
     Ignored:    data/.bpipe/
     Ignored:    data/190717_A00692_0021_AHLLHFDSXX/
     Ignored:    data/190729_A00692_0022_AHLLHFDSXX/
@@ -391,27 +403,19 @@ Ignored files:
     Ignored:    data/HK_genes.txt
     Ignored:    data/IPA molecule summary.xls
     Ignored:    data/IPA-molecule-summary.csv
-    Ignored:    data/bpipe.config
     Ignored:    data/brain-development-geneset.txt
-    Ignored:    data/catfastq/
     Ignored:    data/commandlog.txt
-    Ignored:    data/counts-pe/
-    Ignored:    data/counts-se/
-    Ignored:    data/deduped/
     Ignored:    data/deduped_rRNA_coverage.txt
-    Ignored:    data/fastqc/
+    Ignored:    data/gene-transcriptome-analysis/
     Ignored:    data/hg38_rRNA.bed
     Ignored:    data/hg38_rRNA.saf
+    Ignored:    data/ignore-overlap-mapping/
+    Ignored:    data/ignore/
     Ignored:    data/joindata.csv
-    Ignored:    data/mapped/
     Ignored:    data/metadata.csv
     Ignored:    data/multiqc_data/
     Ignored:    data/multiqc_report.html
-    Ignored:    data/old/
     Ignored:    data/samples.csv
-    Ignored:    data/sorted/
-    Ignored:    data/test/
-    Ignored:    data/trimmed/
     Ignored:    output/c2Ens.RData
     Ignored:    output/c5Ens.RData
     Ignored:    output/exclude-CMV11/
@@ -433,6 +437,12 @@ Ignored files:
     Ignored:    output/star-fc-ruv-no_us_ab-gsea-c2.csv
     Ignored:    output/star-fc-ruv-no_us_ab-gsea-c5.csv
     Ignored:    output/star-fc-ruv-no_us_ab.csv
+
+Untracked files:
+    Untracked:  .bpipe/
+    Untracked:  analysis/STAR-diffSplice.Rmd
+    Untracked:  analysis/saturn-dtu.Rmd
+    Untracked:  renv.lock
 
 </code></pre>
 <p>
@@ -471,6 +481,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/7c667ac36ae19589df66aaff65cefadabd648f78/analysis/index.Rmd" target="_blank">7c667ac</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-03
+</td>
+<td>
+wflow_publish(“analysis/index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/4af30fbdc861e2d9d8b7665cd9f77306a9310a2e/docs/index.html" target="_blank">4af30fb</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-12-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -722,6 +766,15 @@ Start workflowr project.
 <p>The data is from Lisa Hui in the Embryonic Epidemiology group. They have collected amniotic fluid from pregnancies with suspected (and subsequently confirmed) cytomegalovirus (CMV) infection. They also have amniotic fluid from “normal” pregnancies i.e. pregnancies that were confirmed to be negative for CMV infection. They are interested in differences in the cell-free RNA (cfRNA) between the CMV negative and positive pregnancies. There were originally 19 samples (10 CMV negative and 9 CMV positive) sent for sequencing (150bp paired-end) at the MCRI TGU.</p>
 <p>Subsequently, another 9 samples were sequenced (150bp paired-end) at the MCRI TGU.</p>
 <p>Follow the links below to explore the different parts of the analysis.</p>
+<div id="dtu-analysis" class="section level2">
+<h2>DTU Analysis</h2>
+<ul>
+<li>Salmon-BANDITS
+<ul>
+<li><a href="salmon-bandits.html">Salmon-BANDITS</a></li>
+</ul></li>
+</ul>
+</div>
 <div id="new-analysis" class="section level2">
 <h2>New Analysis</h2>
 <ul>
@@ -784,13 +837,15 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+
+
 </div>
 
 <script>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
