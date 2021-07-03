@@ -18,6 +18,12 @@ Subsequently, another 9 samples were sequenced (150bp paired-end) at the MCRI TG
 
 Follow the links below to explore the different parts of the analysis. 
 
+DTU Analysis
+------------
+
+* Salmon-BANDITS
+    * [Salmon-BANDITS](salmon-bandits.html)
+    
 New Analysis
 ------------
 
@@ -44,6 +50,7 @@ Pilot Analysis
 
 * Differential expression analysis (exclude CMV11 and pairs)
     * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 (which had an ultrasound abnormality identified) and its pairs. 
+
 
 
 Licenses
