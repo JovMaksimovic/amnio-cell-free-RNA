@@ -1,0 +1,308 @@
+---
+title: "Alternative splicing analysis"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=FALSE, echo=FALSE}
+library(here)
+library(tidyverse)
+library(readr)
+library(NMF)
+library(patchwork)
+library(tximport)
+library(satuRn)
+library(AnnotationHub)
+library(ensembldb)
+library(EnsDb.Hsapiens.v86)
+library(edgeR)
+library(SummarizedExperiment)
+library(ggplot2)
+library(DEXSeq)
+library(stageR)
+```
+
+# Data import
+
+```{r, message=FALSE, echo=FALSE}
+files <- file.path(list.files(here( "data/gene-transcriptome-analysis/quants"), full.names = TRUE), 
+                   "quant.sf")
+sample_names <- strsplit2(files, "_")[,6]
+names(files) <- sample_names
+files <- files[grepl("CMV", names(files))]
+```
+
+Load sample information.
+
+```{r, echo=FALSE, message=FALSE}
+samps1 <- read_csv(here("data/CMV-AF-database-corrected-oct-2020.csv"))
+samps2 <- read_csv(here("data/samples.csv"))
+
+samps1 %>% full_join(samps2, by = c("sequencing_ID" = "SampleId")) %>%
+  mutate(pair = ifelse(!is.na(matched_pair), matched_pair,
+                        ifelse(!is.na(MatchedPair), MatchedPair, NA)),
+         CMV_status = ifelse(!is.na(CMV_status), CMV_status,
+                         ifelse(!is.na(TestResult), TestResult, NA)),
+         Sex = toupper(Sex),
+         Indication = tolower(Indication)) %>%
+  dplyr::rename(sex = Sex, 
+         id = sequencing_ID, 
+         indication = Indication,
+         GA_at_amnio = `GA_at_amnio-completed_weeks`) -> samps
+       
+read_csv(file = here("data/metadata.csv")) %>%
+  inner_join(read_csv(file = here("data/joindata.csv")), 
+                      by = c("Record.ID" = "UR")) %>%
+  right_join(samps, by = c("ID post-extraction" = "id")) %>%
+  na_if("NA") %>%
+  mutate(sex = ifelse(!is.na(sex), sex,
+                        ifelse(!is.na(Sex), toupper(Sex), NA)),
+         GA_at_amnio = ifelse(!is.na(GA_at_amnio), GA_at_amnio,
+                         ifelse(!is.na(GA.at.amnio), GA.at.amnio, NA))) %>%
+  dplyr::rename(id = `ID post-extraction`) %>%
+  dplyr::select(id, 
+                CMV_status, 
+                pair, 
+                sex, 
+                GA_at_amnio, 
+                indication) %>%
+  dplyr::filter(id %in% names(files)) %>%
+  drop_na() -> targets
+  
+targets %>% knitr::kable()
+```
+
+```{r}
+int <- intersect(names(files), targets$id)
+targets <- targets[match(int, targets$id),]
+files <- files[match(int, names(files))]
+files
+```
+
+Import transcript information
+First, we need an object that links transcripts to their corresponding genes. We suggest using the BioConductor R packages AnnotationHub and ensembldb for this purpose.
+
+```{r}
+edb <- EnsDb.Hsapiens.v86
+txs <- transcripts(edb) 
+head(txs)
+```
+
+
+Data wrangling
+Next, we perform some data wrangling steps to get the data in a format that is suited for satuRn. First, we create a DataFrame or Matrix linking transcripts to their corresponding genes.
+
+! Important: satuRn is implemented such that the columns with transcript identifiers is names isoform_id, while the column containing gene identifiers should be named gene_id. In addition, following chunk removes transcripts that are the only isoform expressed of a certain gene, as they cannot be used in a DTU analysis.
+
+```{r}
+# Get the transcript information in correct format
+txInfo <- as.data.frame(matrix(data = NA, nrow = length(txs), ncol = 2))
+colnames(txInfo) <- c("isoform_id", "gene_id")
+txInfo$isoform_id <- txs$tx_id
+txInfo$gene_id <- txs$gene_id
+rownames(txInfo) <- txInfo$isoform_id
+head(txInfo)
+```
+Import transcript counts, match with gene IDs and remove transcripts that are the only isoform of a gene.
+
+```{r}
+txi <- tximport(files, type = "salmon", txOut = TRUE)
+cts <- txi$counts
+
+rownames(cts) <- sub("\\..*", "", rownames(cts)) 
+txInfo <- txInfo[txInfo$isoform_id %in% rownames(cts), ]
+txInfo <- subset(txInfo, 
+                 duplicated(gene_id) | duplicated(gene_id, fromLast = TRUE))
+cts <- cts[which(rownames(cts) %in% txInfo$isoform_id), ]
+dim(cts)
+```
+
+```{r}
+colSums(cts) %>%
+  data.frame %>%
+  rownames_to_column(var = "sample") %>%
+  dplyr::rename("libsize" = ".") %>%
+ggplot(aes(x = sample, y = libsize)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+```
+
+Filtering
+Here we perform some feature-level filtering. For this task, we adopt the filtering criterion that is implemented in the R package edgeR. Alternatively, one could adopt the dmFilter criterion from the DRIMSeq R package, which provides a more stringent filtering when both methods are run in default settings. After filtering, we again remove transcripts that are the only isoform expressed of a certain gene.
+
+```{r}
+filter_edgeR <- filterByExpr(cts,
+    design = NULL,
+    group = targets$CMV_status,
+) 
+
+table(filter_edgeR)
+```
+
+```{r}
+cts <- cts[filter_edgeR, ]
+
+# Update txInfo according to the filtering procedure
+txInfo <- txInfo[which(
+  txInfo$isoform_id %in% rownames(cts)), ]
+
+# remove txs that are the only isoform expressed within a gene (after filtering)
+txInfo <- subset(txInfo, 
+                 duplicated(gene_id) | duplicated(gene_id, fromLast = TRUE))
+cts <- cts[which(rownames(cts) %in% txInfo$isoform_id), ]
+
+# satuRn requires the transcripts in the rowData and 
+# the transcripts in the count matrix to be in the same order.
+txInfo <- txInfo[match(rownames(cts), txInfo$isoform_id), ]
+dim(txInfo)
+```
+
+Generate SummarizedExperiment
+All three main functions of satuRn require a SummarizedExperiment object as an input class. See the SummarizedExperiment vignette (Morgan Martin, n.d.) for more information on this object class.
+
+Do not forget to include the design matrix formula (see above) to the SummarizedExperiment as indicated below. As such, the object contains all the information required for the downstream DTU analysis.
+
+```{r}
+sumExp <- SummarizedExperiment::SummarizedExperiment(
+    assays = list(counts = cts),
+    colData = targets,
+    rowData = txInfo
+)
+
+# specify design formula from colData
+metadata(sumExp)$formula <- ~ 0 + as.factor(colData(sumExp)$CMV_status) + as.factor(colData(sumExp)$pair)
+sumExp
+```
+
+Fit quasi-binomial generalized linear models models
+The fitDTU function of satuRn is used to model transcript usage in different groups of samples or cells. Here we adopt the default settings of the function. Without parallelized execution, this code runs for approximately 15 seconds on a 2018 macbook pro laptop.
+
+```{r}
+system.time({
+sumExp <- satuRn::fitDTU(
+    object = sumExp,
+    formula = ~ 0 + CMV_status + pair,
+    parallel = FALSE,
+    BPPARAM = BiocParallel::bpparam(),
+    verbose = TRUE
+)
+})
+```
+
+Set up contrast matrix
+First, we set up a contrast matrix. This allows us to test for differential transcript usage between groups of interest. The group factor in this toy example contains three levels; (1) ALM.L5_IT_ALM_Tmem163_Dmrtb1, (2) ALM.L5_IT_ALM_Tnc, (3) VISp.L5_IT_VISp_Hsd11b1_Endou. Here we show to assess DTU between cells of the groups 1 and 3 and between cells of groups 2 and 3.
+
+```{r}
+group <- as.factor(targets$CMV_status)
+pair <- as.factor(targets$pair)
+design <- model.matrix(~ 0 + group + pair) # construct design matrix
+colnames(design)[1:2] <- levels(group)
+
+L <- limma::makeContrasts(
+    Contrast1 = neg - pos,
+    levels = design
+)
+L # contrast matrix
+```
+
+Perform the test
+Next we can perform differential usage testing using testDTU. We again adopt default settings. For more information on the parameter settings, please comsult the help file of the testDTU function.
+
+```{r}
+sumExp <- satuRn::testDTU(
+    object = sumExp,
+    contrasts = L,
+    plot = FALSE,
+    sort = TRUE
+)
+```
+
+The test results are now saved into the rowData of our SummarizedExperiment object under the name fitDTUResult_ followed by the name of the contrast of interest (i.e. the column names of the contrast matrix). The results can be accessed as follows:
+
+```{r}
+head(rowData(sumExp)[["fitDTUResult_Contrast1"]])
+```
+Visualize DTU
+Finally, we may visualize the usage of select transcripts in select groups of interest.
+
+```{r}
+group1 <- rownames(colData(sumExp))[colData(sumExp)$CMV_status == 
+                                      "neg"]
+group2 <- rownames(colData(sumExp))[colData(sumExp)$CMV_status == 
+                                      "pos"]
+
+plots <- satuRn::plotDTU(
+    object = sumExp,
+    contrast = "Contrast1",
+    groups = list(group1, group2),
+    coefficients = list(c(1, rep(0, 13)), 
+                        c(0, 1, rep(0,12))),
+    summaryStat = "model",
+    top.n = 6
+)
+
+plots
+```
+
+Two-stage testing procedure
+satuRn returns transcript-level p-values for each of the specified contrasts. While we have shown that satuRn is able to adequately control the false discovery rate (FDR) at the transcript level (Gilis Jeroen 2021), (Van den Berge Koen 2017) argued that it is often desirable to control the FDR at the gene level. This boosts statistical power and eases downstream biological interpretation and validation, which typically occur at the gene level.
+
+To this end, (Van den Berge Koen 2017) developed a testing procedure that is implemented in the BioConductor R package stageR. The procedure consists of two stages; a screening stage and a confirmation stage.
+
+In the screening stage, gene-level FDR-adjusted p-values are computed, which aggregate the evidence for differential transcript usage over all transcripts within the gene. Only genes with an FDR below the desired nominal level are further considered in the second stage. In the confirmation stage, transcript-level p-values are adjusted for those genes, using a FWER-controlling method on the FDR-adjusted significance level.
+
+In its current implementation, stageR can only perform stage-wise testing if only one contrast is of interest in a DTU setting. An analogous correction for the assessment of multiple contrasts for multiple transcripts per gene has not yet been implemented.
+
+Below, we demonstrate how the transcript-level p-values for the first contrast as returned by satuRn can be post-processed using stageR. We rely on the perGeneQValue function:
+
+```{r}
+# transcript level p-values from satuRn
+pvals <- rowData(sumExp)[["fitDTUResult_Contrast1"]]$empirical_pval
+
+# compute gene level q-values
+geneID <- factor(rowData(sumExp)$gene_id)
+geneSplit <- split(seq(along = geneID), geneID)
+pGene <- sapply(geneSplit, function(i) min(pvals[i]))
+pGene[is.na(pGene)] <- 1
+theta <- unique(sort(pGene))
+
+# gene-level significance testing
+q <- DEXSeq:::perGeneQValueExact(pGene, theta, geneSplit) 
+qScreen <- rep(NA_real_, length(pGene))
+qScreen <- q[match(pGene, theta)]
+qScreen <- pmin(1, qScreen)
+names(qScreen) <- names(geneSplit)
+
+# prepare stageR input
+tx2gene <- as.data.frame(rowData(sumExp)[c("isoform_id", "gene_id")])
+colnames(tx2gene) <- c("transcript", "gene")
+
+pConfirmation <- matrix(matrix(pvals),
+    ncol = 1,
+    dimnames = list(rownames(tx2gene), "transcript")
+)
+
+# create a stageRTx object
+stageRObj <- stageR::stageRTx(
+    pScreen = qScreen,
+    pConfirmation = pConfirmation,
+    pScreenAdjusted = TRUE,
+    tx2gene = tx2gene
+)
+
+# perform the two-stage testing procedure
+stageRObj <- stageR::stageWiseAdjustment(
+    object = stageRObj,
+    method = "dtu",
+    alpha = 0.05,
+    allowNA = TRUE
+)
+
+# retrieves the adjusted p-values from the stageRTx object
+padj <- stageR::getAdjustedPValues(stageRObj,
+    order = TRUE,
+    onlySignificantGenes = FALSE
+)
+```
+
