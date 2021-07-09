@@ -23,6 +23,13 @@ DTU Analysis
 
 * Salmon-BANDITS
     * [Salmon-BANDITS](salmon-bandits.html)
+* Salmon-DRIMseq
+    * [Salmon-DRIMseq](salmon-DRIMseq.html)
+* Salmon-SatuRn
+    * [Salmon-SatuRn](salmon-SatuRn.html)
+* STAR-DiffSplice
+    * [STAR-DiffSplice](STAR-diffSplice.html)
+
     
 New Analysis
 ------------
