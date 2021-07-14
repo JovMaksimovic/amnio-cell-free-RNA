@@ -1,0 +1,249 @@
+---
+title: "Alternative splicing analysis"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=FALSE, echo=FALSE}
+library(here)
+library(tidyverse)
+library(EnsDb.Hsapiens.v86)
+library(readr)
+library(limma)
+library(edgeR)
+library(NMF)
+library(patchwork)
+library(tximport)
+library(org.Hs.eg.db)
+```
+
+# Data import
+
+```{r, message=FALSE, echo=FALSE}
+files <- file.path(list.files(here( "data/gene-transcriptome-analysis/quants"), full.names = TRUE), 
+                   "quant.sf")
+sample_names <- strsplit2(files, "_")[,6]
+names(files) <- sample_names
+files <- files[grepl("CMV", names(files))]
+```
+
+Load sample information.
+
+```{r, echo=FALSE, message=FALSE}
+samps1 <- read_csv(here("data/CMV-AF-database-corrected-oct-2020.csv"))
+samps2 <- read_csv(here("data/samples.csv"))
+
+samps1 %>% full_join(samps2, by = c("sequencing_ID" = "SampleId")) %>%
+  mutate(pair = ifelse(!is.na(matched_pair), matched_pair,
+                        ifelse(!is.na(MatchedPair), MatchedPair, NA)),
+         CMV_status = ifelse(!is.na(CMV_status), CMV_status,
+                         ifelse(!is.na(TestResult), TestResult, NA)),
+         Sex = toupper(Sex),
+         Indication = tolower(Indication)) %>%
+  dplyr::rename(sex = Sex, 
+         id = sequencing_ID, 
+         indication = Indication,
+         GA_at_amnio = `GA_at_amnio-completed_weeks`) -> samps
+       
+read_csv(file = here("data/metadata.csv")) %>%
+  inner_join(read_csv(file = here("data/joindata.csv")), 
+                      by = c("Record.ID" = "UR")) %>%
+  right_join(samps, by = c("ID post-extraction" = "id")) %>%
+  na_if("NA") %>%
+  mutate(sex = ifelse(!is.na(sex), sex,
+                        ifelse(!is.na(Sex), toupper(Sex), NA)),
+         GA_at_amnio = ifelse(!is.na(GA_at_amnio), GA_at_amnio,
+                         ifelse(!is.na(GA.at.amnio), GA.at.amnio, NA))) %>%
+  dplyr::rename(id = `ID post-extraction`) %>%
+  dplyr::select(id, 
+                CMV_status, 
+                pair, 
+                sex, 
+                GA_at_amnio, 
+                indication) %>%
+  dplyr::filter(id %in% names(files)) %>%
+  drop_na() -> targets
+  
+targets %>% knitr::kable()
+```
+```{r}
+int <- intersect(names(files), targets$id)
+targets <- targets[match(int, targets$id),]
+files <- files[match(int, names(files))]
+```
+
+```{r}
+txi <- tximport(files, type = "salmon", txOut = TRUE)
+cts <- txi$counts
+cts <- cts[rowSums(cts) > 0,]
+dim(cts)
+```
+
+
+
+```{r}
+colSums(cts) %>%
+  data.frame %>%
+  rownames_to_column(var = "sample") %>%
+  dplyr::rename("libsize" = ".") %>%
+ggplot(aes(x = sample, y = libsize)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+```
+
+
+Associate transcripts with gene IDs for gene-level summarization.
+
+```{r}
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+k <- keys(txdb, keytype = "TXNAME")
+txdf <- select(txdb, k, "GENEID", "TXNAME", "SYMBOL")
+head(txdf) 
+```
+
+
+```{r}
+txdf %>% inner_join(rownames_to_column(cts %>% data.frame, var = "TXNAME")) %>%
+  drop_na(GENEID) -> cts
+head(cts) 
+```
+
+
+```{r}
+cts %>% dplyr::rename(gene_id = GENEID,
+                      feature_id = TXNAME) -> cts
+
+targets %>% dplyr::select(id, CMV_status, pair) %>%
+  dplyr::rename(sample_id = id,
+                condition = CMV_status) %>%
+  data.frame -> smps
+
+library(DRIMSeq)
+d <- dmDSdata(counts = cts, samples = smps)
+d
+```
+
+```{r}
+n <- nrow(smps)
+n.small <- min(table(smps$condition))
+d <- dmFilter(d,
+                min_samps_feature_expr=n.small, min_feature_expr=10,
+                min_samps_feature_prop=n.small, min_feature_prop=0.1,
+                min_samps_gene_expr=n, min_gene_expr=10)
+d
+```
+```{r}
+table(table(counts(d)$gene_id))
+```
+
+```{r}
+design_full <- model.matrix(~condition, data=DRIMSeq::samples(d))
+colnames(design_full)
+```
+
+```{r}
+set.seed(1)
+  d <- dmPrecision(d, design=design_full)
+  d <- dmFit(d, design=design_full)
+  d <- dmTest(d, coef="conditionneg")
+```
+```{r}
+res <- DRIMSeq::results(d)
+head(res)
+```
+
+```{r}
+res.txp <- DRIMSeq::results(d, level="feature")
+head(res.txp)
+```
+```{r}
+no.na <- function(x) ifelse(is.na(x), 1, x)
+res$pvalue <- no.na(res$pvalue)
+res.txp$pvalue <- no.na(res.txp$pvalue)
+```
+
+```{r}
+idx <- which(res$adj_pvalue < 0.05)
+res[idx,]
+```
+
+```{r, fig.asp=1}
+plotProportions(d, res$gene_id[idx][1], "condition")
+```
+
+# stageR following DRIMSeq
+
+We first construct a vector of p-values for the screening stage. Because of how the stageR package will combine transcript and gene names, we need to strip the gene and transcript version numbers from their Ensembl IDs (this is done by keeping only the first 15 characters of the gene and transcript IDs).
+
+```{r}
+pScreen <- res$pvalue
+strp <- function(x) substr(x,1,15)
+names(pScreen) <- strp(res$gene_id)
+```
+
+We construct a one column matrix of the confirmation p-values:
+```{r}
+pConfirmation <- matrix(res.txp$pvalue, ncol=1)
+rownames(pConfirmation) <- strp(res.txp$feature_id)
+```
+
+We arrange a two column data.frame with the transcript and gene identifiers.
+
+```{r}
+tx2gene <- res.txp[,c("feature_id", "gene_id")]
+for (i in 1:2) tx2gene[,i] <- strp(tx2gene[,i])
+```
+
+The following functions then perform the stageR analysis. We must specify an alpha, which will be the overall false discovery rate target for the analysis, defined below. Unlike typical adjusted p-values or q-values, we cannot choose an arbitrary threshold later: after specifying alpha=0.05, we need to use 5% as the target in downstream steps. There are also convenience functions getSignificantGenes and getSignificantTx, which are demonstrated in the stageR vignette.
+
+```{r}
+library(stageR)
+stageRObj <- stageRTx(pScreen=pScreen, pConfirmation=pConfirmation,
+                         pScreenAdjusted=FALSE, tx2gene=tx2gene)
+stageRObj <- stageWiseAdjustment(stageRObj, method="dtu", alpha=0.05) 
+suppressWarnings({
+  drim.padj <- getAdjustedPValues(stageRObj, order=FALSE,
+                                      onlySignificantGenes=TRUE)
+})
+head(drim.padj)
+```
+
+```{r}
+select(org.Hs.eg.db, keys = drim.padj$geneID, columns = c("SYMBOL","ENTREZID"),
+       keytype = "ENTREZID") %>%
+  dplyr::distinct() %>% 
+  dplyr::inner_join(drim.padj, by = c("ENTREZID" = "geneID")) %>%
+  dplyr::arrange(gene, transcript) -> top_gene
+top_gene %>% knitr::kable()
+```
+```{r, fig.asp=13}
+dtu_genes <- unique(top_gene$ENTREZID) 
+p <- vector("list", length(dtu_genes))
+
+for(i in 1:length(p)){
+  p[[i]] <- plotProportions(d, unique(top_gene$ENTREZID)[1], "condition") +
+    ggtitle(top_gene$SYMBOL[top_gene == dtu_genes[i]])
+}
+
+wrap_plots(p, ncol = 1)
+```
+
+```{r}
+gst <- goana(dtu_genes, 
+             universe = d@results_gene$gene_id)
+topGO(gst) %>% 
+  mutate(FDR = p.adjust(P.DE)) %>% 
+  knitr::kable()
+```
+```{r}
+gst <- kegga(dtu_genes, 
+             universe = d@results_gene$gene_id)
+topKEGG(gst) %>% 
+  mutate(FDR = p.adjust(P.DE)) %>% 
+  knitr::kable()
+```
+
+
+
