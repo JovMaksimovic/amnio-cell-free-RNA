@@ -20,14 +20,14 @@ Follow the links below to explore the different parts of the analysis.
 Differential gene expression (DGE) analysis
 -------------------------------------------
 
-* [DGE analysis](salmon-ruv-all.html) - Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets of interest.   
+* [DGE analysis](salmon-RUV-all.html) - Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets of interest.   
     
     
 Differential transcript usage (DTU) Analysis
 --------------------------------------------
 
 * Salmon-BANDITS
-    * [Salmon-BANDITS](salmon-bandits.html)
+    * [Salmon-BANDITS](salmon-BANDITS.html)
 * Salmon-DRIMseq
     * [Salmon-DRIMseq](salmon-DRIMseq.html)
 * Salmon-SatuRn
