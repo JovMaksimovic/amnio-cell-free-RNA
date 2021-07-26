@@ -338,7 +338,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-07-12
+<strong>Last updated:</strong> 2021-07-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -369,16 +369,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreea9955fecedf1cbec5b44a7f142d12a9482b0163ctargetblanka9955fea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/a9955fecedf1cbec5b44a7f142d12a9482b0163c" target="_blank">a9955fe</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreecccf312d4bec46ee08bb315ec42ac751092a165dtargetblankcccf312a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/cccf312d4bec46ee08bb315ec42ac751092a165d" target="_blank">cccf312</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreea9955fecedf1cbec5b44a7f142d12a9482b0163ctargetblanka9955fea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreecccf312d4bec46ee08bb315ec42ac751092a165dtargetblankcccf312a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/a9955fecedf1cbec5b44a7f142d12a9482b0163c" target="_blank">a9955fe</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/cccf312d4bec46ee08bb315ec42ac751092a165d" target="_blank">cccf312</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -387,6 +387,7 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    .bpipe/
     Ignored:    code/.bpipe/
     Ignored:    code/.rnaseq-test.groovy.swp
     Ignored:    data/.bpipe/
@@ -415,6 +416,7 @@ Ignored files:
     Ignored:    data/metadata.csv
     Ignored:    data/multiqc_data/
     Ignored:    data/multiqc_report.html
+    Ignored:    data/rds/
     Ignored:    data/samples.csv
     Ignored:    output/c2Ens.RData
     Ignored:    output/c5Ens.RData
@@ -424,6 +426,9 @@ Ignored files:
     Ignored:    output/salmon-limma-voom-c5Cam.csv
     Ignored:    output/salmon-limma-voom.Rmd/
     Ignored:    output/salmon-limma-voom.csv
+    Ignored:    output/salmon-ruv-all-gsea-c2.csv
+    Ignored:    output/salmon-ruv-all-gsea-c5.csv
+    Ignored:    output/salmon-ruv-all.csv
     Ignored:    output/salmon-ruvseq-edger.csv
     Ignored:    output/star-fc-limma-voom-all-gsea-c2.csv
     Ignored:    output/star-fc-limma-voom-all-gsea-c5.csv
@@ -439,12 +444,14 @@ Ignored files:
     Ignored:    output/star-fc-ruv-no_us_ab.csv
 
 Untracked files:
-    Untracked:  .bpipe/
-    Untracked:  analysis/STAR-diffSplice.Rmd
-    Untracked:  analysis/salmon-DRIMseq.Rmd
-    Untracked:  analysis/saturn-dtu.Rmd
+    Untracked:  analysis/old_analysis/
     Untracked:  renv.lock
     Untracked:  satuRn_0.99.7.tar.gz
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   analysis/salmon-SatuRn.Rmd
+    Deleted:    analysis/salmon-bandits.Rmd
 
 </code></pre>
 <p>
@@ -483,6 +490,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/cccf312d4bec46ee08bb315ec42ac751092a165d/analysis/index.Rmd" target="_blank">cccf312</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/salmon-RUV-all.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/4868a17b4ee59740dda04fbacccbe73e85dacf1d/docs/index.html" target="_blank">4868a17</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -816,11 +857,16 @@ Start workflowr project.
 <div id="amniotic-fluid-cfrna" class="section level1">
 <h1>Amniotic fluid cfRNA</h1>
 <p>This site contains the analysis of RNAseq data generated from amniotic fluid cell-free RNA (cfRNA).</p>
-<p>The data is from Lisa Hui in the Embryonic Epidemiology group. They have collected amniotic fluid from pregnancies with suspected (and subsequently confirmed) cytomegalovirus (CMV) infection. They also have amniotic fluid from “normal” pregnancies i.e. pregnancies that were confirmed to be negative for CMV infection. They are interested in differences in the cell-free RNA (cfRNA) between the CMV negative and positive pregnancies. There were originally 19 samples (10 CMV negative and 9 CMV positive) sent for sequencing (150bp paired-end) at the MCRI TGU.</p>
-<p>Subsequently, another 9 samples were sequenced (150bp paired-end) at the MCRI TGU.</p>
+<p>The data is from Lisa Hui in the Embryonic Epidemiology group at the Murdoch Children’s Research Institute (MCRI). They have collected amniotic fluid from pregnancies with suspected (and subsequently confirmed) cytomegalovirus (CMV) infection. They also have amniotic fluid from “normal” pregnancies i.e. pregnancies that were confirmed to be negative for CMV infection. They are interested in differences in the cfRNA between the CMV negative and positive pregnancies. Nineteen samples (10 CMV negative and 9 CMV positive) were originally sequenced (150bp paired-end) at the MCRI TGU. A further batch of 9 samples was then sequenced.</p>
 <p>Follow the links below to explore the different parts of the analysis.</p>
-<div id="dtu-analysis" class="section level2">
-<h2>DTU Analysis</h2>
+<div id="differential-gene-expression-dge-analysis" class="section level2">
+<h2>Differential gene expression (DGE) analysis</h2>
+<ul>
+<li><a href="salmon-ruv-all.html">DGE analysis</a> - Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets of interest.</li>
+</ul>
+</div>
+<div id="differential-transcript-usage-dtu-analysis" class="section level2">
+<h2>Differential transcript usage (DTU) Analysis</h2>
 <ul>
 <li>Salmon-BANDITS
 <ul>
@@ -834,49 +880,25 @@ Start workflowr project.
 <ul>
 <li><a href="salmon-SatuRn.html">Salmon-SatuRn</a></li>
 </ul></li>
-<li>STAR-DiffSplice
-<ul>
-<li><a href="STAR-diffSplice.html">STAR-DiffSplice</a></li>
-</ul></li>
 </ul>
-</div>
-<div id="new-analysis" class="section level2">
-<h2>New Analysis</h2>
-<ul>
-<li>Read mapping, counting and quality control.
-<ul>
-<li><a href="multiqc_report.html">MultiQC analysis</a></li>
-</ul></li>
-<li>Differential expression analysis
-<ul>
-<li><a href="STAR-FC-all.html">Analysis results</a> - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort.</li>
-</ul></li>
-<li>Differential expression analysis (exclude samples with ultrasound abnormality)
-<ul>
-<li><a href="STAR-FC-exclude-US-ab.html">Anlaysis results</a> - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified.</li>
-</ul></li>
-<li>Differential expression analysis (RUVseq)
-<ul>
-<li><a href="STAR-FC-RUV-all.html">Analysis results</a> - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort, using <a href="https://bioconductor.org/packages/release/bioc/html/RUVSeq.html">RUVseq</a> to remove additional unwanted variation.</li>
-</ul></li>
-<li>Differential expression analysis (RUVseq)
-<ul>
-<li><a href="STAR-FC-RUV-exclude-US-ab.html">Analysis results</a> - RUVseq analysis comparing CMV positive and CMV negative samples, excluding samples with ultrasound abnormalities.</li>
-</ul></li>
-</ul>
-</div>
-<div id="pilot-analysis" class="section level2">
-<h2>Pilot Analysis</h2>
-<ul>
-<li>Differential expression analysis
-<ul>
-<li><a href="salmon-limma-voom.html">Limma-voom analysis</a> - This is the initial analysis comparing CMV positive and CMV negative samples. Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets that may differentially expressed.</li>
-</ul></li>
-<li>Differential expression analysis (exclude CMV11 and pairs)
-<ul>
-<li><a href="salmon-limma-voom-exclude-CMV11.html">Limma-voom analysis excluding CMV11</a> - This is the same analysis as above but excluding CMV11 (which had an ultrasound abnormality identified) and its pairs.</li>
-</ul></li>
-</ul>
+<!-- New Analysis -->
+<!-- ------------ -->
+<!-- * Read mapping, counting and quality control. -->
+<!--     * [MultiQC analysis](multiqc_report.html) -->
+<!-- * Differential expression analysis -->
+<!--     * [Analysis results](STAR-FC-all.html) - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort.    -->
+<!-- * Differential expression analysis (exclude samples with ultrasound abnormality) -->
+<!--     * [Anlaysis results](STAR-FC-exclude-US-ab.html) - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified. -->
+<!-- * Differential expression analysis (RUVseq) -->
+<!--     * [Analysis results](STAR-FC-RUV-all.html) - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort, using [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to remove additional unwanted variation.     -->
+<!-- * Differential expression analysis (RUVseq) -->
+<!--     * [Analysis results](STAR-FC-RUV-exclude-US-ab.html) - RUVseq analysis comparing CMV positive and CMV negative samples, excluding samples with ultrasound abnormalities.  -->
+<!-- Pilot Analysis -->
+<!-- -------------- -->
+<!-- * Differential expression analysis -->
+<!--     * [Limma-voom analysis](salmon-limma-voom.html) - This is the initial analysis comparing CMV positive and CMV negative samples. Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets that may differentially expressed.    -->
+<!-- * Differential expression analysis (exclude CMV11 and pairs) -->
+<!--     * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 (which had an ultrasound abnormality identified) and its pairs.  -->
 </div>
 <div id="licenses" class="section level2">
 <h2>Licenses</h2>
