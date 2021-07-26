@@ -1,0 +1,298 @@
+---
+title: "Alternative splicing analysis"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=FALSE, echo=FALSE}
+library(here)
+library(tidyverse)
+library(readr)
+library(limma)
+library(edgeR)
+library(patchwork)
+library(tximport)
+library(org.Hs.eg.db)
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+library(BANDITS)
+```
+
+# Data import
+
+```{r, message=FALSE, echo=FALSE}
+files <- file.path(list.files(here( "data/gene-transcriptome-analysis/quants"), full.names = TRUE), 
+                   "quant.sf")
+sample_names <- strsplit2(files, "_")[,6]
+names(files) <- sample_names
+files <- files[grepl("CMV", names(files))]
+```
+
+Load sample information.
+
+```{r, echo=FALSE, message=FALSE}
+samps1 <- read_csv(here("data/CMV-AF-database-corrected-oct-2020.csv"))
+samps2 <- read_csv(here("data/samples.csv"))
+
+samps1 %>% full_join(samps2, by = c("sequencing_ID" = "SampleId")) %>%
+  mutate(pair = ifelse(!is.na(matched_pair), matched_pair,
+                        ifelse(!is.na(MatchedPair), MatchedPair, NA)),
+         CMV_status = ifelse(!is.na(CMV_status), CMV_status,
+                         ifelse(!is.na(TestResult), TestResult, NA)),
+         Sex = toupper(Sex),
+         Indication = tolower(Indication)) %>%
+  dplyr::rename(sex = Sex, 
+         id = sequencing_ID, 
+         indication = Indication,
+         GA_at_amnio = `GA_at_amnio-completed_weeks`) -> samps
+       
+read_csv(file = here("data/metadata.csv")) %>%
+  inner_join(read_csv(file = here("data/joindata.csv")), 
+                      by = c("Record.ID" = "UR")) %>%
+  right_join(samps, by = c("ID post-extraction" = "id")) %>%
+  na_if("NA") %>%
+  mutate(sex = ifelse(!is.na(sex), sex,
+                        ifelse(!is.na(Sex), toupper(Sex), NA)),
+         GA_at_amnio = ifelse(!is.na(GA_at_amnio), GA_at_amnio,
+                         ifelse(!is.na(GA.at.amnio), GA.at.amnio, NA))) %>%
+  dplyr::rename(id = `ID post-extraction`) %>%
+  dplyr::select(id, 
+                CMV_status, 
+                pair, 
+                sex, 
+                GA_at_amnio, 
+                indication) %>%
+  dplyr::filter(id %in% names(files)) %>%
+  drop_na() -> targets
+  
+targets %>% knitr::kable()
+```
+
+Only retain paired samples with clinical information for donstream analysis. 
+
+```{r}
+int <- intersect(names(files), targets$id)
+targets <- targets[match(int, targets$id),]
+files <- files[match(int, names(files))]
+
+files
+```
+
+Read in transcript count data and remove transcripts with no counts.
+
+```{r}
+txi <- tximport(files, type = "salmon", txOut = TRUE)
+cts <- txi$counts
+cts <- cts[rowSums(cts) > 0,]
+
+dim(cts)
+```
+
+Plot effective library size per sample.
+
+```{r}
+colSums(cts) %>%
+  data.frame %>%
+  rownames_to_column(var = "sample") %>%
+  dplyr::rename("libsize" = ".") %>%
+ggplot(aes(x = sample, y = libsize)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+```
+
+Associate transcripts with gene IDs for gene-level summarization. Filter out genes without Entrez IDs, genes with only one transcript isoform and transcripts without any counts across all samples.
+
+```{r}
+txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+txdf <- select(txdb, keys(txdb, keytype = "TXNAME"), 
+               "GENEID", "TXNAME", "SYMBOL") %>%
+  drop_na(GENEID)
+
+txdf %>% dplyr::inner_join(select(org.Hs.eg.db, 
+                                  keys = unique(txdf$GENEID), 
+                           columns = c("SYMBOL","ENTREZID"),
+                           keytype="ENTREZID"), 
+                           by = c("GENEID" = "ENTREZID")) %>%
+  dplyr::distinct() %>%
+  dplyr::filter((duplicated(GENEID) | 
+                  duplicated(GENEID, fromLast = TRUE)) &
+                  TXNAME %in% rownames(cts)) -> txdf
+ 
+head(txdf, n = 10) %>% knitr::kable()
+```
+
+Match transcript count data to transcript annotation table.
+
+```{r}
+cts <- cts[match(txdf$TXNAME, rownames(cts)),]
+
+head(cts) %>% knitr::kable()
+```
+
+# BANDITS analysis
+
+Setup the sample design matrix.
+
+```{r}
+targets %>% dplyr::select(id, CMV_status) %>%
+  dplyr::rename(sample_id = id, group = CMV_status) -> samples_design
+
+samples_design %>% knitr::kable()
+```
+
+Compute the effective length for each transcript.
+
+```{r}
+eff_len <- eff_len_compute(x_eff_len = txi$length[match(txdf$TXNAME,
+                                                        rownames(txi$length)),])
+
+head(eff_len)
+```
+
+```{r}
+transcripts_to_keep <- filter_transcripts(gene_to_transcript = txdf[, c(2,1)],
+                                          transcript_counts = cts, 
+                                          min_transcript_proportion = 0.01,
+                                          min_transcript_counts = min(table(samples_design$group)), 
+                                          min_gene_counts = ncol(cts))
+
+length(transcripts_to_keep)
+```
+
+Load all relevant equivalence class files.
+
+```{r}
+equiv_classes_files <- file.path(
+  list.files(here("data/gene-transcriptome-analysis/quants"), 
+             full.names = TRUE), 
+  "aux_info", "eq_classes.txt")
+
+all(file.exists(equiv_classes_files))
+```
+
+Match equivalence class files to samples.
+
+```{r}
+names(equiv_classes_files) <- strsplit2(equiv_classes_files, "_")[,6]
+equiv_classes_files <- equiv_classes_files[match(samples_design$sample_id,
+                                                 names(equiv_classes_files))]
+
+all(names(equiv_classes_files) == samples_design$sample_id)
+```
+
+Setup the input data for DTU analysis.
+
+```{r}
+out <- here("data/rds/input_data.rds")
+
+if(!file.exists(out)){
+  input_data <- create_data(salmon_or_kallisto = "salmon",
+                            gene_to_transcript = txdf[, c(2,1)],
+                            salmon_path_to_eq_classes = equiv_classes_files,
+                            eff_len = eff_len, 
+                            n_cores = nrow(samples_design),
+                            transcripts_to_keep = transcripts_to_keep)
+  saveRDS(file = out, input_data)
+  
+} else {
+  input_data <- readRDS(out)
+  
+}
+```
+
+Filter out lowly abundant genes.
+
+```{r}
+input_data <- filter_genes(input_data, min_counts_per_gene = ncol(cts))
+```
+
+infer an informative prior for the precision parameter. 
+
+```{r}
+out <- here("data/rds/precision.rds")
+
+if(!file.exists(out)){
+  set.seed(61217)
+  precision <- prior_precision(gene_to_transcript = txdf[, c(2,1)],
+                               transcript_counts = cts,
+                               n_cores = nrow(samples_design),
+                               transcripts_to_keep = transcripts_to_keep)
+  saveRDS(file = out, precision)
+  
+} else {
+  precision <- readRDS(out)
+  
+}
+```
+
+Plot the histogram of the genewise log-precision estimates. The black solid line represents the normally distributed prior distribution for the log-precision parameter.
+
+```{r}
+plot_precision(precision)
+```
+
+## Test for DTU
+
+```{r}
+out <- here("data/rds/results.rds")
+
+if(!file.exists(out)){
+results <- test_DTU(BANDITS_data = input_data,
+                    precision = precision$prior,
+                    samples_design = samples_design %>% data.frame,
+                    group_col_name = "group",
+                    R = 10^4, burn_in = 2*10^3, 
+                    n_cores = nrow(samples_design),
+                    gene_to_transcript = txdf[, c(2,1)])
+  saveRDS(file = out, results)
+  
+} else {
+  results <- readRDS(out)
+  
+}
+```
+
+
+```{r}
+top_gene <- top_genes(results)
+top_gene %>% inner_join(unique(txdf[,2:3]), 
+                        by = c("Gene_id" = "GENEID")) -> top_gene
+
+top_gene[top_gene$adj.p.values < 0.05,] %>% knitr::kable()
+```
+
+```{r, fig.asp=15}
+sig <- top_gene$Gene_id[top_gene$adj.p.values < 0.05]
+p <- vector("list", length(sig))
+
+for(i in 1:length(sig)){
+  p[[i]] <- plot_proportions(results, sig[i], CI = TRUE, CI_level = 0.95) + 
+    theme(axis.text.x = element_text(size = 8, 
+                                     angle = 45, 
+                                     vjust = 1, 
+                                     hjust = 1),
+          axis.text.y = element_text(size = 8),
+          axis.title = element_text(size = 10),
+          legend.text = element_text(size = 8),
+          legend.title = element_text(size = 10)) +
+    ggtitle(top_gene$SYMBOL[i]) +
+    labs(fill = "CMV Status")
+}
+
+wrap_plots(p, ncol = 1) + plot_layout(guides = "collect") &
+  theme(legend.position = "top")
+```
+# Gene set testing
+
+```{r}
+gst <- goana(sig, universe = unique(top_gene$Gene_id))
+topGO(gst) %>% mutate(FDR = p.adjust(P.DE)) %>% 
+  knitr::kable()
+```
+
+```{r}
+kegg <- kegga(sig, universe = unique(top_gene$Gene_id))
+topKEGG(kegg) %>% mutate(FDR = p.adjust(P.DE)) %>% 
+  knitr::kable()
+```
+
