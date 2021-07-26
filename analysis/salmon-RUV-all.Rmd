@@ -1,5 +1,5 @@
 ---
-title: "Limma-voom paired analysis of ALL samples"
+title: "RUVseq analysis of ALL samples"
 output:
   html_document:
     df_print: paged
