@@ -369,16 +369,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreecccf312d4bec46ee08bb315ec42ac751092a165dtargetblankcccf312a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/cccf312d4bec46ee08bb315ec42ac751092a165d" target="_blank">cccf312</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree1b74b81a2ad2c3db3a41f2644ab65fdb4e72bce4targetblank1b74b81a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/1b74b81a2ad2c3db3a41f2644ab65fdb4e72bce4" target="_blank">1b74b81</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreecccf312d4bec46ee08bb315ec42ac751092a165dtargetblankcccf312a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree1b74b81a2ad2c3db3a41f2644ab65fdb4e72bce4targetblank1b74b81a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/cccf312d4bec46ee08bb315ec42ac751092a165d" target="_blank">cccf312</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/1b74b81a2ad2c3db3a41f2644ab65fdb4e72bce4" target="_blank">1b74b81</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -388,6 +388,7 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    .bpipe/
+    Ignored:    analysis/old_analysis/
     Ignored:    code/.bpipe/
     Ignored:    code/.rnaseq-test.groovy.swp
     Ignored:    data/.bpipe/
@@ -444,14 +445,12 @@ Ignored files:
     Ignored:    output/star-fc-ruv-no_us_ab.csv
 
 Untracked files:
-    Untracked:  analysis/old_analysis/
     Untracked:  renv.lock
     Untracked:  satuRn_0.99.7.tar.gz
 
 Unstaged changes:
     Modified:   .gitignore
     Modified:   analysis/salmon-SatuRn.Rmd
-    Deleted:    analysis/salmon-bandits.Rmd
 
 </code></pre>
 <p>
@@ -490,6 +489,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/1b74b81a2ad2c3db3a41f2644ab65fdb4e72bce4/analysis/index.Rmd" target="_blank">1b74b81</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/index.html" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -862,7 +895,7 @@ Start workflowr project.
 <div id="differential-gene-expression-dge-analysis" class="section level2">
 <h2>Differential gene expression (DGE) analysis</h2>
 <ul>
-<li><a href="salmon-ruv-all.html">DGE analysis</a> - Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets of interest.</li>
+<li><a href="salmon-RUV-all.html">DGE analysis</a> - Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets of interest.</li>
 </ul>
 </div>
 <div id="differential-transcript-usage-dtu-analysis" class="section level2">
@@ -870,7 +903,7 @@ Start workflowr project.
 <ul>
 <li>Salmon-BANDITS
 <ul>
-<li><a href="salmon-bandits.html">Salmon-BANDITS</a></li>
+<li><a href="salmon-BANDITS.html">Salmon-BANDITS</a></li>
 </ul></li>
 <li>Salmon-DRIMseq
 <ul>
