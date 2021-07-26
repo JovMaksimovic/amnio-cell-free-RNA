@@ -11,7 +11,7 @@
 
 
 
-<title>Limma-voom paired analysis of ALL samples</title>
+<title>RUVseq analysis of ALL samples</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -389,7 +389,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Limma-voom paired analysis of ALL samples</h1>
+<h1 class="title toc-ignore">RUVseq analysis of ALL samples</h1>
 
 </div>
 
@@ -505,16 +505,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreecccf312d4bec46ee08bb315ec42ac751092a165dtargetblankcccf312a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/cccf312d4bec46ee08bb315ec42ac751092a165d" target="_blank">cccf312</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreec098dd5f8b913b639de3a499e16710ff773a5c60targetblankc098dd5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/c098dd5f8b913b639de3a499e16710ff773a5c60" target="_blank">c098dd5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreecccf312d4bec46ee08bb315ec42ac751092a165dtargetblankcccf312a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreec098dd5f8b913b639de3a499e16710ff773a5c60targetblankc098dd5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/cccf312d4bec46ee08bb315ec42ac751092a165d" target="_blank">cccf312</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/c098dd5f8b913b639de3a499e16710ff773a5c60" target="_blank">c098dd5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -524,6 +524,7 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    .bpipe/
+    Ignored:    analysis/old_analysis/
     Ignored:    code/.bpipe/
     Ignored:    code/.rnaseq-test.groovy.swp
     Ignored:    data/.bpipe/
@@ -580,14 +581,12 @@ Ignored files:
     Ignored:    output/star-fc-ruv-no_us_ab.csv
 
 Untracked files:
-    Untracked:  analysis/old_analysis/
     Untracked:  renv.lock
     Untracked:  satuRn_0.99.7.tar.gz
 
 Unstaged changes:
     Modified:   .gitignore
     Modified:   analysis/salmon-SatuRn.Rmd
-    Deleted:    analysis/salmon-bandits.Rmd
 
 </code></pre>
 <p>
@@ -626,6 +625,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/c098dd5f8b913b639de3a499e16710ff773a5c60/analysis/salmon-RUV-all.Rmd" target="_blank">c098dd5</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+wflow_publish(“analysis/salmon-RUV-all.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/salmon-RUV-all.html" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1364,12 +1397,123 @@ $group
 21 more elements ...</code></pre>
 <p>Plotting the distribution log-CPM values shows that a majority of genes within each sample are either not expressed or lowly-expressed with log-CPM values that are small or negative.</p>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-9-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Although in excess of 30 million reads were obtained per sample, we can see that after quantification of gene expression the median library size is <code>median(y$samples$lib.size)</code> million reads. This suggests that we are likely to only be capturing the most abundant cfRNAs.</p>
 <p>It is assumed that all samples should have a similar range and distribution of expression values. The raw data looks fairly uniform between samples, although TMM normalization further improves this.</p>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-10-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-10-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Multi-dimensional scaling (MDS) plots show the largest sources of variation in the data. They are a good way of exploring the relationships between the samples and identifying structure in the data. The following series of MDS plots examines the first four principal components. The samples are coloured by various known features of the samples such as CMV Status and foetal sex. The MDS plots do not show the samples strongly clustering by any of the known features of the data, although there does seem to be some separation between the CMV positive and negative samples in the 1st principal component. This indicates that there are possibly some differentially expressed genes between CMV positive and negative samples.</p>
 <p>A weak batch effect is also evident in the 3rd principal component, when we examine the plots coloured by batch.</p>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-11-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="ruvseq-analysis" class="section level1">
 <h1>RUVSeq analysis</h1>
@@ -1391,12 +1535,86 @@ aheatmap(cpm(y[y$genes$symbol %in% hkGenes$SYMBOL,], log = TRUE),
                           scales::brewer_pal(palette = &quot;Set1&quot;)(length(unique(targets$sex)))),
          scale = &quot;none&quot;)</code></pre>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-12-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The scree plot shows that most of the variation in the negative control genes is captured by the first principal component.</p>
 <pre class="r"><code>PCs &lt;- prcomp(t(y$counts[which(y$genes$symbol %in% hkGenes$SYMBOL),]), 
               center = TRUE, scale = TRUE, retx=TRUE)
 loadings = PCs$x # pc loadings
 plot(PCs, type=&quot;lines&quot;) # scree plot</code></pre>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-13-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Using the <code>RUVg</code> function, we will estimate the unwanted variation in our data using the HKG for k = 1, 2 and 3.</p>
 <pre class="r"><code>yRg1 &lt;- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=1)</code></pre>
 <pre><code>Warning in RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k = 1): The expression matrix does not contain counts.
@@ -1417,7 +1635,45 @@ plotRLE(yRg2$normalizedCounts, ylim=c(-0.2,0.2), las=2, main=&quot;RUVg k=2&quot
         cex.axis = 0.6)
 plotRLE(yRg3$normalizedCounts, ylim=c(-0.2,0.2), las=2, main=&quot;RUVg k=3&quot;, 
         cex.axis = 0.6)</code></pre>
-<p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /> The MDS plots of the <code>RUVg</code> normalised counts show clearer separation between the CMV positive and CMV negative samples.</p>
+<p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-15-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The MDS plots of the <code>RUVg</code> normalised counts show clearer separation between the CMV positive and CMV negative samples.</p>
 <pre class="r"><code>mds &lt;- plotMDS(cpm(y$counts, log = TRUE), top = 1000, gene.selection=&quot;common&quot;, 
                plot = FALSE)
 dat &lt;- tibble::tibble(x = mds$x, y = mds$y,
@@ -1474,6 +1730,43 @@ p3 &lt;- ggplot(dat3, aes(x = x, y = y, colour = status)) +
   plot_layout(guides = &quot;collect&quot;) &amp; 
   theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-16-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="differential-expression-analysis" class="section level1">
 <h1>Differential expression analysis</h1>
@@ -1485,6 +1778,43 @@ y &lt;- estimateGLMCommonDisp(y, design)
 y &lt;- estimateGLMTagwiseDisp(y, design)
 plotBCV(y)</code></pre>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-17-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>fit &lt;- glmFit(y, design)
 lrt &lt;- glmLRT(fit, coef = 2)
 fitSum &lt;- summary(decideTests(lrt, p.value = 0.05))
@@ -1495,6 +1825,43 @@ NotSig      13452
 Up            343</code></pre>
 <pre class="r"><code>plotMD(lrt)</code></pre>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
+Past versions of unnamed-chunk-19-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-19-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-19-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>There were 15 down-regulated and 343 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
 <p>These are the top 10 differentially expressed genes.</p>
 <pre><code>Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
@@ -1771,7 +2138,81 @@ Please use the `file` argument instead.</code></pre>
 </table>
 <p>The following plots show the expression of the top 12 ranked differentially expressed genes for CMV positive and CMV negative samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.</p>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-21-1">
+Past versions of unnamed-chunk-21-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-21-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-21-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-22-1">
+Past versions of unnamed-chunk-22-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-22-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-22-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="gene-set-enrichment-analysis-gsea" class="section level1">
 <h1>Gene set enrichment analysis (GSEA)</h1>
@@ -2344,6 +2785,43 @@ rct %&gt;% knitr::kable()</code></pre>
 <pre><code>Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please
 use `guide = &quot;none&quot;` instead.</code></pre>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-25-1">
+Past versions of unnamed-chunk-25-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-25-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-25-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Functional class scoring analysis of Reactome Pathways.</p>
 <pre class="r"><code>rct &lt;- gsePathway(setNames(top$LR, top$entrezid)[!duplicated(top$entrezid)],
                   scoreType = &quot;pos&quot;)</code></pre>
@@ -2688,7 +3166,47 @@ rct %&gt;% knitr::kable()</code></pre>
 use `guide = &quot;none&quot;` instead.</code></pre>
 <pre><code>Warning: ggrepel: 15 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps</code></pre>
-<p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /> ## Camera analysis with various gene sets</p>
+<p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-27-1">
+Past versions of unnamed-chunk-27-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-27-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-27-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="camera-analysis-with-various-gene-sets" class="section level2">
+<h2>Camera analysis with various gene sets</h2>
 <p>The <code>camera</code> function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute’s Molecular Signatures Database <a href="http://software.broadinstitute.org/gsea/msigdb/index.jsp">MSigDB</a>.</p>
 <p>Build gene set indexes.</p>
 <pre><code>[1] &quot;Loading MSigDB Gene Sets ... &quot;
@@ -3019,6 +3537,43 @@ increasing max.overlaps</code></pre>
 </table>
 <p>Barcode plots show the enrichment of gene sets among up or down-regulated genes. The following barcode plots show the enrichment of the top 4 hallmark gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-31-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-31-1">
+Past versions of unnamed-chunk-31-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-31-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-31-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[[1]]
 NULL
 
@@ -3186,6 +3741,43 @@ NULL</code></pre>
 </table>
 <p>The following barcode plots show the enrichment of the top 4 curated gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-33-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-33-1">
+Past versions of unnamed-chunk-33-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-33-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-33-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[[1]]
 NULL
 
@@ -3352,6 +3944,43 @@ NULL</code></pre>
 </tbody>
 </table>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-35-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-35-1">
+Past versions of unnamed-chunk-35-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-35-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-35-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[[1]]
 NULL
 
@@ -3974,6 +4603,43 @@ Up              0</code></pre>
 </table>
 <p>The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status.</p>
 <p><img src="figure/salmon-RUV-all.Rmd/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-39-1">
+Past versions of unnamed-chunk-39-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-39-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8793b41d08711b64e2357b814810d858b936e2ee/docs/figure/salmon-RUV-all.Rmd/unnamed-chunk-39-1.png" target="_blank">8793b41</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
