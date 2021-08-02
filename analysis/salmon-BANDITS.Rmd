@@ -1,5 +1,5 @@
 ---
-title: "Alternative splicing analysis"
+title: "Differential Transcript Usage (DTU) Analysis: BANDITS"
 output:
   html_document:
     df_print: paged
