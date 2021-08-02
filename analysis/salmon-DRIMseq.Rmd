@@ -280,17 +280,19 @@ select(org.Hs.eg.db,
 top_gene %>% knitr::kable()
 ```
 
-```{r, fig.asp=20}
+```{r, fig.asp=20, warning=FALSE, message=FALSE}
 dtu_genes <- unique(top_gene$ENTREZID) 
 p <- vector("list", length(dtu_genes))
 
 for(i in 1:length(p)){
-  p[[i]] <- plotProportions(d, unique(top_gene$ENTREZID)[1], "condition") +
-    ggtitle(top_gene$SYMBOL[top_gene == dtu_genes[i]]) +
+  p[[i]] <- plotProportions(d, gene_id = dtu_genes[i], 
+                            group_variable = "condition",
+                            plot_type = "boxplot1") +
+    ggtitle(unique(top_gene$SYMBOL[top_gene$ENTREZID == dtu_genes[i]])) +
     theme(axis.text = element_text(size = 8))
 }
 
-wrap_plots(p, ncol = 1)
+wrap_plots(p, ncol = 1) + plot_layout(guides = "collect") 
 ```
 
 # Gene set testing
