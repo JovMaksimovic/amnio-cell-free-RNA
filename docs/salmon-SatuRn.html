@@ -11,7 +11,7 @@
 
 
 
-<title>Alternative splicing analysis</title>
+<title>Differential Transcript Usage (DTU) Analysis: SatuRn</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -389,7 +389,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Alternative splicing analysis</h1>
+<h1 class="title toc-ignore">Differential Transcript Usage (DTU) Analysis: SatuRn</h1>
 
 </div>
 
@@ -414,7 +414,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-07-09
+<strong>Last updated:</strong> 2021-08-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -505,16 +505,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree382671cd4607b48ba3f75da5f7c50b043e5fdcf5targetblank382671ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/382671cd4607b48ba3f75da5f7c50b043e5fdcf5" target="_blank">382671c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree63282589d25b165c63f636b0405ded24e5a200bbtargetblank6328258a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/63282589d25b165c63f636b0405ded24e5a200bb" target="_blank">6328258</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree382671cd4607b48ba3f75da5f7c50b043e5fdcf5targetblank382671ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree63282589d25b165c63f636b0405ded24e5a200bbtargetblank6328258a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/382671cd4607b48ba3f75da5f7c50b043e5fdcf5" target="_blank">382671c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/63282589d25b165c63f636b0405ded24e5a200bb" target="_blank">6328258</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -523,7 +523,8 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
+    Ignored:    .bpipe/
+    Ignored:    analysis/old_analysis/
     Ignored:    code/.bpipe/
     Ignored:    code/.rnaseq-test.groovy.swp
     Ignored:    data/.bpipe/
@@ -552,6 +553,7 @@ Ignored files:
     Ignored:    data/metadata.csv
     Ignored:    data/multiqc_data/
     Ignored:    data/multiqc_report.html
+    Ignored:    data/rds/
     Ignored:    data/samples.csv
     Ignored:    output/c2Ens.RData
     Ignored:    output/c5Ens.RData
@@ -561,6 +563,9 @@ Ignored files:
     Ignored:    output/salmon-limma-voom-c5Cam.csv
     Ignored:    output/salmon-limma-voom.Rmd/
     Ignored:    output/salmon-limma-voom.csv
+    Ignored:    output/salmon-ruv-all-gsea-c2.csv
+    Ignored:    output/salmon-ruv-all-gsea-c5.csv
+    Ignored:    output/salmon-ruv-all.csv
     Ignored:    output/salmon-ruvseq-edger.csv
     Ignored:    output/star-fc-limma-voom-all-gsea-c2.csv
     Ignored:    output/star-fc-limma-voom-all-gsea-c5.csv
@@ -576,234 +581,11 @@ Ignored files:
     Ignored:    output/star-fc-ruv-no_us_ab.csv
 
 Untracked files:
-    Untracked:  .bpipe/
-    Untracked:  0.99.7.tar.gz
-    Untracked:  analysis/STAR-diffSplice.Rmd
-    Untracked:  analysis/salmon-DRIMseq.Rmd
-    Untracked:  analysis/saturn-dtu.Rmd
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-FTEST-0.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-FTEST-1.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-FTEST-2.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-FTEST-3.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-FTEST-4.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-MERGE-TMP.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH00-BK000016.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH01-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH02-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH03-BK000016.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH04-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH05-BK000016.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH06-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH07-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH08-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH09-BK000016.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH10-BK000015.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH11-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000000.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000001.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000002.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000003.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000004.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000005.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000006.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000007.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000008.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000009.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000010.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000011.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000012.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000013.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000014.tmp
-    Untracked:  analysis/temp-core-081656-0025B5042A3E.sam-TH12-BK000015.tmp
     Untracked:  renv.lock
-    Untracked:  satuRn-0.99.7/
     Untracked:  satuRn_0.99.7.tar.gz
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   .gitignore
 
 </code></pre>
 <p>
@@ -842,6 +624,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/63282589d25b165c63f636b0405ded24e5a200bb/analysis/salmon-SatuRn.Rmd" target="_blank">6328258</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-08-02
+</td>
+<td>
+wflow_publish(c(“analysis/salmon-BANDITS.Rmd”, “analysis/salmon-DRIMseq.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/8e31f4365bf53b088b6467efd1d23e6e3f1594d5/docs/salmon-SatuRn.html" target="_blank">8e31f43</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1091,9 +907,11 @@ wflow_publish(“analysis/salmon-SatuRn.Rmd”)
 </tr>
 </tbody>
 </table>
+<p>Only retain paired samples with clinical information for donstream analysis.</p>
 <pre class="r"><code>int &lt;- intersect(names(files), targets$id)
 targets &lt;- targets[match(int, targets$id),]
 files &lt;- files[match(int, names(files))]
+
 files</code></pre>
 <pre><code>                                                                                                                                                                                           CMV30 
 &quot;/oshlack_lab/jovana.maksimovic/projects/MCRI/lisa.hui/amnio-cell-free-RNA/data/gene-transcriptome-analysis/quants/190717_A00692_0021_TL1906128_CMV30_MAN-20190712_OvationSoloRNA_L000/quant.sf&quot; 
@@ -1147,66 +965,16 @@ files</code></pre>
  &quot;/oshlack_lab/jovana.maksimovic/projects/MCRI/lisa.hui/amnio-cell-free-RNA/data/gene-transcriptome-analysis/quants/200612_A00692_0107_ML205843_CMV60_MAN-20200611_OvationSoloRNA_L000/quant.sf&quot; 
                                                                                                                                                                                            CMV61 
  &quot;/oshlack_lab/jovana.maksimovic/projects/MCRI/lisa.hui/amnio-cell-free-RNA/data/gene-transcriptome-analysis/quants/200612_A00692_0107_ML205844_CMV61_MAN-20200611_OvationSoloRNA_L000/quant.sf&quot; </code></pre>
-<p>Import transcript information First, we need an object that links transcripts to their corresponding genes. We suggest using the BioConductor R packages AnnotationHub and ensembldb for this purpose.</p>
-<pre class="r"><code>edb &lt;- EnsDb.Hsapiens.v86
-txs &lt;- transcripts(edb) 
-head(txs)</code></pre>
-<pre><code>GRanges object with 6 ranges and 6 metadata columns:
-                  seqnames      ranges strand |           tx_id
-                     &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; |     &lt;character&gt;
-  ENST00000456328        1 11869-14409      + | ENST00000456328
-  ENST00000450305        1 12010-13670      + | ENST00000450305
-  ENST00000488147        1 14404-29570      - | ENST00000488147
-  ENST00000619216        1 17369-17436      - | ENST00000619216
-  ENST00000473358        1 29554-31097      + | ENST00000473358
-  ENST00000469289        1 30267-31109      + | ENST00000469289
-                              tx_biotype tx_cds_seq_start tx_cds_seq_end
-                             &lt;character&gt;        &lt;integer&gt;      &lt;integer&gt;
-  ENST00000456328   processed_transcript             &lt;NA&gt;           &lt;NA&gt;
-  ENST00000450305 transcribed_unproces..             &lt;NA&gt;           &lt;NA&gt;
-  ENST00000488147 unprocessed_pseudogene             &lt;NA&gt;           &lt;NA&gt;
-  ENST00000619216                  miRNA             &lt;NA&gt;           &lt;NA&gt;
-  ENST00000473358                lincRNA             &lt;NA&gt;           &lt;NA&gt;
-  ENST00000469289                lincRNA             &lt;NA&gt;           &lt;NA&gt;
-                          gene_id         tx_name
-                      &lt;character&gt;     &lt;character&gt;
-  ENST00000456328 ENSG00000223972 ENST00000456328
-  ENST00000450305 ENSG00000223972 ENST00000450305
-  ENST00000488147 ENSG00000227232 ENST00000488147
-  ENST00000619216 ENSG00000278267 ENST00000619216
-  ENST00000473358 ENSG00000243485 ENST00000473358
-  ENST00000469289 ENSG00000243485 ENST00000469289
-  -------
-  seqinfo: 357 sequences from GRCh38 genome</code></pre>
-<p>Data wrangling Next, we perform some data wrangling steps to get the data in a format that is suited for satuRn. First, we create a DataFrame or Matrix linking transcripts to their corresponding genes.</p>
-<p>! Important: satuRn is implemented such that the columns with transcript identifiers is names isoform_id, while the column containing gene identifiers should be named gene_id. In addition, following chunk removes transcripts that are the only isoform expressed of a certain gene, as they cannot be used in a DTU analysis.</p>
-<pre class="r"><code># Get the transcript information in correct format
-txInfo &lt;- as.data.frame(matrix(data = NA, nrow = length(txs), ncol = 2))
-colnames(txInfo) &lt;- c(&quot;isoform_id&quot;, &quot;gene_id&quot;)
-txInfo$isoform_id &lt;- txs$tx_id
-txInfo$gene_id &lt;- txs$gene_id
-rownames(txInfo) &lt;- txInfo$isoform_id
-head(txInfo)</code></pre>
-<pre><code>                     isoform_id         gene_id
-ENST00000456328 ENST00000456328 ENSG00000223972
-ENST00000450305 ENST00000450305 ENSG00000223972
-ENST00000488147 ENST00000488147 ENSG00000227232
-ENST00000619216 ENST00000619216 ENSG00000278267
-ENST00000473358 ENST00000473358 ENSG00000243485
-ENST00000469289 ENST00000469289 ENSG00000243485</code></pre>
-<p>Import transcript counts, match with gene IDs and remove transcripts that are the only isoform of a gene.</p>
+<p>Read in transcript count data and remove transcripts with no counts.</p>
 <pre class="r"><code>txi &lt;- tximport(files, type = &quot;salmon&quot;, txOut = TRUE)</code></pre>
 <pre><code>reading in files with read_tsv</code></pre>
 <pre><code>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 </code></pre>
 <pre class="r"><code>cts &lt;- txi$counts
+cts &lt;- cts[rowSums(cts) &gt; 0,]
 
-rownames(cts) &lt;- sub(&quot;\\..*&quot;, &quot;&quot;, rownames(cts)) 
-txInfo &lt;- txInfo[txInfo$isoform_id %in% rownames(cts), ]
-txInfo &lt;- subset(txInfo, 
-                 duplicated(gene_id) | duplicated(gene_id, fromLast = TRUE))
-cts &lt;- cts[which(rownames(cts) %in% txInfo$isoform_id), ]
 dim(cts)</code></pre>
-<pre><code>[1] 160351     26</code></pre>
+<pre><code>[1] 155749     26</code></pre>
+<p>Plot effective library size per sample.</p>
 <pre class="r"><code>colSums(cts) %&gt;%
   data.frame %&gt;%
   rownames_to_column(var = &quot;sample&quot;) %&gt;%
@@ -1214,114 +982,426 @@ dim(cts)</code></pre>
 ggplot(aes(x = sample, y = libsize)) +
   geom_bar(stat = &quot;identity&quot;) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))</code></pre>
-<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Filtering Here we perform some feature-level filtering. For this task, we adopt the filtering criterion that is implemented in the R package edgeR. Alternatively, one could adopt the dmFilter criterion from the DRIMSeq R package, which provides a more stringent filtering when both methods are run in default settings. After filtering, we again remove transcripts that are the only isoform expressed of a certain gene.</p>
-<pre class="r"><code>filter_edgeR &lt;- filterByExpr(cts,
-    design = NULL,
-    group = targets$CMV_status,
-) 
+<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<!-- ```{r} -->
+<!-- edb <- EnsDb.Hsapiens.v86 -->
+<!-- txs <- transcripts(edb)  -->
+<!-- head(txs) -->
+<!-- ``` -->
+<p>Associate transcripts with gene IDs for gene-level summarization. Filter out genes without Entrez IDs, genes with only one transcript isoform and transcripts without any counts across all samples.</p>
+<pre class="r"><code>txdb &lt;- TxDb.Hsapiens.UCSC.hg38.knownGene
+txdf &lt;- select(txdb, keys(txdb, keytype = &quot;TXNAME&quot;), 
+               &quot;GENEID&quot;, &quot;TXNAME&quot;, &quot;SYMBOL&quot;) %&gt;%
+  drop_na(GENEID)</code></pre>
+<pre><code>&#39;select()&#39; returned 1:1 mapping between keys and columns</code></pre>
+<pre class="r"><code>txdf %&gt;% dplyr::inner_join(select(org.Hs.eg.db, 
+                                  keys = unique(txdf$GENEID), 
+                           columns = c(&quot;SYMBOL&quot;,&quot;ENTREZID&quot;),
+                           keytype=&quot;ENTREZID&quot;), 
+                           by = c(&quot;GENEID&quot; = &quot;ENTREZID&quot;)) %&gt;%
+  dplyr::distinct() %&gt;%
+  dplyr::filter((duplicated(GENEID) | 
+                  duplicated(GENEID, fromLast = TRUE)) &amp;
+                  TXNAME %in% rownames(cts)) -&gt; txdf</code></pre>
+<pre><code>&#39;select()&#39; returned 1:1 mapping between keys and columns</code></pre>
+<pre class="r"><code>head(txdf, n = 10) %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">TXNAME</th>
+<th align="left">GENEID</th>
+<th align="left">SYMBOL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ENST00000623808.3</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000445118.7</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000669922.1</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000670780.1</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000667414.1</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000666741.1</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000623070.4</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000659124.1</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000658846.1</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000608189.5</td>
+<td align="left">643837</td>
+<td align="left">LINC01128</td>
+</tr>
+</tbody>
+</table>
+<p>Match transcript count data to transcript annotation table.</p>
+<pre class="r"><code>cts &lt;- cts[match(txdf$TXNAME, rownames(cts)),]
 
-table(filter_edgeR)</code></pre>
-<pre><code>filter_edgeR
- FALSE   TRUE 
-134588  25763 </code></pre>
-<pre class="r"><code>cts &lt;- cts[filter_edgeR, ]
+head(cts) %&gt;% knitr::kable()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="8%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">CMV30</th>
+<th align="right">CMV31</th>
+<th align="right">CMV8</th>
+<th align="right">CMV9</th>
+<th align="right">CMV26</th>
+<th align="right">CMV14</th>
+<th align="right">CMV15</th>
+<th align="right">CMV20</th>
+<th align="right">CMV21</th>
+<th align="right">CMV1</th>
+<th align="right">CMV2</th>
+<th align="right">CMV3</th>
+<th align="right">CMV4</th>
+<th align="right">CMV10</th>
+<th align="right">CMV11</th>
+<th align="right">CMV19</th>
+<th align="right">CMV35</th>
+<th align="right">CMV51</th>
+<th align="right">CMV52</th>
+<th align="right">CMV53</th>
+<th align="right">CMV54</th>
+<th align="right">CMV56</th>
+<th align="right">CMV57</th>
+<th align="right">CMV58</th>
+<th align="right">CMV60</th>
+<th align="right">CMV61</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ENST00000623808.3</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">2.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">2.840</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">1.113</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.00</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000445118.7</td>
+<td align="right">81.080</td>
+<td align="right">49.139</td>
+<td align="right">51.049</td>
+<td align="right">35.215</td>
+<td align="right">40.649</td>
+<td align="right">71.627</td>
+<td align="right">112.693</td>
+<td align="right">72.270</td>
+<td align="right">88.424</td>
+<td align="right">23.261</td>
+<td align="right">36.969</td>
+<td align="right">3.356</td>
+<td align="right">25.536</td>
+<td align="right">88.967</td>
+<td align="right">15.132</td>
+<td align="right">3.924</td>
+<td align="right">51.927</td>
+<td align="right">39.892</td>
+<td align="right">80.193</td>
+<td align="right">45.610</td>
+<td align="right">48.656</td>
+<td align="right">85.781</td>
+<td align="right">95.585</td>
+<td align="right">155.849</td>
+<td align="right">89.77</td>
+<td align="right">52.703</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000669922.1</td>
+<td align="right">7.952</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">37.732</td>
+<td align="right">7.738</td>
+<td align="right">0.000</td>
+<td align="right">6.574</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">1.538</td>
+<td align="right">0.000</td>
+<td align="right">18.000</td>
+<td align="right">0.000</td>
+<td align="right">11.000</td>
+<td align="right">3.808</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.00</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000670780.1</td>
+<td align="right">15.481</td>
+<td align="right">22.471</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">24.094</td>
+<td align="right">14.058</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">4.001</td>
+<td align="right">0.000</td>
+<td align="right">15.947</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">5.814</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">16.986</td>
+<td align="right">11.345</td>
+<td align="right">0.000</td>
+<td align="right">1.836</td>
+<td align="right">0.000</td>
+<td align="right">6.21</td>
+<td align="right">20.954</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000667414.1</td>
+<td align="right">0.000</td>
+<td align="right">1.155</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">1.196</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">1.049</td>
+<td align="right">1.436</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.00</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000666741.1</td>
+<td align="right">5.858</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">37.606</td>
+<td align="right">7.820</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">21.911</td>
+<td align="right">16.865</td>
+<td align="right">0.000</td>
+<td align="right">49.674</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">39.220</td>
+<td align="right">25.097</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.00</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data-wrangling" class="section level1">
+<h1>Data wrangling</h1>
+<p>Next, we perform some data wrangling steps to get the data in a format that is suited for <em>satuRn</em>.</p>
+<p>! Important: <em>satuRn</em> is implemented such that the columns with transcript identifiers is names isoform_id, while the column containing gene identifiers should be named gene_id. In addition, following chunk removes transcripts that are the only isoform expressed of a certain gene, as they cannot be used in a DTU analysis.</p>
+<!-- ```{r} -->
+<!-- # Get the transcript information in correct format -->
+<!-- txInfo <- as.data.frame(matrix(data = NA, nrow = length(txs), ncol = 2)) -->
+<!-- colnames(txInfo) <- c("isoform_id", "gene_id") -->
+<!-- txInfo$isoform_id <- txs$tx_id -->
+<!-- txInfo$gene_id <- txs$gene_id -->
+<!-- rownames(txInfo) <- txInfo$isoform_id -->
+<!-- head(txInfo) -->
+<!-- ``` -->
+<pre class="r"><code>txdf %&gt;% dplyr::rename(isoform_id = TXNAME, 
+                       gene_id = GENEID) -&gt; txdf 
+dim(txdf)</code></pre>
+<pre><code>[1] 130034      3</code></pre>
+<!-- Import transcript counts, match with gene IDs and remove transcripts that are the only isoform of a gene. -->
+<!-- ```{r} -->
+<!-- txi <- tximport(files, type = "salmon", txOut = TRUE) -->
+<!-- cts <- txi$counts -->
+<!-- cts <- cts[rowSums(cts) > 0,] -->
+<!-- #rownames(cts) <- sub("\\..*", "", rownames(cts))  -->
+<!-- txInfo <- txInfo[txInfo$isoform_id %in% rownames(cts), ] -->
+<!-- txInfo <- subset(txInfo,  -->
+<!--                  duplicated(gene_id) | duplicated(gene_id, fromLast = TRUE)) -->
+<!-- cts <- cts[which(rownames(cts) %in% txInfo$isoform_id), ] -->
+<!-- dim(cts) -->
+<!-- ``` -->
+</div>
+<div id="filtering" class="section level1">
+<h1>Filtering</h1>
+<p>Here we perform some feature-level filtering. For this task, we adopt the filtering criterion that is implemented in the R package <em>BANDITS</em>. <!-- ```{r} --> <!-- filter_edgeR <- filterByExpr(cts, --> <!--     design = NULL, --> <!--     group = targets$CMV_status, --> <!-- )  --></p>
+<!-- table(filter_edgeR) -->
+<!-- ``` -->
+<pre class="r"><code>transcripts_to_keep &lt;- filter_transcripts(gene_to_transcript = txdf[, c(2,1)],
+                                          transcript_counts = cts, 
+                                          min_transcript_proportion = 0.01,
+                                          min_transcript_counts = min(table(targets$CMV_status)), 
+                                          min_gene_counts = ncol(cts))</code></pre>
+<pre><code>After filtering, 50.63% of transcripts are kept</code></pre>
+<pre class="r"><code>length(transcripts_to_keep)</code></pre>
+<pre><code>[1] 65831</code></pre>
+<p>Keep only transcripts that pass filtering criteria.</p>
+<pre class="r"><code>keep &lt;- match(transcripts_to_keep, rownames(cts))
 
-# Update txInfo according to the filtering procedure
-txInfo &lt;- txInfo[which(
-  txInfo$isoform_id %in% rownames(cts)), ]
-
-# remove txs that are the only isoform expressed within a gene (after filtering)
-txInfo &lt;- subset(txInfo, 
-                 duplicated(gene_id) | duplicated(gene_id, fromLast = TRUE))
-cts &lt;- cts[which(rownames(cts) %in% txInfo$isoform_id), ]
-
-# satuRn requires the transcripts in the rowData and 
-# the transcripts in the count matrix to be in the same order.
-txInfo &lt;- txInfo[match(rownames(cts), txInfo$isoform_id), ]
-dim(txInfo)</code></pre>
-<pre><code>[1] 20418     2</code></pre>
-<p>Generate SummarizedExperiment All three main functions of satuRn require a SummarizedExperiment object as an input class. See the SummarizedExperiment vignette (Morgan Martin, n.d.) for more information on this object class.</p>
-<p>Do not forget to include the design matrix formula (see above) to the SummarizedExperiment as indicated below. As such, the object contains all the information required for the downstream DTU analysis.</p>
+cts &lt;- cts[keep,]
+txdf &lt;- txdf[keep,]</code></pre>
+</div>
+<div id="generate-summarizedexperiment" class="section level1">
+<h1>Generate SummarizedExperiment</h1>
+<p>All three main functions of <em>satuRn</em> require a <code>SummarizedExperiment</code> object as an input class.</p>
+<p>Do not forget to include the design matrix formula to the <code>SummarizedExperiment</code> as indicated below. As such, the object contains all the information required for the downstream DTU analysis.</p>
 <pre class="r"><code>sumExp &lt;- SummarizedExperiment::SummarizedExperiment(
     assays = list(counts = cts),
     colData = targets,
-    rowData = txInfo
+    rowData = txdf
 )
 
 # specify design formula from colData
-metadata(sumExp)$formula &lt;- ~ 0 + as.factor(colData(sumExp)$CMV_status) + as.factor(colData(sumExp)$pair)
+metadata(sumExp)$formula &lt;- ~ 0 + as.factor(colData(sumExp)$CMV_status)
 sumExp</code></pre>
 <pre><code>class: SummarizedExperiment 
-dim: 20418 26 
+dim: 65831 26 
 metadata(1): formula
 assays(1): counts
-rownames(20418): ENST00000447500 ENST00000590817 ... ENST00000496011
-  ENST00000479401
-rowData names(2): isoform_id gene_id
+rownames(65831): ENST00000598345.1 ENST00000599109.5 ...
+  ENST00000543927.6 ENST00000638598.2
+rowData names(3): isoform_id gene_id SYMBOL
 colnames(26): CMV30 CMV31 ... CMV60 CMV61
 colData names(6): id CMV_status ... GA_at_amnio indication</code></pre>
-<p>Fit quasi-binomial generalized linear models models The fitDTU function of satuRn is used to model transcript usage in different groups of samples or cells. Here we adopt the default settings of the function. Without parallelized execution, this code runs for approximately 15 seconds on a 2018 macbook pro laptop.</p>
+</div>
+<div id="fit-quasi-binomial-generalized-linear-models-models" class="section level1">
+<h1>Fit quasi-binomial generalized linear models models</h1>
+<p>The <code>fitDTU</code> function of <em>satuRn</em> is used to model transcript usage in different groups of samples or cells. Here we adopt the default settings of the function.</p>
 <pre class="r"><code>system.time({
 sumExp &lt;- satuRn::fitDTU(
     object = sumExp,
-    formula = ~ 0 + CMV_status + pair,
+    formula = ~ 0 + CMV_status,
     parallel = FALSE,
     BPPARAM = BiocParallel::bpparam(),
     verbose = TRUE
 )
 })</code></pre>
-<pre><code>Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge
-
-Warning: glm.fit: algorithm did not converge</code></pre>
 <pre><code>   user  system elapsed 
- 36.578   0.972  37.554 </code></pre>
-<p>Set up contrast matrix First, we set up a contrast matrix. This allows us to test for differential transcript usage between groups of interest. The group factor in this toy example contains three levels; (1) ALM.L5_IT_ALM_Tmem163_Dmrtb1, (2) ALM.L5_IT_ALM_Tnc, (3) VISp.L5_IT_VISp_Hsd11b1_Endou. Here we show to assess DTU between cells of the groups 1 and 3 and between cells of groups 2 and 3.</p>
+106.943   0.030 106.982 </code></pre>
+</div>
+<div id="set-up-contrast-matrix" class="section level1">
+<h1>Set up contrast matrix</h1>
+<p>First, we set up a contrast matrix. This allows us to test for differential transcript usage between groups of interest.</p>
 <pre class="r"><code>group &lt;- as.factor(targets$CMV_status)
-pair &lt;- as.factor(targets$pair)
-design &lt;- model.matrix(~ 0 + group + pair) # construct design matrix
+#pair &lt;- as.factor(targets$pair)
+design &lt;- model.matrix(~ 0 + group)# + pair) # construct design matrix
 colnames(design)[1:2] &lt;- levels(group)
 
 L &lt;- limma::makeContrasts(
@@ -1329,46 +1409,109 @@ L &lt;- limma::makeContrasts(
     levels = design
 )
 L # contrast matrix</code></pre>
-<pre><code>         Contrasts
-Levels    Contrast1
-  neg             1
-  pos            -1
-  pairL2          0
-  pairL3          0
-  pairL4          0
-  pairL5          0
-  pairL6          0
-  pairL7          0
-  pairL8          0
-  pairL9          0
-  pairM1          0
-  pairM2          0
-  pairNC1         0
-  pairNC2         0</code></pre>
-<p>Perform the test Next we can perform differential usage testing using testDTU. We again adopt default settings. For more information on the parameter settings, please comsult the help file of the testDTU function.</p>
+<pre><code>      Contrasts
+Levels Contrast1
+   neg         1
+   pos        -1</code></pre>
+</div>
+<div id="perform-the-test" class="section level1">
+<h1>Perform the test</h1>
+<p>Next we can perform differential usage testing using <code>testDTU</code>. We again adopt default settings.</p>
 <pre class="r"><code>sumExp &lt;- satuRn::testDTU(
     object = sumExp,
     contrasts = L,
     plot = FALSE,
     sort = TRUE
 )</code></pre>
-<p>The test results are now saved into the rowData of our SummarizedExperiment object under the name fitDTUResult_ followed by the name of the contrast of interest (i.e. the column names of the contrast matrix). The results can be accessed as follows:</p>
-<pre class="r"><code>head(rowData(sumExp)[[&quot;fitDTUResult_Contrast1&quot;]])</code></pre>
-<pre><code>                 estimates         se       df         t         pval
-ENST00000334744  0.7551322 0.14028475 12.88846  5.382853 0.0001285312
-ENST00000395529  0.5284519 0.09881913 12.88846  5.347668 0.0001364873
-ENST00000394450 -0.7551322 0.14028475 12.88846 -5.382853 0.0001285312
-ENST00000393514  1.3760246 0.26381365 12.88846  5.215896 0.0001711735
-ENST00000261332 -2.1028953 0.41375757 12.88846 -5.082433 0.0002158215
-ENST00000339561  1.7050454 0.34349751 12.88846  4.963778 0.0002657436
-                regular_FDR empirical_pval empirical_FDR
-ENST00000334744   0.7544186   0.0004076967     0.9988623
-ENST00000395529   0.7544186   0.0004291954     0.9988623
-ENST00000394450   0.7544186   0.0004651809     0.9988623
-ENST00000393514   0.7544186   0.0005209740     0.9988623
-ENST00000261332   0.7544186   0.0007220416     0.9988623
-ENST00000339561   0.7544186   0.0007592072     0.9988623</code></pre>
-<p>Visualize DTU Finally, we may visualize the usage of select transcripts in select groups of interest.</p>
+<p>The test results are now saved into the <code>rowData</code> of our <code>SummarizedExperiment</code> object under the name <code>fitDTUResult_</code> followed by the name of the contrast of interest (i.e. the column names of the contrast matrix). The results can be accessed as follows:</p>
+<pre class="r"><code>head(rowData(sumExp)[[&quot;fitDTUResult_Contrast1&quot;]]) %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">estimates</th>
+<th align="right">se</th>
+<th align="right">df</th>
+<th align="right">t</th>
+<th align="right">pval</th>
+<th align="right">regular_FDR</th>
+<th align="right">empirical_pval</th>
+<th align="right">empirical_FDR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ENST00000265417.7</td>
+<td align="right">3.958770e+15</td>
+<td align="right">2.132338e+14</td>
+<td align="right">25.77265</td>
+<td align="right">18.56540</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0e+00</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000283296.12</td>
+<td align="right">-3.958770e+15</td>
+<td align="right">2.132338e+14</td>
+<td align="right">25.77265</td>
+<td align="right">-18.56540</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0e+00</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000435136.8</td>
+<td align="right">-3.926028e+15</td>
+<td align="right">2.189772e+14</td>
+<td align="right">25.77265</td>
+<td align="right">-17.92894</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0e+00</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000224807.9</td>
+<td align="right">3.832546e+15</td>
+<td align="right">2.397173e+14</td>
+<td align="right">25.77265</td>
+<td align="right">15.98777</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1.0e-07</td>
+</tr>
+<tr class="odd">
+<td align="left">ENST00000393459.5</td>
+<td align="right">-3.832546e+15</td>
+<td align="right">2.397173e+14</td>
+<td align="right">25.77265</td>
+<td align="right">-15.98777</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1.0e-07</td>
+</tr>
+<tr class="even">
+<td align="left">ENST00000671800.1</td>
+<td align="right">3.339259e+15</td>
+<td align="right">2.563662e+14</td>
+<td align="right">25.77265</td>
+<td align="right">13.02535</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1.5e-06</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="visualize-dtu" class="section level1">
+<h1>Visualize DTU</h1>
+<p>Finally, we may visualize the usage of select transcripts in select groups of interest.</p>
 <pre class="r"><code>group1 &lt;- rownames(colData(sumExp))[colData(sumExp)$CMV_status == 
                                       &quot;neg&quot;]
 group2 &lt;- rownames(colData(sumExp))[colData(sumExp)$CMV_status == 
@@ -1378,35 +1521,21 @@ plots &lt;- satuRn::plotDTU(
     object = sumExp,
     contrast = &quot;Contrast1&quot;,
     groups = list(group1, group2),
-    coefficients = list(c(1, rep(0, 13)), 
-                        c(0, 1, rep(0,12))),
+    coefficients = list(c(1, 0), 
+                        c(0, 1)),
     summaryStat = &quot;model&quot;,
-    top.n = 6
+    top.n = 5
 )
 
-plots</code></pre>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-16-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-16-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[4]]</code></pre>
-<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-16-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[5]]</code></pre>
-<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-16-5.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[6]]</code></pre>
-<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-16-6.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Two-stage testing procedure satuRn returns transcript-level p-values for each of the specified contrasts. While we have shown that satuRn is able to adequately control the false discovery rate (FDR) at the transcript level (Gilis Jeroen 2021), (Van den Berge Koen 2017) argued that it is often desirable to control the FDR at the gene level. This boosts statistical power and eases downstream biological interpretation and validation, which typically occur at the gene level.</p>
-<p>To this end, (Van den Berge Koen 2017) developed a testing procedure that is implemented in the BioConductor R package stageR. The procedure consists of two stages; a screening stage and a confirmation stage.</p>
+wrap_plots(plots, ncol = 1) + plot_layout(guides = &quot;collect&quot;)</code></pre>
+<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="two-stage-testing-procedure" class="section level1">
+<h1>Two-stage testing procedure</h1>
+<p><em>satuRn</em> returns transcript-level p-values for each of the specified contrasts. While we have shown that satuRn is able to adequately control the false discovery rate (FDR) at the transcript level (Gilis Jeroen 2021), (Van den Berge Koen 2017) argued that it is often desirable to control the FDR at the gene level. This boosts statistical power and eases downstream biological interpretation and validation, which typically occur at the gene level.</p>
+<p>To this end, (Van den Berge Koen 2017) developed a testing procedure that is implemented in the BioConductor R package <em>stageR</em>. The procedure consists of two stages; a screening stage and a confirmation stage.</p>
 <p>In the screening stage, gene-level FDR-adjusted p-values are computed, which aggregate the evidence for differential transcript usage over all transcripts within the gene. Only genes with an FDR below the desired nominal level are further considered in the second stage. In the confirmation stage, transcript-level p-values are adjusted for those genes, using a FWER-controlling method on the FDR-adjusted significance level.</p>
-<p>In its current implementation, stageR can only perform stage-wise testing if only one contrast is of interest in a DTU setting. An analogous correction for the assessment of multiple contrasts for multiple transcripts per gene has not yet been implemented.</p>
-<p>Below, we demonstrate how the transcript-level p-values for the first contrast as returned by satuRn can be post-processed using stageR. We rely on the perGeneQValue function:</p>
+<p>In its current implementation, <em>stageR</em> can only perform stage-wise testing if only one contrast is of interest in a DTU setting. An analogous correction for the assessment of multiple contrasts for multiple transcripts per gene has not yet been implemented.</p>
 <pre class="r"><code># transcript level p-values from satuRn
 pvals &lt;- rowData(sumExp)[[&quot;fitDTUResult_Contrast1&quot;]]$empirical_pval
 
@@ -1451,10 +1580,219 @@ stageRObj &lt;- stageR::stageWiseAdjustment(
 
 # retrieves the adjusted p-values from the stageRTx object
 padj &lt;- stageR::getAdjustedPValues(stageRObj,
-    order = TRUE,
-    onlySignificantGenes = FALSE
+    order = FALSE,
+    onlySignificantGenes = TRUE
 )</code></pre>
 <pre><code>The returned adjusted p-values are based on a stage-wise testing approach and are only valid for the provided target OFDR level of 5%. If a different target OFDR level is of interest,the entire adjustment should be re-run. </code></pre>
+<pre class="r"><code>padj %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">geneID</th>
+<th align="left">txID</th>
+<th align="right">gene</th>
+<th align="right">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">ENST00000598345.1</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">ENST00000599109.5</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">10</td>
+<td align="left">ENST00000286479.4</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">ENST00000520116.1</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">100</td>
+<td align="left">ENST00000372874.9</td>
+<td align="right">0.0000001</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">100</td>
+<td align="left">ENST00000537820.1</td>
+<td align="right">0.0000001</td>
+<td align="right">0.0000006</td>
+</tr>
+<tr class="odd">
+<td align="left">100</td>
+<td align="left">ENST00000539235.5</td>
+<td align="right">0.0000001</td>
+<td align="right">0.0000015</td>
+</tr>
+<tr class="even">
+<td align="left">1000</td>
+<td align="left">ENST00000269141.8</td>
+<td align="right">0.0346337</td>
+<td align="right">0.0171931</td>
+</tr>
+<tr class="odd">
+<td align="left">1000</td>
+<td align="left">ENST00000399380.7</td>
+<td align="right">0.0346337</td>
+<td align="right">0.2700311</td>
+</tr>
+<tr class="even">
+<td align="left">1000</td>
+<td align="left">ENST00000418492.5</td>
+<td align="right">0.0346337</td>
+<td align="right">0.6179705</td>
+</tr>
+<tr class="odd">
+<td align="left">1000</td>
+<td align="left">ENST00000413878.1</td>
+<td align="right">0.0346337</td>
+<td align="right">0.6179705</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>select(org.Hs.eg.db, 
+       keys = padj$geneID, 
+       columns = c(&quot;SYMBOL&quot;,&quot;ENTREZID&quot;),
+       keytype = &quot;ENTREZID&quot;) %&gt;%
+  dplyr::distinct() %&gt;% 
+  dplyr::inner_join(padj, by = c(&quot;ENTREZID&quot; = &quot;geneID&quot;)) %&gt;%
+  dplyr::arrange(gene, transcript) -&gt; top_gene</code></pre>
+<pre><code>&#39;select()&#39; returned many:1 mapping between keys and columns</code></pre>
+<pre class="r"><code>top_gene %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">ENTREZID</th>
+<th align="left">SYMBOL</th>
+<th align="left">txID</th>
+<th align="right">gene</th>
+<th align="right">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">A1BG</td>
+<td align="left">ENST00000598345.1</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">A1BG</td>
+<td align="left">ENST00000599109.5</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">10</td>
+<td align="left">NAT2</td>
+<td align="left">ENST00000286479.4</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">NAT2</td>
+<td align="left">ENST00000520116.1</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">100</td>
+<td align="left">ADA</td>
+<td align="left">ENST00000372874.9</td>
+<td align="right">0.0000001</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">100</td>
+<td align="left">ADA</td>
+<td align="left">ENST00000537820.1</td>
+<td align="right">0.0000001</td>
+<td align="right">0.0000006</td>
+</tr>
+<tr class="odd">
+<td align="left">100</td>
+<td align="left">ADA</td>
+<td align="left">ENST00000539235.5</td>
+<td align="right">0.0000001</td>
+<td align="right">0.0000015</td>
+</tr>
+<tr class="even">
+<td align="left">1000</td>
+<td align="left">CDH2</td>
+<td align="left">ENST00000269141.8</td>
+<td align="right">0.0346337</td>
+<td align="right">0.0171931</td>
+</tr>
+<tr class="odd">
+<td align="left">1000</td>
+<td align="left">CDH2</td>
+<td align="left">ENST00000399380.7</td>
+<td align="right">0.0346337</td>
+<td align="right">0.2700311</td>
+</tr>
+<tr class="even">
+<td align="left">1000</td>
+<td align="left">CDH2</td>
+<td align="left">ENST00000418492.5</td>
+<td align="right">0.0346337</td>
+<td align="right">0.6179705</td>
+</tr>
+<tr class="odd">
+<td align="left">1000</td>
+<td align="left">CDH2</td>
+<td align="left">ENST00000413878.1</td>
+<td align="right">0.0346337</td>
+<td align="right">0.6179705</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>group1 &lt;- rownames(colData(sumExp))[colData(sumExp)$CMV_status == 
+                                      &quot;neg&quot;]
+group2 &lt;- rownames(colData(sumExp))[colData(sumExp)$CMV_status == 
+                                      &quot;pos&quot;]
+
+plots &lt;- satuRn::plotDTU(
+    object = sumExp,
+    contrast = &quot;Contrast1&quot;,
+    groups = list(group1, group2),
+    coefficients = list(c(1, 0), 
+                        c(0, 1)),
+    summaryStat = &quot;model&quot;,
+    genes = unique(padj$geneID)
+)
+
+wrap_plots(plots, ncol = 1) + plot_layout(guides = &quot;collect&quot;)</code></pre>
+<pre><code>Warning: Removed 11 rows containing non-finite values (stat_ydensity).</code></pre>
+<pre><code>Warning: Removed 11 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 11 rows containing non-finite values (stat_ydensity).</code></pre>
+<pre><code>Warning: Removed 11 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 8 rows containing non-finite values (stat_ydensity).</code></pre>
+<pre><code>Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 8 rows containing non-finite values (stat_ydensity).</code></pre>
+<pre><code>Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 7 rows containing non-finite values (stat_ydensity).</code></pre>
+<pre><code>Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 7 rows containing non-finite values (stat_ydensity).</code></pre>
+<pre><code>Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 7 rows containing non-finite values (stat_ydensity).</code></pre>
+<pre><code>Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/salmon-SatuRn.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1484,86 +1822,85 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] stageR_1.12.0               DEXSeq_1.36.0              
- [3] RColorBrewer_1.1-2          DESeq2_1.30.1              
- [5] BiocParallel_1.24.1         SummarizedExperiment_1.20.0
- [7] MatrixGenerics_1.2.1        matrixStats_0.59.0         
- [9] edgeR_3.32.1                limma_3.46.0               
-[11] EnsDb.Hsapiens.v86_2.99.0   ensembldb_2.14.0           
-[13] AnnotationFilter_1.14.0     GenomicFeatures_1.42.1     
-[15] AnnotationDbi_1.52.0        GenomicRanges_1.42.0       
-[17] GenomeInfoDb_1.26.7         IRanges_2.24.1             
-[19] S4Vectors_0.28.1            AnnotationHub_2.22.0       
-[21] BiocFileCache_1.14.0        dbplyr_2.1.0               
-[23] satuRn_0.99.7               tximport_1.18.0            
-[25] patchwork_1.1.1             NMF_0.23.0                 
-[27] Biobase_2.50.0              BiocGenerics_0.36.1        
-[29] cluster_2.1.0               rngtools_1.5               
-[31] pkgmaker_0.32.2             registry_0.5-1             
-[33] forcats_0.5.1               stringr_1.4.0              
-[35] dplyr_1.0.4                 purrr_0.3.4                
-[37] readr_1.4.0                 tidyr_1.1.2                
-[39] tibble_3.1.2                ggplot2_3.3.5              
-[41] tidyverse_1.3.0             here_1.0.1                 
-[43] workflowr_1.6.2            
+ [1] BANDITS_1.6.0                           
+ [2] stageR_1.12.0                           
+ [3] DEXSeq_1.36.0                           
+ [4] RColorBrewer_1.1-2                      
+ [5] DESeq2_1.30.1                           
+ [6] BiocParallel_1.24.1                     
+ [7] SummarizedExperiment_1.20.0             
+ [8] MatrixGenerics_1.2.1                    
+ [9] matrixStats_0.59.0                      
+[10] edgeR_3.32.1                            
+[11] limma_3.46.0                            
+[12] TxDb.Hsapiens.UCSC.hg38.knownGene_3.10.0
+[13] GenomicFeatures_1.42.1                  
+[14] GenomicRanges_1.42.0                    
+[15] GenomeInfoDb_1.26.7                     
+[16] org.Hs.eg.db_3.12.0                     
+[17] AnnotationDbi_1.52.0                    
+[18] IRanges_2.24.1                          
+[19] S4Vectors_0.28.1                        
+[20] satuRn_0.99.7                           
+[21] tximport_1.18.0                         
+[22] patchwork_1.1.1                         
+[23] NMF_0.23.0                              
+[24] Biobase_2.50.0                          
+[25] BiocGenerics_0.36.1                     
+[26] cluster_2.1.0                           
+[27] rngtools_1.5                            
+[28] pkgmaker_0.32.2                         
+[29] registry_0.5-1                          
+[30] forcats_0.5.1                           
+[31] stringr_1.4.0                           
+[32] dplyr_1.0.4                             
+[33] purrr_0.3.4                             
+[34] readr_1.4.0                             
+[35] tidyr_1.1.2                             
+[36] tibble_3.1.2                            
+[37] ggplot2_3.3.5                           
+[38] tidyverse_1.3.0                         
+[39] here_1.0.1                              
+[40] workflowr_1.6.2                         
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1                  backports_1.2.1              
-  [3] plyr_1.8.6                    lazyeval_0.2.2               
-  [5] splines_4.0.2                 gridBase_0.4-7               
-  [7] digest_0.6.27                 foreach_1.5.1                
-  [9] htmltools_0.5.1.1             fansi_0.5.0                  
- [11] magrittr_2.0.1                memoise_2.0.0                
- [13] doParallel_1.0.16             annotate_1.68.0              
- [15] Biostrings_2.58.0             modelr_0.1.8                 
- [17] askpass_1.1                   prettyunits_1.1.1            
- [19] colorspace_2.0-2              blob_1.2.1                   
- [21] rvest_0.3.6                   rappdirs_0.3.3               
- [23] haven_2.3.1                   xfun_0.23                    
- [25] crayon_1.4.1                  RCurl_1.98-1.3               
- [27] jsonlite_1.7.2                genefilter_1.72.1            
- [29] survival_3.2-7                iterators_1.0.13             
- [31] glue_1.4.2                    gtable_0.3.0                 
- [33] zlibbioc_1.36.0               XVector_0.30.0               
- [35] DelayedArray_0.16.3           scales_1.1.1                 
- [37] DBI_1.1.1                     Rcpp_1.0.6                   
- [39] xtable_1.8-4                  progress_1.2.2               
- [41] bit_4.0.4                     httr_1.4.2                   
- [43] ellipsis_0.3.2                farver_2.1.0                 
- [45] pkgconfig_2.0.3               XML_3.99-0.5                 
- [47] locfit_1.5-9.4                utf8_1.2.1                   
- [49] labeling_0.4.2                tidyselect_1.1.0             
- [51] rlang_0.4.11                  reshape2_1.4.4               
- [53] later_1.1.0.1                 munsell_0.5.0                
- [55] BiocVersion_3.12.0            cellranger_1.1.0             
- [57] tools_4.0.2                   cachem_1.0.4                 
- [59] cli_3.0.0                     generics_0.1.0               
- [61] RSQLite_2.2.5                 broom_0.7.4                  
- [63] evaluate_0.14                 fastmap_1.1.0                
- [65] yaml_2.2.1                    knitr_1.31                   
- [67] bit64_4.0.5                   fs_1.5.0                     
- [69] pbapply_1.4-3                 whisker_0.4                  
- [71] mime_0.10                     xml2_1.3.2                   
- [73] biomaRt_2.46.3                compiler_4.0.2               
- [75] rstudioapi_0.13               curl_4.3                     
- [77] interactiveDisplayBase_1.28.0 reprex_1.0.0                 
- [79] statmod_1.4.35                geneplotter_1.68.0           
- [81] stringi_1.5.3                 highr_0.8                    
- [83] lattice_0.20-41               ProtGenerics_1.22.0          
- [85] Matrix_1.3-2                  vctrs_0.3.8                  
- [87] pillar_1.6.1                  lifecycle_1.0.0              
- [89] BiocManager_1.30.10           bitops_1.0-7                 
- [91] rtracklayer_1.50.0            httpuv_1.5.5                 
- [93] hwriter_1.3.2                 R6_2.5.0                     
- [95] promises_1.2.0.1              codetools_0.2-18             
- [97] boot_1.3-26                   assertthat_0.2.1             
- [99] openssl_1.4.3                 rprojroot_2.0.2              
-[101] withr_2.4.2                   GenomicAlignments_1.26.0     
-[103] Rsamtools_2.6.0               GenomeInfoDbData_1.2.4       
-[105] locfdr_1.1-8                  hms_1.0.0                    
-[107] grid_4.0.2                    rmarkdown_2.6                
-[109] git2r_0.28.0                  shiny_1.6.0                  
-[111] lubridate_1.7.9.2            </code></pre>
+  [1] readxl_1.3.1             backports_1.2.1          DRIMSeq_1.18.0          
+  [4] BiocFileCache_1.14.0     plyr_1.8.6               splines_4.0.2           
+  [7] gridBase_0.4-7           digest_0.6.27            foreach_1.5.1           
+ [10] htmltools_0.5.1.1        fansi_0.5.0              magrittr_2.0.1          
+ [13] memoise_2.0.0            doParallel_1.0.16        annotate_1.68.0         
+ [16] Biostrings_2.58.0        modelr_0.1.8             askpass_1.1             
+ [19] prettyunits_1.1.1        colorspace_2.0-2         blob_1.2.1              
+ [22] rvest_0.3.6              rappdirs_0.3.3           haven_2.3.1             
+ [25] xfun_0.23                crayon_1.4.1             RCurl_1.98-1.3          
+ [28] jsonlite_1.7.2           genefilter_1.72.1        survival_3.2-7          
+ [31] iterators_1.0.13         glue_1.4.2               gtable_0.3.0            
+ [34] zlibbioc_1.36.0          XVector_0.30.0           DelayedArray_0.16.3     
+ [37] scales_1.1.1             DBI_1.1.1                Rcpp_1.0.6              
+ [40] xtable_1.8-4             progress_1.2.2           bit_4.0.4               
+ [43] httr_1.4.2               ellipsis_0.3.2           farver_2.1.0            
+ [46] pkgconfig_2.0.3          XML_3.99-0.5             dbplyr_2.1.0            
+ [49] locfit_1.5-9.4           utf8_1.2.1               labeling_0.4.2          
+ [52] tidyselect_1.1.0         rlang_0.4.11             reshape2_1.4.4          
+ [55] later_1.1.0.1            munsell_0.5.0            cellranger_1.1.0        
+ [58] tools_4.0.2              cachem_1.0.4             cli_3.0.0               
+ [61] generics_0.1.0           RSQLite_2.2.5            broom_0.7.4             
+ [64] evaluate_0.14            fastmap_1.1.0            yaml_2.2.1              
+ [67] knitr_1.31               bit64_4.0.5              fs_1.5.0                
+ [70] doRNG_1.8.2              pbapply_1.4-3            whisker_0.4             
+ [73] xml2_1.3.2               biomaRt_2.46.3           compiler_4.0.2          
+ [76] rstudioapi_0.13          curl_4.3                 reprex_1.0.0            
+ [79] statmod_1.4.35           geneplotter_1.68.0       stringi_1.5.3           
+ [82] highr_0.8                lattice_0.20-41          Matrix_1.3-2            
+ [85] vctrs_0.3.8              pillar_1.6.1             lifecycle_1.0.0         
+ [88] data.table_1.13.6        bitops_1.0-7             httpuv_1.5.5            
+ [91] rtracklayer_1.50.0       hwriter_1.3.2            R6_2.5.0                
+ [94] promises_1.2.0.1         codetools_0.2-18         MASS_7.3-53.1           
+ [97] boot_1.3-26              assertthat_0.2.1         openssl_1.4.3           
+[100] rprojroot_2.0.2          withr_2.4.2              GenomicAlignments_1.26.0
+[103] Rsamtools_2.6.0          GenomeInfoDbData_1.2.4   locfdr_1.1-8            
+[106] hms_1.0.0                grid_4.0.2               rmarkdown_2.6           
+[109] git2r_0.28.0             lubridate_1.7.9.2       </code></pre>
 </div>
 </div>
 
