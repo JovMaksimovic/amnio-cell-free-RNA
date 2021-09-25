@@ -1,0 +1,234 @@
+---
+title: "Salmon quasi-mapping with RUVseq-edgeR analysis"
+output: html_notebook
+---
+
+```{r, message=FALSE}
+library(tximport)
+library(here)
+library(tidyverse)
+library(paletteer)
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+library(EnsDb.Hsapiens.v86)
+library(readr)
+library(limma)
+library(edgeR)
+library(NMF)
+library(EDASeq)
+library(RUVSeq)
+
+source(here("code/output.R"))
+```
+
+# Data import
+
+As with the [limma-voom](salmon-limma-voom.html) analysis, the data was quasi-mapped and quantified using Salmon (v0.14.1) with the GENCODE (v31) human (hg38) transcriptome and decoy sequences. The mapping statistics can be found [here](multiqc_report.html). There appeared to be an issue with adapter contamination, with all samples having relatively low mapping percentages. 
+
+Load sample information and file names.
+
+```{r}
+samples <- read.csv(here("data/samples.csv"), stringsAsFactors = FALSE, header = TRUE)
+files <- list.files(here("data/salmon-pilot-analysis/190717_A00692_0021_AHLLHFDSXX/new_salmon/quants"), 
+                    recursive = TRUE, pattern = "quant.sf", full.names = TRUE)
+names(files) <- strsplit2(files, "_")[,10]
+
+files <- files[names(files) %in% samples$SampleId]
+samples <- samples[match(names(files), samples$SampleId),]
+
+all(file.exists(files))
+```
+
+```{r}
+metadat <- read.csv(file = here("data/metadata.csv"), header = TRUE, 
+                    stringsAsFactors = FALSE)
+joindat <- read.csv(file = here("data/joindata.csv"), header = TRUE, 
+                    stringsAsFactors = FALSE)
+
+metadat %>% inner_join(joindat, by = c("Record.ID" = "UR")) %>% 
+  inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> a
+metadat %>% inner_join(joindat, by = c("Tube.ID" = "UR")) %>% 
+  inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> b
+
+alldat <- bind_rows(a,b)
+alldat %>% inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> targets
+targets <- targets[match(samples$SampleId, targets$ID.post.extraction),]
+targets$Sex <- toupper(targets$Sex)
+```
+
+Associate transcripts with gene IDs for gene-level summarization.
+
+```{r}
+edb <- EnsDb.Hsapiens.v86
+tx2gene <- transcripts(edb, columns = c("tx_id", "gene_id"), return.type = "DataFrame")
+```
+
+Import gene-level counts and abundances.
+
+```{r}
+txiG <- tximport(files, type = "salmon", tx2gene = tx2gene, ignoreTxVersion = TRUE)
+head(txiG$counts)
+```
+
+Calculate offsets.
+
+```{r}
+ctsG <- txiG$counts
+normMat <- txiG$length
+normMat <- normMat / exp(rowMeans(log(normMat)))
+o <- log(calcNormFactors(ctsG/normMat)) + log(colSums(ctsG/normMat))
+z <- DGEList(ctsG)
+z <- scaleOffset(z, t(t(log(normMat)) + o))
+```
+
+# Quality control
+
+Filter out lowly expressed genes as with the [limma-voom](salmon-limma-voom.html) analysis.
+
+```{r}
+z$genes <- ensembldb::genes(edb, filter = GeneIdFilter(rownames(z)), 
+                 columns = c("gene_id", "symbol", "entrezid"), return.type = "DataFrame")
+z$genes$entrezid <- sapply(z$genes$entrezid, function(x) x[1])
+z$genes$length <- rowMedians(txiG$length)
+z$group <- ifelse(targets$TestResult.x == "neg","neg","pos")
+
+keep <- filterByExpr(z, group = z$group)
+y <- z[keep,]
+y
+```
+
+The MDS plots are the same as for the [limma-voom](salmon-limma-voom.html) analysis. 
+
+```{r, fig.height=8, fig.width=9}
+pal <- paletteer_d("LaCroixColoR::paired", 14)
+
+colourBy <- c("CMV_result" = "TestResult.x","GA_at_amnio" = "GA.at.amnio","Sex" = "Sex",
+              "Matched_pair" = "matchedpair", "Site" = "Site.y")
+lcpm <- cpm(y, log = TRUE)
+
+for(i in 1:length(colourBy)){
+  
+  par(mfrow=c(2,2), oma = c(0,0,2,0))
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])]) 
+  legend("topleft", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.8)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(1,3))
+  legend("right", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.8)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(2,3))
+  legend("topright", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.8)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(3,4))
+  legend("bottomleft", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.8)
+  title(main = paste0("Coloured by ", names(colourBy)[i]), outer = TRUE)
+}
+```
+
+# RUVSeq analysis
+
+Given that there is a lot ov variability between the samples and it is not clearly associated with any of the known features of the data, we will use and `RUVSeq` analysis to remove some of the unwanted variation from the data. We will estimate the unwanted variation using the expression of known house-keeping genes (HKG), as defined using the Human BodyMap 2.0 [data](https://www.tau.ac.il/~elieis/HKG/), in our dataset.
+
+The heatmap below shows the expression of the HKG in our samples. Although the expression is fairly uniform, some variability is apparent between the samples.
+
+```{r, fig.height=6, fig.width=7}
+hkGenes <- read.delim(here("data/HK_genes.txt"), stringsAsFactors = FALSE, 
+                      header = FALSE, col.names = c("SYMBOL","REFSEQ"), 
+                      strip.white = TRUE)
+y$genes <- GenomicFeatures::genes(edb, filter = GeneIdFilter(rownames(y)), 
+                 columns = c("gene_id", "symbol", "entrezid"), 
+                 return.type = "DataFrame")
+
+aheatmap(cpm(y[y$genes$symbol %in% hkGenes$SYMBOL,], log = TRUE),
+         main = "log2 CPM Expression of HKG", labRow = NA,  
+         annCol = list(GA_at_amnio = targets$GA.at.amnio, 
+                       CMV_result = targets$TestResult.x, 
+                       Matched_pair = targets$matchedpair),
+         scale = "none")
+```
+
+Using the `RUVg` function, we will estimate the unwanted variation in our data using the HKG for k = 1 and k = 2.  
+
+```{r}
+yRg1 <- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=1)
+yRg2 <- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=2)
+```
+
+The RLE plots below show that `RUVg` adjustment is a significant improvement over the raw data for both values of k.
+
+```{r fig.width=9, fig.height=6}
+par(mfrow=c(1,3))
+plotRLE(log2(y$counts + 2), ylim=c(-0.5,0.5), las=2, main="Raw")
+plotRLE(yRg1$normalizedCounts, ylim=c(-0.5,0.5), las=2, main="RUVg k=1")
+plotRLE(yRg2$normalizedCounts, ylim=c(-0.5,0.5), las=2, main="RUVg k=2")
+```
+
+The MDS plots of the `RUVg` normalised counts show clearer separation between the CMV negative and CMV positive samples, particularly with k=2. However, the CMV3 "normal" sample continues to cluster with the CMV positive samples.
+
+```{r, fig.width=9}
+i=1
+par(mfrow=c(1,2))
+  plotMDS(yRg1$normalizedCounts, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])]) 
+  legend("bottomright", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  plotMDS(yRg2$normalizedCounts, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])])
+  legend("topleft", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+```
+
+# Differential expression analysis
+
+We will look for differentially expressed genes, using the negative binomial GLM approach implemented in `edgeR`.
+This is done by considering a design matrix that includes both the covariates of interest (CMV result) and the factors of unwanted variation calculated by `RUVg`. The CMV positive samples were compared to the CMV negative (normal) samples. A summary of the numbers of differentially expressed genes is shown below, as well as the top 20 differentially expressed genes. The full results tables were exported as csv files. 
+
+```{r}
+design <- model.matrix(~y$group + yRg2$W)
+y <- calcNormFactors(y)
+y <- estimateGLMCommonDisp(y, design)
+y <- estimateGLMTagwiseDisp(y, design)
+fit <- glmFit(y, design)
+lrt <- glmLRT(fit, coef=2)
+topRE <- topTags(lrt, n=100)$table
+table(topRE$FDR < 0.1)
+```
+```{r}
+write.csv(topRE, file = here("output/salmon-ruvseq-edger.csv"))
+head(as.data.frame(topRE), n = 20)
+```
+
+The following plots show the expression of the top 9 ranked differentially expressed genes for CMV negative and CMV positive samples, using the `RUVg` normalised counts. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.
+
+```{r, fig.width=8, fig.height=6}
+lcpm<- yRg2$normalizedCounts
+
+par(mfrow=c(3,3), mar=c(3,4,4,2) + 0.1)
+for(i in 1:9){
+stripchart(lcpm[rownames(lcpm) == topRE$gene_id[i],] ~ y$group,
+           vertical = TRUE, las = 2, cex.axis = 0.8, pch = 16, cex = 1.3,
+           method = "jitter", ylab = "log2 CPM", main = topRE$symbol[i],
+           col = pal[factor(y$group)])
+}
+```
+
+# Gene set testing
+
+Testing for over-representation of gene ontology (GO) terms in the significantly differentially expressed genes (FDR < 0.1) again highlights the reponse to interferon.
+
+```{r}
+go <- goana(unlist(topRE$entrezid[topRE$FDR < 0.1]), trend = "length")
+topGO(go)
+```
+
+# Summary 
+
+RUVSeq analysis of the data reduced some of the variability present and resulted in 37 significantly differentially expressed genes (FDR < 0.1) that were over-represented for GO terms associated with reponse to interferon, which was consistent with the previous [limma-voom](salmon-limma-voom.html) analysis.  
+
+```{r}
+sessionInfo()
+```
+

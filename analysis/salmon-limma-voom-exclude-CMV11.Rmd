@@ -1,0 +1,442 @@
+---
+title: "Salmon quasi-mapping with limma-voom analysis"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=FALSE, echo=FALSE}
+library(tximport)
+library(here)
+library(tidyverse)
+library(paletteer)
+library(EnsDb.Hsapiens.v86)
+library(readr)
+library(limma)
+library(edgeR)
+library(NMF)
+library(EGSEA)
+library(EGSEAdata)
+library(org.Hs.eg.db)
+#library(EDASeq)
+
+
+source(here("code/output.R"))
+```
+
+# Data import
+
+The data was quasi-mapped and quantified using Salmon (v0.14.1) with the GENCODE (v31) human (hg38) transcriptome and decoy sequences. There appeared to be an issue with adapter contamination, with all samples having relatively low mapping percentages. 
+
+Load sample information and file names.
+
+```{r, echo=FALSE}
+samples <- read.csv(here("data/samples.csv"), stringsAsFactors = FALSE, header = TRUE)
+files <- list.files(here("data/salmon-pilot-analysis/190717_A00692_0021_AHLLHFDSXX/new_salmon/quants"), 
+                    recursive = TRUE, pattern = "quant.sf", full.names = TRUE)
+names(files) <- strsplit2(files, "_")[,10]
+
+files <- files[names(files) %in% samples$SampleId]
+samples <- samples[match(names(files), samples$SampleId),]
+
+all(file.exists(files))
+```
+
+Load all the metadata and associate with samples.
+
+```{r, echo=FALSE}
+metadat <- read.csv(file = here("data/metadata.csv"), header = TRUE, 
+                    stringsAsFactors = FALSE)
+joindat <- read.csv(file = here("data/joindata.csv"), header = TRUE, 
+                    stringsAsFactors = FALSE)
+
+metadat %>% inner_join(joindat, by = c("Record.ID" = "UR")) %>% 
+  inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> a
+metadat %>% inner_join(joindat, by = c("Tube.ID" = "UR")) %>% 
+  inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> b
+
+alldat <- bind_rows(a,b)
+alldat %>% inner_join(samples, by = c("ID.post.extraction" = "SampleId")) -> targets
+targets <- targets[match(samples$SampleId, targets$ID.post.extraction),]
+targets$Sex <- toupper(targets$Sex)
+head(targets)
+```
+
+Exclude CMV11 and its pairs.
+
+```{r}
+targets <- targets[targets$matchedpair != "NC1",]
+files <- files[names(files) %in% targets$ID.post.extraction]
+```
+
+Associate transcripts with gene IDs for gene-level summarization.
+
+```{r, echo=FALSE}
+edb <- EnsDb.Hsapiens.v86
+tx2gene <- transcripts(edb, columns = c("tx_id", "gene_id"), return.type = "DataFrame")
+tx2gene
+```
+
+Import gene-level counts and abundances.
+
+```{r, echo=FALSE}
+txiG <- tximport(files, type = "salmon", tx2gene = tx2gene, 
+                  countsFromAbundance = "lengthScaledTPM", 
+                  ignoreTxVersion = TRUE)
+head(txiG$counts)
+```
+
+Set up `DGElist` object for downstream analysis.
+
+```{r, echo=FALSE}
+z <- DGEList(txiG$counts)
+z$genes <- ensembldb::genes(edb, filter = GeneIdFilter(rownames(z)), 
+                 columns = c("gene_id", "symbol", "entrezid"), return.type = "DataFrame")
+z$genes$entrezid <- sapply(z$genes$entrezid, function(x) x[1])
+z$genes$length <- rowMedians(txiG$length)
+z$group <- ifelse(targets$TestResult.x == "neg","neg","pos")
+z
+```
+
+# Quality control
+
+Genes that do not have an adequate number of reads in any sample should be filtered out prior to downstream analyses. From a biological perspective, genes that are not expressed at a biologically meaningful level in any condition are not of interest. Statistically, we get a better estimate of the mean-variance relationship in the data and reduce the number of statistical tests that are performes during differential expression analyses.
+
+Filter out lowly expressed genes and calculate TMM normalisation factors.
+
+```{r, echo=FALSE}
+keep <- filterByExpr(z, group = z$group)
+x <- z[keep, ]
+y <- calcNormFactors(x)
+y
+```
+
+Plotting the distribution log-CPM values shows that a majority of genes within each sample are either not expressed or lowly-expressed with log-CPM values that are small or negative.
+
+```{r, echo=FALSE}
+L <- mean(z$samples$lib.size) * 1e-6
+M <- median(z$samples$lib.size) * 1e-6
+
+par(mfrow=c(1,2))
+lcpmz <- cpm(z, log = TRUE)
+lcpm.cutoff <- log2(10/M + 2/L)
+nsamples <- ncol(z)
+col <- paletteer_d("Polychrome::dark",24)
+plot(density(lcpmz[,1]), col=col[1], lwd=2, ylim=c(0,1.5), las=2, main="", xlab="")
+title(main="Unfiltered data", xlab="Log-cpm")
+abline(v=lcpm.cutoff, lty=3)
+for (i in 2:nsamples){
+  den <- density(lcpmz[,i])
+  lines(den$x, den$y, col=col[i], lwd=2)
+}
+
+lcpmy <- cpm(y, log=TRUE)
+plot(density(lcpmy[,1]), col=col[1], lwd=2, ylim=c(0,0.25), las=2, main="", xlab="")
+title(main="Filtered data", xlab="Log-cpm")
+abline(v=lcpm.cutoff, lty=3)
+for (i in 2:nsamples){
+  den <- density(lcpmy[,i])
+  lines(den$x, den$y, col=col[i], lwd=2)
+}
+```
+
+Although in excess of 30 million reads were obrained per sample, we can see that after mapping and quantification of gene expression the effective library size is less than 13 million for all samples, with most samples having an effective library size of 10 million or less. This suggests that we we likely only capturing the most abundant cfRNAs.  
+
+It is assumed that all samples should have a similar range and distribution of expression values. The unnormalised data looks fairly uniform between samples, although TMM normalisation further improves this.
+
+The relative log expression (RLE) plot shows within sample variability, which looks reasonable for all samples, with CMV11 and CMV19 a bit more variable than the other samples. The final plot shows the mean variance relationship with some of the most variable genes indicated by their gene symbol on the plot. Despite the relatively low library sizes, the data looks to be of good quality.
+
+```{r, fig.height=8, fig.width=9, echo=FALSE}
+pal <- paletteer_d("LaCroixColoR::paired", 14)
+
+par(mar=c(5,6,4,2)+0.1, mfrow=c(2,2))
+barplot(y$samples$lib.size, col=pal[factor(samples$TestResult)], cex.names = 0.8, 
+        names.arg = colnames(y), las = 2, main = "Library size", yaxt = "none")
+aty <- seq(0, 14000000, by = 2000000)
+axis(2, at=aty, labels=format(aty, scientific=FALSE), las=2, cex = 0.8)
+legend("topright", legend = levels(factor(samples$TestResult)), fill = pal)
+
+par(mar=c(5,3,4,2)+0.1)
+boxplot(cpm(x, log=TRUE), las=2, col=pal[factor(samples$TestResult)], 
+        main="Unnormalised log2 CPM")
+legend("topright", legend = levels(factor(samples$TestResult)), fill = pal)
+
+par(mar=c(5,3,4,2)+0.1)
+boxplot(cpm(y, log=TRUE), las=2, col=pal[factor(samples$TestResult)], 
+        main="Normalised log2 CPM")
+legend("topright", legend = levels(factor(samples$TestResult)), fill = pal)
+
+# par(mar=c(5,3,4,2)+0.1)
+# plotRLE(cpm(y), las=2, col=pal[factor(samples$TestResult)], 
+#         main="Relative log expression", ylim = c(-1,1))
+# legend("topright", legend = levels(factor(samples$TestResult)), fill = pal)
+
+```
+
+Multi-dimensional scaling (MDS) plots show the largest sources of variation in the data. They are a good way of exploring the relationships between the samples and identifying structure in the data. The following series of MDS plots examines the first four principal components. The samples are coloured by various known features of the samples such as CMV result and foetal sex. The MDS plots do not show the samples obviously clustering by any of the known features of the data. This indicates that we are unlikely to find many differentially expressed genes between CMV and normal samples.
+
+```{r, fig.height=8, fig.width=9, echo=FALSE}
+colourBy <- c("CMV_result" = "TestResult.x","GA_at_amnio" = "GA.at.amnio","Sex" = "Sex",
+              "Matched_pair" = "matchedpair", "Site" = "Site.y")
+
+lcpm <- cpm(y, log = TRUE)
+
+for(i in 1:length(colourBy)){
+  
+  par(mfrow=c(2,2), oma = c(0,0,2,0))
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])]) 
+  legend("topleft", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(1,3))
+  legend("topright", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(2,3))
+  legend("topright", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  plotMDS(lcpm, gene.selection = "common", 
+          col = pal[factor(targets[,colourBy[i]])], dim.plot = c(3,4))
+  legend("topleft", legend = levels(factor(targets[,colourBy[i]])), text.col = pal, 
+         cex = 0.7)
+  title(main = paste0("Coloured by ", names(colourBy)[i]), outer = TRUE)
+}
+```
+
+# Differential expression analysis
+
+Due to the variability in the data, the TMM normalised data was transformed using `voomWithQualityWeights`. This takes into account the differing library sizes and the mean variance relationship in the data as well as calculating sample-specific quality weights. Linear models were fit in `limma`, taking into account the `voom` weights. The CMV positive samples were compared to the CMV negative (normal) samples. A summary of the numbers of differentially expressed genes is shown below, as well as the top 10 differentially expressed genes. The full results tables were exported as csv files. 
+
+```{r, echo=FALSE}
+design <- model.matrix(~0+y$group+targets$matchedpair, data = targets)
+colnames(design) <- c(levels(factor(y$group)),unique(targets$matchedpair)[-1])
+v <- voomWithQualityWeights(y, design, plot = TRUE)
+cont <- makeContrasts(contrasts = "pos - neg",
+                      levels = design)
+fit <- lmFit(v, design)
+cfit <- contrasts.fit(fit, cont)
+fit2 <- eBayes(cfit, robust = TRUE)
+summary(decideTests(fit2, p.value = 0.1))
+```
+
+<!-- ```{r, echo=FALSE} -->
+<!-- ga <- targets$GA.at.amnio -->
+<!-- ga[16] <- 19.86 -->
+<!-- design <- model.matrix(~as.numeric(ga) + y$group, data = targets) -->
+<!-- v <- voomWithQualityWeights(y, design, plot = TRUE) -->
+<!-- fit <- lmFit(v, design) -->
+<!-- fit2 <- eBayes(fit, robust = TRUE) -->
+<!-- summary(decideTests(fit2, p.value = 0.1)) -->
+<!-- ``` -->
+
+```{r, echo=FALSE}
+topLV <- topTable(fit2, n = 100)
+write.csv(topLV, file = here("output/salmon-limma-voom-exclude-CMV11.csv"))
+head(topLV, n=10)
+```
+
+The following plots show the expression of the top 9 ranked differentially expressed genes for CMV negative and CMV positive samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.
+
+```{r, fig.width=8, fig.height=6, echo=FALSE}
+par(mfrow=c(3,3), mar=c(3,4,4,2) + 0.1)
+for(i in 1:9){
+stripchart(lcpm[rownames(lcpm) == topLV$gene_id[i],] ~ y$group,
+           vertical = TRUE, las = 2, cex.axis = 0.8, pch = 16, cex = 1.3,
+           method = "jitter", ylab = "log2 CPM", main = topLV$symbol[i],
+           col = pal[factor(y$group)])
+}
+```
+
+Testing for enrichment of GO  categories for top 100 ranked genes.
+
+```{r, echo=FALSE}
+go <- goana(topLV$entrezid[1:100], universe = y$genes$entrezid, trend="length")
+topGO(go)
+write.csv(topGO(go), file = here("output/salmon-limma-voom-GO-exclude-CMV11.csv"))
+```
+
+# Gene set testing
+
+Gene set testing helps us to interpret the results of a differential expression analysis. The `camera` function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute's Molecular Signatures Database [MSigDB](http://software.broadinstitute.org/gsea/msigdb/index.jsp).  
+
+Build gene set indexes. 
+
+```{r, echo=FALSE}
+entrezToEns <- function(entrezList){
+  
+    ensList <- lapply(entrezList, function(x) {
+      tmp <- suppressMessages(select(org.Hs.eg.db, keys = x, 
+                                     columns = c("ENSEMBL"))$ENSEMBL)
+      tmp[!is.na(tmp)]
+    })
+    
+    return(ensList)
+}
+
+gsAnnots <- buildIdx(entrezIDs = v$genes$entrezid, species = "human",
+                     msigdb.gsets = c("h", "c2", "c5"))
+```
+
+## GO Categories
+
+The GO gene sets  consist of genes annotated by the same GO terms.
+
+```{r, echo=FALSE}
+c5EnsFile <- here("output/c5Ens.RData")
+
+if(!file.exists(c5EnsFile)){
+  c5Ens <- entrezToEns(gsAnnots$c5@original)
+  save(c5Ens, file = c5EnsFile)
+  
+} else {
+  load(c5EnsFile)
+}
+
+c5Idx <- ids2indices(c5Ens, rownames(v))
+
+c5Cam <- camera(v, c5Idx, design, contrast = cont, trend.var = TRUE)
+write.csv(c5Cam[c5Cam$FDR < 0.05,], file = here("output/salmon-limma-voom-c5Cam-exclude-CMV11.csv"))
+head(c5Cam, n=10)
+```
+
+## Hallmark gene sets
+
+The hallmark gene sets  are coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.
+
+```{r, echo=FALSE}
+hEnsFile <- here("output/hEns.RData")
+
+if(!file.exists(hEnsFile)){
+  hEns <- entrezToEns(gsAnnots$h@original)
+  save(hEns, file = hEnsFile)
+  
+} else {
+  load(hEnsFile)
+}
+
+hIdx <- ids2indices(hEns, rownames(v))
+
+hCam <- camera(v, hIdx, design, contrast = cont, trend.var = TRUE)
+write.csv(hCam[hCam$FDR < 0.05,], file = here("output/salmon-limma-voom-hCam-exclude-CMV11.csv"))
+head(hCam, n=10)
+```
+
+Barcode plots show the enrichment of gene sets amongst high or low ranked genes. The following barcode plots show the enrichment of the top 4 hallmark gene sets amongst the genes differentially expressed between CMV negative and CMV positive samples.
+
+```{r, fig.width=9, fig.height=6, echo=FALSE}
+par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(fit2$t[,1], hIdx[[rownames(hCam)[i]]], main = rownames(hCam)[i])
+})
+```
+
+## C2 Curated gene sets
+
+The curated gene sets are compiled from online pathway databases, publications in PubMed, and knowledge of domain experts.
+
+```{r, echo=FALSE}
+c2EnsFile <- here("output/c2Ens.RData")
+
+if(!file.exists(c2EnsFile)){
+  c2Ens <- entrezToEns(gsAnnots$c2@original)
+  save(c2Ens, file = c2EnsFile)
+  
+} else {
+  load(c2EnsFile)
+}
+
+c2Idx <- ids2indices(c2Ens, rownames(v))
+
+c2Cam <- camera(v, c2Idx, design, contrast = cont, trend.var = TRUE)
+write.csv(c2Cam[c2Cam$FDR < 0.05,], file = here("output/salmon-limma-voom-c2Cam-exclude-CMV11.csv"))
+head(c2Cam, n=10)
+```
+
+The following barcode plots show the enrichment of the top 4 curated gene sets amongst the genes differentially expressed between CMV negative and CMV positive samples.
+
+```{r, fig.width=9, fig.height=6, echo=FALSE}
+par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(fit2$t[,1], c2Idx[[rownames(c2Cam)[i]]], main = rownames(c2Cam)[i])
+})
+```
+
+The following heatmap shows the expression level of the genes in the top ranked curated gene set across all the samples. 
+
+```{r, echo=FALSE}
+i=1
+aheatmap(v$E[v$genes$gene_id %in% c2Ens[[rownames(c2Cam)[i]]],], 
+          Colv = order(y$group), annCol = list(CMV_result = targets$TestResult.x),
+          labRow = v$genes$symbol[v$genes$gene_id %in% c2Ens[[rownames(c2Cam)[i]]]],
+          main = rownames(c2Cam)[i])
+```
+
+## KEGG pathways
+
+The Kegg gene sets encompass all of the pathways defined in the [Kegg pathway database](https://www.genome.jp/kegg/pathway.html). 
+
+```{r, echo=FALSE}
+keggEnsFile <- here("output/keggEns.RData")
+
+if(!file.exists(keggEnsFile)){
+  keggEns <- entrezToEns(gsAnnots$kegg@original)
+  save(keggEns, file = keggEnsFile)
+  
+} else {
+  load(keggEnsFile)
+}
+
+keggIdx <- ids2indices(keggEns, rownames(v))
+
+keggCam <- camera(v, keggIdx, design, contrast = cont, trend.var = TRUE)
+write.csv(keggCam[keggCam$FDR < 0.05,], file = here("output/salmon-limma-voom-keggCam-exclude-CMV11.csv"))
+head(keggCam, n=10)
+```
+```{r, fig.width=9, fig.height=6, echo=FALSE}
+par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(fit2$t[,1], keggIdx[[rownames(keggCam)[i]]], main = rownames(keggCam)[i])
+})
+```
+
+The following heatmap shows the expression level of the genes in the top ranked kegg pathway across all the samples. 
+
+```{r, echo=FALSE}
+i=1
+aheatmap(v$E[v$genes$gene_id %in% keggEns[[rownames(keggCam)[i]]],], 
+          Colv = order(y$group), annCol = list(CMV_result = targets$TestResult.x),
+          labRow = v$genes$symbol[v$genes$gene_id %in% keggEns[[rownames(keggCam)[i]]]],
+          main = rownames(keggCam)[i])
+```
+
+## GONE gene sets
+
+The GONE gene set is not significantly enriched for differentially expressed genes in our data.
+
+```{r}
+gone <- read_delim(file = here("data/GONE4.10.13.txt"), delim = "\t")
+gonePmids <- select(org.Hs.eg.db, keys = as.character(unique(gone$ID[!is.na(gone$ID)])), 
+                    columns = c("PMID", "ENTREZID"), keytype = "PMID")
+goneIdx <- ids2indices(gonePmids$ENTREZID, v$genes$entrezid)
+roast(v, goneIdx, design, contrast = cont, trend.var = TRUE)
+```
+
+## IPA gene set
+
+The IPA gene set is significantly enriched for differentially expressed genes in our data.
+
+```{r}
+ipa <- read_csv(file = here("data/IPA-molecule-summary.csv"))
+ipaIdx <- ids2indices(ipa$Ensembl, rownames(v))
+roast(v, ipaIdx, design, contrast = cont, trend.var = TRUE)
+```
+
+# Summary
+
+Although the effective library sizes were low, the data is generally of good quality. Due to the variability in the data, once CMV11 and its pairs were excluded from the analysis, we did not find any individually significant differentially expressed genes at FDR < 0.1. The top 100 ranked genes were enriched for GO terms associated with interferon response and similar. Gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the "normal" samples, which is consistent with the top ranked genes from the DE analysis.
+
+```{r, echo=FALSE}
+sessionInfo()
+```
+

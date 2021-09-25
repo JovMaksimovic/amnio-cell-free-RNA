@@ -14,20 +14,35 @@ library(patchwork)
 library(ggplot2)
 library(DEXSeq)
 library(limma)
+library(org.Hs.eg.db)
 ```
 
 # Data import
 
 ```{r}
-files <- list.files(here("data/star-genome-analysis/count-exons-pe"), 
-                        pattern="PE.txt$", full.names = TRUE)
-names(files) <- strsplit2(files, "_")[,6]
-files <- files[grepl("CMV", names(files))]
+readHTSeq <- function(files){
+  names(files) <- strsplit2(files, "_")[,6]
+  files <- files[grepl("CMV", names(files))]
+  
+  tmp <- lapply(files, function(file){
+    read.delim(file, sep = "\t", row.names = 1, header = FALSE)
+  })
+  
+  counts <- bind_cols(tmp) 
+  colnames(counts) <- names(tmp)
+  rownames(counts) <- sub(":", ":E", rownames(counts))
+  
+  counts
+}
+        
+pe <- readHTSeq(list.files(here("data/star-genome-analysis/count-exons-pe"), 
+                        pattern="PE.txt$", full.names = TRUE))
+se <- readHTSeq(list.files(here("data/star-genome-analysis/count-exons-se"), 
+                        pattern="SE.txt$", full.names = TRUE))
+counts <- pe + se
+counts <- counts[grepl("^ENSG", rownames(counts)),]
 
-flatGff <- list.files(here("data/star-genome-analysis"), 
-                           pattern="DEXSeq.chr.gff$", full.names = TRUE)
-
-basename(files)
+dim(counts)
 ```
 
 Load sample information.
@@ -64,23 +79,25 @@ read_csv(file = here("data/metadata.csv")) %>%
                 sex, 
                 GA_at_amnio, 
                 indication) %>%
-  dplyr::filter(id %in% names(files)) %>%
+  dplyr::filter(id %in% colnames(counts)) %>%
   drop_na() -> targets
   
 targets %>% knitr::kable()
 ```
 
-Only retain paired samples with clinical information for donstream analysis. 
+Only retain paired samples with clinical information for downstream analysis. 
 
 ```{r}
-int <- intersect(names(files), targets$id)
+int <- intersect(colnames(counts), targets$id)
 targets <- targets[match(int, targets$id),]
-files <- files[match(int, names(files))]
+counts <- counts[,match(int, colnames(counts))]
 
-basename(files)
+head(counts) %>% knitr::kable()
 ```
 
-Read in transcript count data and remove transcripts with no counts.
+# DEXSeq analysis
+
+Create the sample table.
 
 ```{r}
 sampleTable <- data.frame(row.names = targets$id,
@@ -89,7 +106,7 @@ sampleTable <- data.frame(row.names = targets$id,
 head(sampleTable) %>% knitr::kable()
 ```
 
-Setup the **DEXSeq** data.
+Setup the data. Compare exon usage between CMV negative and positive samples. Sample pairing is taken into account.
 
 ```{r}
 formulaFullModel    =  ~ sample + exon + pair:exon + condition:exon
@@ -97,13 +114,46 @@ formulaReducedModel =  ~ sample + exon + pair:exon
 
 out <- here("data/rds/DEXSeq.rds")
 if(!file.exists(out)){
-  dxd <- DEXSeqDataSetFromHTSeq(
-    files,
+  splitted <- strsplit(rownames(counts), ":")
+  exons <- sapply(splitted, "[[", 2)
+  genesrle <- sapply(splitted, "[[", 1)
+  flatGff <- list.files(here("data/star-genome-analysis"), 
+                           pattern="DEXSeq.chr.gff$", full.names = TRUE)
+  aggregates <- read.delim(flatGff, stringsAsFactors = FALSE, 
+                           header = FALSE)
+  colnames(aggregates) <- c("chr", "source", "class", "start", 
+                            "end", "ex", "strand", "ex2", "attr")
+  aggregates$strand <- gsub("\\.", "*", aggregates$strand)
+  aggregates <- aggregates[which(aggregates$class == "exonic_part"), ]
+  aggregates$attr <- gsub("\"|=|;", "", aggregates$attr)
+  aggregates$gene_id <- sub(".*gene_id\\s(\\S+).*", "\\1", 
+                            aggregates$attr)
+  transcripts <- gsub(".*transcripts\\s(\\S+).*", "\\1", 
+                      aggregates$attr)
+  transcripts <- strsplit(transcripts, "\\+")
+  exonids <- gsub(".*exonic_part_number\\s(\\S+).*", "\\1", 
+                  aggregates$attr)
+  exoninfo <- GRanges(as.character(aggregates$chr), 
+                      IRanges(start = aggregates$start, 
+                              end = aggregates$end), 
+                      strand = aggregates$strand)
+  names(exoninfo) <- paste(aggregates$gene_id, exonids, 
+                           sep = ":E")
+  names(transcripts) <- rownames(exoninfo)
+  matching <- match(rownames(counts), names(exoninfo))
+  
+  dxd <- DEXSeqDataSet(
+    as.matrix(counts),
     sampleData = sampleTable,
     design = ~ sample + exon + condition:exon,
-    flattenedfile = flatGff )
+    featureID = exons,
+    groupID = genesrle,
+    exoninfo[matching], 
+    transcripts[matching])
+  
 } else {
   dxd <- readRDS(file = out)
+  
 }
 ```
 ```{r}
@@ -111,6 +161,8 @@ if(!file.exists(out)){
   dxd = estimateSizeFactors( dxd )
 } 
 ```
+
+Estimate disperions. Plot.
 
 ```{r}
 if(!file.exists(out)){
@@ -121,6 +173,7 @@ if(!file.exists(out)){
 }
 plotDispEsts( dxd )
 ```
+Test for differential exon usage.
 
 ```{r}
 if(!file.exists(out)){
@@ -131,6 +184,8 @@ if(!file.exists(out)){
 }
 ```
 
+Estimate exon fold changes.
+
 ```{r}
 if(!file.exists(out)){
   dxd = estimateExonFoldChanges(dxd, BPPARAM=BPPARAM )
@@ -138,29 +193,74 @@ if(!file.exists(out)){
 } 
 ```
 
+Number of statistically significant differentially used exons.
+
 ```{r}
 dxr1 = DEXSeqResults( dxd )
 table ( dxr1$padj < 0.1 )
 ```
 
+Number of genes with statistically significant differential exon usage.
+
 ```{r}
 table ( tapply( dxr1$padj < 0.1, dxr1$groupID, any ) )
 ```
+
+MA plots of differential exons usage. Significant exons are shown in red.
 
 ```{r}
 DEXSeq::plotMA( dxr1, cex=0.8 )
 ```
 
-```{r, warning=FALSE, message=FALSE, fig.asp = 1.5}
-plotDEXSeq( dxr1, unique(dxr1$groupID[which(dxr1$padj < 0.1)])[1], 
-            legend=TRUE, cex.axis=1.2, cex=1.3, lwd=2,
-            expression=FALSE, splicing=TRUE,
-            displayTranscripts=TRUE)
+Annotate results with gene symbols. Display most statistically significant differentially used exons.
+
+```{r}
+deg <- read.csv(here("output/star-fc-ruv-all.csv"))
+
+dxr1[which(dxr1$padj < 0.1),] %>% data.frame %>%
+  dplyr::arrange(groupID, padj) %>%
+  mutate(symbol = NA, .before = groupID) %>%
+  mutate(deg = NA, .after = symbol)-> topDex
+
+for(i in 1:nrow(topDex)){
+  
+  keys <- gsub("\\.[0-9]*", "", 
+               strsplit(topDex$groupID[i], "+", 
+                        fixed=TRUE)[[1]])
+  
+  symbol <- select(org.Hs.eg.db, keys = keys, 
+         columns = c("ENTREZID", "SYMBOL"), 
+         keytype = "ENSEMBL")$SYMBOL
+  
+  topDex$symbol[i] <- paste(symbol, collapse = "+")
+  topDex$deg[i] <- any(keys %in% deg$Ensembl)
+}
+
+topDex %>% knitr::kable()
 ```
-```{r, warning=FALSE, message=FALSE, fig.asp=1.5}
-plotDEXSeq( dxr1, unique(dxr1$groupID[which(dxr1$padj < 0.1)])[2], 
-            legend=TRUE, cex.axis=1.2, cex=1.3, lwd=2 ,
-            expression=FALSE, splicing=TRUE,
-            displayTranscripts=TRUE)
+
+Plot genes with statistically significant differential exon usage. Exclude exons belonging to multiple genes.
+
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=14}
+keep <- !grepl("+",topDex$groupID, fixed = TRUE)
+
+dexGenes <- unique(topDex$groupID[keep])
+dexSymbols <- unique(topDex$symbol[keep])
+
+par(oma = c(1,1,2,1))  
+for(i in 1:length(dexGenes)){
+  plotDEXSeq( dxr1, dexGenes[i], 
+              legend=TRUE, cex.axis=1, cex=1, lwd=2,
+              displayTranscripts = TRUE, splicing = TRUE,
+              expression = TRUE, norCounts = TRUE)
+  title(main = dexSymbols[i], outer = TRUE, cex.main = 2)
+
+}
+```
+
+```{r}
+topDex[keep,] %>% 
+  arrange(pvalue) %>% 
+  knitr::kable()
 ```
 

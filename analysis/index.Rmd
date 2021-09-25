@@ -49,7 +49,7 @@ Pseudoalignment-based differential gene expression (DGE) analysis
     excluding samples that had an ultrasound abnormality.
 
 * DGE analysis (all samples)
-    * [DGE results](salmon-RUV-all.html): Following quality control and 
+    * [DGE results](salmon-ruvseq-edgeR.html): Following quality control and 
     normalisation, we preformed a differential expression analysis between CMV 
     positive and CMV negative samples, using
     [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to 
@@ -89,7 +89,6 @@ Differential exon usage (DEU) analysis
 
 Licenses
 --------
-
 The code in this analysis is covered by the [MIT license][mit] and the written
 content on this website is covered by a [Creative Commons CC-BY][cc] license.
 
@@ -97,5 +96,6 @@ content on this website is covered by a [Creative Commons CC-BY][cc] license.
 Citations
 ---------
 
+
 [mit]: https://choosealicense.com/licenses/mit/ "MIT License"
-[cc]: https://creativecommons.org/licenses/by/4.0/ "CC-BY License"
+[cc]: https://choosealicense.com/licenses/cc-by-4.0/ "CC-BY License"
