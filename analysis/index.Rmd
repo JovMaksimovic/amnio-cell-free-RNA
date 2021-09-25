@@ -80,12 +80,11 @@ Differential exon usage (DEU) analysis
 --------------------------------------------
 
 * Differential exon usage analysis
-    * [DEU results (all samples)](STAR-DEXSeq.html): DEU analysis comparing 
-    CMV positive and CMV negative samples of the full cohort using
-    [DEXSeq](https://bioconductor.org/packages/3.13/bioc/html/DEXSeq.html).
-    * [DEU results (samples with ultrasound abnormalities excluded)](STAR-DEXSeq-exclude-US-ab.html):
-    DEU analysis comparing CMV positive and CMV negative samples, excluding 
-    samples with ultrasound abnormalities, using [DEXSeq](https://bioconductor.org/packages/3.13/bioc/html/DEXSeq.html).
+    * [DEU results](STAR-DEXSeq.html): DEU analysis comparing CMV positive and 
+    CMV negative samples of the full cohort using [DEXSeq](https://bioconductor.org/packages/3.13/bioc/html/DEXSeq.html).
+    * [DEU results](STAR-DEXSeq-exclude-US-ab.html): DEU analysis comparing CMV 
+    positive and CMV negative samples, excluding samples with ultrasound 
+    abnormalities, using [DEXSeq](https://bioconductor.org/packages/3.13/bioc/html/DEXSeq.html).
 
 
 Licenses
