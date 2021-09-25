@@ -369,16 +369,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree47c6facf2af859c9f0ef25aa7a1bd953e369c5f5targetblank47c6faca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/47c6facf2af859c9f0ef25aa7a1bd953e369c5f5" target="_blank">47c6fac</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreee20c62d21447b7a1e31bb69f57e0e415e80bcf8atargetblanke20c62da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/e20c62d21447b7a1e31bb69f57e0e415e80bcf8a" target="_blank">e20c62d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree47c6facf2af859c9f0ef25aa7a1bd953e369c5f5targetblank47c6faca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreee20c62d21447b7a1e31bb69f57e0e415e80bcf8atargetblanke20c62da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/47c6facf2af859c9f0ef25aa7a1bd953e369c5f5" target="_blank">47c6fac</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/e20c62d21447b7a1e31bb69f57e0e415e80bcf8a" target="_blank">e20c62d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -388,9 +388,12 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    .bpipe/
-    Ignored:    analysis/old_analysis/
+    Ignored:    analysis/figure/
+    Ignored:    analysis/obsolete_analysis/
+    Ignored:    analysis/salmon-ruvseq-edger.nb.html
     Ignored:    code/.bpipe/
     Ignored:    code/.rnaseq-test.groovy.swp
+    Ignored:    code/obsolete_analysis/
     Ignored:    data/.bpipe/
     Ignored:    data/190717_A00692_0021_AHLLHFDSXX/
     Ignored:    data/190729_A00692_0022_AHLLHFDSXX/
@@ -417,58 +420,42 @@ Ignored files:
     Ignored:    data/joindata.csv
     Ignored:    data/metadata.csv
     Ignored:    data/rds/
+    Ignored:    data/salmon-pilot-analysis/
     Ignored:    data/samples.csv
     Ignored:    data/star-genome-analysis/
     Ignored:    output/c2Ens.RData
     Ignored:    output/c5Ens.RData
-    Ignored:    output/exclude-CMV11/
     Ignored:    output/hEns.RData
     Ignored:    output/keggEns.RData
-    Ignored:    output/salmon-bandits-filt.csv
-    Ignored:    output/salmon-bandits.csv
-    Ignored:    output/salmon-limma-voom-c5Cam.csv
-    Ignored:    output/salmon-limma-voom.Rmd/
-    Ignored:    output/salmon-limma-voom.csv
-    Ignored:    output/salmon-ruv-all-gsea-c2.csv
-    Ignored:    output/salmon-ruv-all-gsea-c5.csv
-    Ignored:    output/salmon-ruv-all.csv
-    Ignored:    output/salmon-ruvseq-edger.csv
-    Ignored:    output/star-fc-limma-voom-all-gsea-c2.csv
-    Ignored:    output/star-fc-limma-voom-all-gsea-c5.csv
-    Ignored:    output/star-fc-limma-voom-all.csv
-    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c2.csv
-    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c5.csv
-    Ignored:    output/star-fc-limma-voom-no_us_ab.csv
-    Ignored:    output/star-fc-ruv-all-gsea-c2.csv
-    Ignored:    output/star-fc-ruv-all-gsea-c5.csv
-    Ignored:    output/star-fc-ruv-all.csv
-    Ignored:    output/star-fc-ruv-no_us_ab-gsea-c2.csv
-    Ignored:    output/star-fc-ruv-no_us_ab-gsea-c5.csv
-    Ignored:    output/star-fc-ruv-no_us_ab.csv
 
 Untracked files:
     Untracked:  analysis/STAR-DEXSeq-exclude-US-ab.Rmd
-    Untracked:  analysis/STAR-FC-RUV-all.Rmd
-    Untracked:  analysis/STAR-FC-RUV-exclude-US-ab.Rmd
-    Untracked:  analysis/salmon-limma-voom-exclude-CMV11.Rmd
-    Untracked:  analysis/salmon-limma-voom.Rmd
-    Untracked:  code/SJtoBED12.sh
-    Untracked:  code/Subread_to_DEXSeq/
-    Untracked:  code/bam2bw.R
-    Untracked:  code/compare.R
+    Untracked:  code/output.R
+    Untracked:  code/rnaseq.salmon-quant.groovy
     Untracked:  code/rnaseq.star.count-exons.groovy
     Untracked:  code/rnaseq.star.groovy
-    Untracked:  code/slinker.sh
+    Untracked:  output/salmon-limma-voom-c5Cam.csv
+    Untracked:  output/salmon-limma-voom.csv
+    Untracked:  output/salmon-ruvseq-edger.csv
+    Untracked:  output/star-fc-ruv-all-gsea-c2.csv
+    Untracked:  output/star-fc-ruv-all-gsea-c5.csv
+    Untracked:  output/star-fc-ruv-all.csv
+    Untracked:  output/star-fc-ruv-no_us_ab-gsea-c2.csv
+    Untracked:  output/star-fc-ruv-no_us_ab-gsea-c5.csv
+    Untracked:  output/star-fc-ruv-no_us_ab.csv
     Untracked:  renv.lock
 
 Unstaged changes:
     Modified:   .gitignore
     Deleted:    analysis/STAR-DEXSeq-Summed.Rmd
-    Modified:   analysis/STAR-DEXSeq.Rmd
     Deleted:    analysis/salmon-BANDITS.Rmd
     Deleted:    analysis/salmon-DRIMseq.Rmd
+    Deleted:    analysis/salmon-RUV-all.Rmd
     Deleted:    analysis/salmon-SatuRn.Rmd
-    Modified:   code/rnaseq.groovy
+    Deleted:    code/rnaseq-with-salmon-quant.groovy
+    Deleted:    code/rnaseq.groovy
+    Deleted:    code/salmon-quant-trimmed.groovy
+    Deleted:    code/unmapped-pipe.groovy
 
 </code></pre>
 <p>
@@ -507,6 +494,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/e20c62d21447b7a1e31bb69f57e0e415e80bcf8a/analysis/index.Rmd" target="_blank">e20c62d</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-25
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/salmon-limma-voom.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/aa7e51c769e861ffbf5e3af6758fabaa4adbd0f2/docs/index.html" target="_blank">aa7e51c</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1029,7 +1050,7 @@ Start workflowr project.
 </ul></li>
 <li>DGE analysis (all samples)
 <ul>
-<li><a href="salmon-RUV-all.html">DGE results</a>: Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples, using <a href="https://bioconductor.org/packages/release/bioc/html/RUVSeq.html">RUVseq</a> to remove unwanted variation, followed by <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>.</li>
+<li><a href="salmon-ruvseq-edgeR.html">DGE results</a>: Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples, using <a href="https://bioconductor.org/packages/release/bioc/html/RUVSeq.html">RUVseq</a> to remove unwanted variation, followed by <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>.</li>
 </ul></li>
 </ul>
 </div>
@@ -1062,7 +1083,7 @@ Start workflowr project.
 </div>
 <div id="licenses" class="section level2">
 <h2>Licenses</h2>
-<p>The code in this analysis is covered by the <a href="https://choosealicense.com/licenses/mit/" title="MIT License">MIT license</a> and the written content on this website is covered by a <a href="https://creativecommons.org/licenses/by/4.0/" title="CC-BY License">Creative Commons CC-BY</a> license.</p>
+<p>The code in this analysis is covered by the <a href="https://choosealicense.com/licenses/mit/" title="MIT License">MIT license</a> and the written content on this website is covered by a <a href="https://choosealicense.com/licenses/cc-by-4.0/" title="CC-BY License">Creative Commons CC-BY</a> license.</p>
 </div>
 <div id="citations" class="section level2">
 <h2>Citations</h2>
