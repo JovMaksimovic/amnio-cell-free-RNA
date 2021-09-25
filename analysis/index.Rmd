@@ -8,63 +8,85 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Amniotic fluid cfRNA
+Transcriptomic analysis of cell-free RNA from the amniotic fluid of women with suspected cytomegalovirus infection
+==================================================================================================================  
 
-This site contains the analysis of RNAseq data generated from amniotic fluid cell-free RNA (cfRNA). 
+This site contains the analysis of RNAseq data generated from amniotic fluid 
+cell-free RNA (cfRNA). 
 
-The data is from Lisa Hui in the Embryonic Epidemiology group at the Murdoch Children's Research Institute (MCRI). They have collected amniotic fluid from pregnancies with suspected (and subsequently confirmed) cytomegalovirus (CMV) infection. They also have amniotic fluid from "normal" pregnancies i.e. pregnancies that were confirmed to be negative for CMV infection. They are interested in differences in the cfRNA between the CMV negative and positive pregnancies. Nineteen samples (10 CMV negative and 9 CMV positive) were originally sequenced (150bp paired-end) at the MCRI TGU. A further batch of 9 samples was then sequenced. 
+The data is from Lisa Hui in the Embryonic Epidemiology group at the Murdoch 
+Children's Research Institute (MCRI). They have collected amniotic fluid from 
+pregnancies with suspected (and subsequently confirmed by PCR) cytomegalovirus 
+(CMV) infection. They also have amniotic fluid from *normal* pregnancies i.e. 
+pregnancies that were confirmed by PCR to be negative for CMV infection. They 
+are interested in differences in the cell-free RNA (cfRNA) between the CMV 
+negative and positive pregnancies. Nineteen samples (10 CMV negative and 9 CMV 
+positive) were originally sequenced (150bp paired-end) at the MCRI TGU. A 
+further batch of 9 samples was subsequently sequenced. 
 
 Follow the links below to explore the different parts of the analysis. 
 
-<!-- Differential gene expression (DGE) analysis -->
-<!-- ------------------------------------------- -->
 
-<!-- * [DGE analysis](salmon-RUV-all.html) - Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets of interest.    -->
+Pseudoalignment-based differential gene expression (DGE) analysis
+-----------------------------------------------------------------
+
+* Pseudoalignment and quality control.
+    * [MultiQC report](multiqc_report.html): Pseudoalignment and quality statistics.
     
-Mapping-based Analysis
-------------
+* DGE analysis (all samples)
+    * [DGE results](salmon-limma-voom.html): This is the initial 
+    analysis comparing CMV positive and CMV negative samples. Following quality 
+    control and normalisation, we preformed a differential expression analysis 
+    between CMV positive and CMV negative samples using
+    [limma](https://bioconductor.org/packages/release/bioc/html/limma.html).
+
+* DGE analysis (samples with ultrasound abnormalities excluded)
+    * [DGE results](salmon-limma-voom-exclude-CMV11.html): 
+    This is the initial analysis comparing CMV positive and CMV negative samples. 
+    Following quality control and normalisation, we preformed a differential 
+    expression analysis between CMV positive and CMV negative samples using
+    [limma](https://bioconductor.org/packages/release/bioc/html/limma.html), but 
+    excluding samples that had an ultrasound abnormality.
+
+* DGE analysis (all samples)
+    * [DGE results](salmon-RUV-all.html): Following quality control and 
+    normalisation, we preformed a differential expression analysis between CMV 
+    positive and CMV negative samples, using
+    [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to 
+    remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html). 
+
+    
+Mapping-based differential expression analysis
+----------------------------------------------
 
 * Read mapping, counting and quality control.
-    * [MultiQC analysis](multiqc_report.html)
+    * [MultiQC report](multiqc_report.html): Mapping and quality statistics.
 
-<!-- * Differential expression analysis -->
-<!--     * [Analysis results](STAR-FC-all.html) - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort. -->
+* Differential expression analysis (all samples)
+    * [DGE results](STAR-FC-RUV-all.html): DGE analysis comparing 
+    CMV positive and CMV negative samples of the full cohort, using
+    [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to 
+    remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 
-<!-- * Differential expression analysis (exclude samples with ultrasound abnormality) -->
-<!--     * [Anlaysis results](STAR-FC-exclude-US-ab.html) - This is the same analysis as above but excluding all samples that had an ultrasound abnormality identified. -->
-
-* Differential expression analysis (RUVseq)
-    * [Analysis results](STAR-FC-RUV-all.html) - This is the new analysis comparing CMV positive and CMV negative samples of the full cohort, using [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to remove additional unwanted variation.
-
-* Differential expression analysis (RUVseq)
-    * [Analysis results](STAR-FC-RUV-exclude-US-ab.html) - RUVseq analysis comparing CMV positive and CMV negative samples, excluding samples with ultrasound abnormalities.
+* Differential expression analysis (samples with ultrasound abnormalities excluded)
+    * [DGE results](STAR-FC-RUV-exclude-US-ab.html): 
+    DGE analysis comparing CMV positive and CMV negative samples, excluding 
+    samples with ultrasound abnormalities, using 
+    [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to 
+    remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 
 
-Differential transcript usage (DTU) Analysis
+Differential exon usage (DEU) analysis
 --------------------------------------------
 
-* Salmon-BANDITS
-    * [Salmon-BANDITS](salmon-BANDITS.html)
-* Salmon-DRIMseq
-    * [Salmon-DRIMseq](salmon-DRIMseq.html)
-* Salmon-SatuRn
-    * [Salmon-SatuRn](salmon-SatuRn.html)
+* Differential exon usage analysis
+    * [DEU results (all samples)](STAR-DEXSeq.html): DEU analysis comparing 
+    CMV positive and CMV negative samples of the full cohort using
+    [DEXSeq](https://bioconductor.org/packages/3.13/bioc/html/DEXSeq.html).
+    * [DEU results (samples with ultrasound abnormalities excluded)](STAR-DEXSeq-exclude-US-ab.html):
+    DEU analysis comparing CMV positive and CMV negative samples, excluding 
+    samples with ultrasound abnormalities, using [DEXSeq](https://bioconductor.org/packages/3.13/bioc/html/DEXSeq.html).
 
-
-Differential exon usage Analysis
---------------------------------------------
-
-* DEXSeq
-    * [DEXSeq](STAR-DEXSeq.html)
-
-<!-- Pilot Analysis -->
-<!-- -------------- -->
-
-<!-- * Differential expression analysis -->
-<!--     * [Limma-voom analysis](salmon-limma-voom.html) - This is the initial analysis comparing CMV positive and CMV negative samples. Following quality control and normalisation, we preformed a differential expression analysis between CMV positive and CMV negative samples. We also performed gene set testing to identify any gene sets that may differentially expressed.    -->
-
-<!-- * Differential expression analysis (exclude CMV11 and pairs) -->
-<!--     * [Limma-voom analysis excluding CMV11](salmon-limma-voom-exclude-CMV11.html) - This is the same analysis as above but excluding CMV11 (which had an ultrasound abnormality identified) and its pairs.  -->
 
 Licenses
 --------
