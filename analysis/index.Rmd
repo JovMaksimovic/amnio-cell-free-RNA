@@ -56,8 +56,8 @@ Pseudoalignment-based differential gene expression (DGE) analysis of **pilot** d
     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html). 
 
     
-Mapping-based DGE analysis of complete cohort
----------------------------------------------
+Mapping-based DGE analysis of **complete** cohort
+-------------------------------------------------
 
 * Read mapping, counting and quality control.
     * [MultiQC report](multiqc_report.html): Mapping and quality statistics.
@@ -87,8 +87,8 @@ Mapping-based DGE analysis of complete cohort
     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 
 
-Mapping-based differential exon usage (DEU) analysis of complete cohort
------------------------------------------------------------------------
+Mapping-based differential exon usage (DEU) analysis of **complete** cohort
+---------------------------------------------------------------------------
 
 * DEU analysis
     * [DEU results](STAR-DEXSeq.html): DEU analysis comparing CMV positive and 
