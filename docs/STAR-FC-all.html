@@ -13,6 +13,7 @@
 
 <title>Limma-voom paired analysis of ALL samples</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -33,6 +34,17 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -78,6 +90,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -401,7 +414,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-09
+<strong>Last updated:</strong> 2021-09-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -492,16 +505,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreeaf2af9775305a916d4b4cf16bf152a4d0845f4c7targetblankaf2af97a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/af2af9775305a916d4b4cf16bf152a4d0845f4c7" target="_blank">af2af97</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreed32e63b606d16b69ae5c35eae7e7615e92ac90c3targetblankd32e63ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreeaf2af9775305a916d4b4cf16bf152a4d0845f4c7targetblankaf2af97a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/d32e63b606d16b69ae5c35eae7e7615e92ac90c3" target="_blank">d32e63b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/af2af9775305a916d4b4cf16bf152a4d0845f4c7" target="_blank">af2af97</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -510,10 +523,12 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
+    Ignored:    .bpipe/
+    Ignored:    analysis/obsolete_analysis/
+    Ignored:    analysis/salmon-ruvseq-edger.nb.html
     Ignored:    code/.bpipe/
     Ignored:    code/.rnaseq-test.groovy.swp
-    Ignored:    code/fastqc/
+    Ignored:    code/obsolete_analysis/
     Ignored:    data/.bpipe/
     Ignored:    data/190717_A00692_0021_AHLLHFDSXX/
     Ignored:    data/190729_A00692_0022_AHLLHFDSXX/
@@ -525,52 +540,68 @@ Ignored files:
     Ignored:    data/CMV-AF-database-corrected-oct-2020.csv
     Ignored:    data/CMV-AF-database-final-included-samples.csv
     Ignored:    data/GONE4.10.13.txt
+    Ignored:    data/HK_exons.csv
+    Ignored:    data/HK_exons.txt
     Ignored:    data/HK_genes.txt
     Ignored:    data/IPA molecule summary.xls
     Ignored:    data/IPA-molecule-summary.csv
-    Ignored:    data/bpipe.config
     Ignored:    data/brain-development-geneset.txt
-    Ignored:    data/catfastq/
-    Ignored:    data/commandlog.txt
-    Ignored:    data/counts-pe/
-    Ignored:    data/counts-se/
-    Ignored:    data/deduped/
-    Ignored:    data/fastqc/
+    Ignored:    data/deduped_rRNA_coverage.txt
+    Ignored:    data/gene-transcriptome-analysis/
+    Ignored:    data/hg38_rRNA.bed
+    Ignored:    data/hg38_rRNA.saf
+    Ignored:    data/ignore-overlap-mapping/
+    Ignored:    data/ignore/
     Ignored:    data/joindata.csv
-    Ignored:    data/mapped/
     Ignored:    data/metadata.csv
-    Ignored:    data/multiqc_data/
-    Ignored:    data/multiqc_report.html
-    Ignored:    data/old/
+    Ignored:    data/rds/
+    Ignored:    data/salmon-pilot-analysis/
     Ignored:    data/samples.csv
-    Ignored:    data/sorted/
-    Ignored:    data/test/
-    Ignored:    data/trimmed/
+    Ignored:    data/star-genome-analysis/
     Ignored:    output/c2Ens.RData
     Ignored:    output/c5Ens.RData
-    Ignored:    output/exclude-CMV11/
     Ignored:    output/hEns.RData
     Ignored:    output/keggEns.RData
-    Ignored:    output/salmon-limma-voom-c5Cam.csv
-    Ignored:    output/salmon-limma-voom.Rmd/
-    Ignored:    output/salmon-limma-voom.csv
-    Ignored:    output/salmon-ruvseq-edger.csv
-    Ignored:    output/star-fc-limma-voom-all-gsea-c2.csv
-    Ignored:    output/star-fc-limma-voom-all-gsea-c5.csv
-    Ignored:    output/star-fc-limma-voom-all.csv
-    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c2.csv
-    Ignored:    output/star-fc-limma-voom-no_us_ab-gsea-c5.csv
-    Ignored:    output/star-fc-limma-voom-no_us_ab.csv
-    Ignored:    output/star-fc-ruv-all-gsea-c2.csv
-    Ignored:    output/star-fc-ruv-all-gsea-c5.csv
-    Ignored:    output/star-fc-ruv-all.csv
 
 Untracked files:
-    Untracked:  analysis/salmon-ruvseq-edger.Rmd
+    Untracked:  code/output.R
+    Untracked:  code/rnaseq.salmon-quant.groovy
+    Untracked:  code/rnaseq.star.count-exons.groovy
+    Untracked:  code/rnaseq.star.groovy
+    Untracked:  output/salmon-limma-voom-GO-exclude-CMV11.csv
+    Untracked:  output/salmon-limma-voom-c2Cam-exclude-CMV11.csv
+    Untracked:  output/salmon-limma-voom-c5Cam-exclude-CMV11.csv
+    Untracked:  output/salmon-limma-voom-c5Cam.csv
+    Untracked:  output/salmon-limma-voom-exclude-CMV11.csv
+    Untracked:  output/salmon-limma-voom-hCam-exclude-CMV11.csv
+    Untracked:  output/salmon-limma-voom-keggCam-exclude-CMV11.csv
+    Untracked:  output/salmon-limma-voom.csv
+    Untracked:  output/salmon-ruvseq-edger.csv
+    Untracked:  output/star-fc-limma-voom-all-gsea-c2.csv
+    Untracked:  output/star-fc-limma-voom-all-gsea-c5.csv
+    Untracked:  output/star-fc-limma-voom-all.csv
+    Untracked:  output/star-fc-limma-voom-no_us_ab-gsea-c2.csv
+    Untracked:  output/star-fc-limma-voom-no_us_ab-gsea-c5.csv
+    Untracked:  output/star-fc-limma-voom-no_us_ab.csv
+    Untracked:  output/star-fc-ruv-all-gsea-c2.csv
+    Untracked:  output/star-fc-ruv-all-gsea-c5.csv
+    Untracked:  output/star-fc-ruv-all.csv
+    Untracked:  output/star-fc-ruv-no_us_ab-gsea-c2.csv
+    Untracked:  output/star-fc-ruv-no_us_ab-gsea-c5.csv
+    Untracked:  output/star-fc-ruv-no_us_ab.csv
+    Untracked:  renv.lock
 
 Unstaged changes:
-    Modified:   analysis/salmon-limma-voom-exclude-CMV11.Rmd
-    Modified:   analysis/salmon-limma-voom.Rmd
+    Modified:   .gitignore
+    Deleted:    analysis/STAR-DEXSeq-Summed.Rmd
+    Deleted:    analysis/salmon-BANDITS.Rmd
+    Deleted:    analysis/salmon-DRIMseq.Rmd
+    Deleted:    analysis/salmon-RUV-all.Rmd
+    Deleted:    analysis/salmon-SatuRn.Rmd
+    Deleted:    code/rnaseq-with-salmon-quant.groovy
+    Deleted:    code/rnaseq.groovy
+    Deleted:    code/salmon-quant-trimmed.groovy
+    Deleted:    code/unmapped-pipe.groovy
 
 </code></pre>
 <p>
@@ -609,6 +640,74 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/af2af9775305a916d4b4cf16bf152a4d0845f4c7/analysis/STAR-FC-all.Rmd" target="_blank">af2af97</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-27
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/STAR-FC-all.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/2b6479ab40b7e78b559ce7d3912860d1423a98ca/analysis/STAR-FC-all.Rmd" target="_blank">2b6479a</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+Move/remove olds files.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/76d6992c5237835cde8e6ef137f6d55ffbe64912/analysis/STAR-FC-all.Rmd" target="_blank">76d6992</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-12-04
+</td>
+<td>
+Explore rRNA counts
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/STAR-FC-all.html" target="_blank">d96660b</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -701,6 +800,20 @@ wflow_publish(c(“analysis/index.Rmd”, “analysis/STAR-FC-all.Rmd”,
 </div>
 </div>
 </div>
+<!-- ```{r} -->
+<!-- foo <- read.table(here("data/sorted/rRNA_counts.txt"), header = FALSE, -->
+<!--                   stringsAsFactors = FALSE) -->
+<!-- rownames(foo) <- sapply(1:nrow(foo), function(i)  -->
+<!--   paste(foo[i,1:4], collapse = ".")) -->
+<!-- foo <- foo[,13:72] -->
+<!-- summary(colSums(foo)) -->
+<!-- blah <- read.table(here("data/deduped/rRNA_counts_deduped.txt"), header = FALSE, -->
+<!--                   stringsAsFactors = FALSE) -->
+<!-- rownames(blah) <- sapply(1:nrow(blah), function(i)  -->
+<!--   paste(blah[i,1:4], collapse = ".")) -->
+<!-- blah <- blah[,13:72] -->
+<!-- summary(colSums(blah)) -->
+<!-- ``` -->
 <p>The data showed some adapter contamination and sequence duplication issues. Adapters were removed using <code>Trimmomatic</code> and both paired and unpaired reads were retained. Only paired reads were initially mapped with <code>Star</code> in conjunction with <code>GRCh38</code> and <code>gencode_v34</code> to detect all junctions, across all samples. Paired and unpaired reads were then mapped to <code>GRCh38</code> separately using <code>Star</code>. Duplicates were removed from paired and unpaired mapped data using <code>Picard MarkDuplicates</code>. Reads were then counted across features from <code>gencode_v34</code> using <code>featureCounts</code>.</p>
 <div id="data-import" class="section level1">
 <h1>Data import</h1>
@@ -1007,6 +1120,8 @@ NotSig     12505
 Up           210</code></pre>
 <p>There were 17 down-regulated and 210 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
 <p>These are the top 10 differentially expressed genes.</p>
+<pre><code>Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
+Please use the `file` argument instead.</code></pre>
 <pre><code>                  Geneid Length         Ensembl symbol entrezid    logFC
 45751 ENSG00000140853.15  12386 ENSG00000140853  NLRC5    84166 2.797155
 8687  ENSG00000115415.20   9770 ENSG00000115415  STAT1     6772 1.199505
@@ -1122,26 +1237,26 @@ Jovana Maksimovic
 <h1>Gene set enrichment analysis (GSEA)</h1>
 <p>Testing for enrichment of Gene Ontology (GO) categories among statistically significant differentially expressed genes.</p>
 <pre><code>                                                  Term Ont    N DE         P.DE
-GO:0045087                      innate immune response  BP  541 50 1.955554e-22
-GO:0009615                           response to virus  BP  220 33 2.120536e-21
-GO:0071357      cellular response to type I interferon  BP   67 21 4.951621e-21
-GO:0060337         type I interferon signaling pathway  BP   67 21 4.951621e-21
-GO:0034340               response to type I interferon  BP   71 21 1.962161e-20
-GO:0051607                   defense response to virus  BP  161 28 4.623379e-20
-GO:0009607                 response to biotic stimulus  BP  562 47 2.783305e-19
-GO:0006952                            defense response  BP  885 58 1.115128e-18
-GO:0043207        response to external biotic stimulus  BP  534 45 1.357212e-18
-GO:0051707                  response to other organism  BP  534 45 1.357212e-18
-GO:0006955                             immune response  BP 1178 67 2.077724e-18
-GO:0098542          defense response to other organism  BP  256 29 1.545503e-15
-GO:0002376                       immune system process  BP 1835 80 2.510957e-15
-GO:0034341                response to interferon-gamma  BP  119 20 2.489356e-14
-GO:0071346       cellular response to interferon-gamma  BP  107 19 3.981477e-14
-GO:0060333 interferon-gamma-mediated signaling pathway  BP   61 15 1.311939e-13
-GO:0034097                        response to cytokine  BP  782 46 4.494706e-13
-GO:0009605               response to external stimulus  BP 1339 59 2.804582e-11
-GO:0002252                     immune effector process  BP  752 42 2.986903e-11
-GO:0071345      cellular response to cytokine stimulus  BP  724 41 3.479695e-11</code></pre>
+GO:0009607                 response to biotic stimulus  BP  876 62 9.627568e-22
+GO:0051607                   defense response to virus  BP  178 30 5.069312e-21
+GO:0043207        response to external biotic stimulus  BP  849 60 5.634435e-21
+GO:0051707                  response to other organism  BP  849 60 5.634435e-21
+GO:0045087                      innate immune response  BP  516 47 8.260606e-21
+GO:0009615                           response to virus  BP  231 33 1.026368e-20
+GO:0071357      cellular response to type I interferon  BP   70 21 1.410360e-20
+GO:0060337         type I interferon signaling pathway  BP   70 21 1.410360e-20
+GO:0034340               response to type I interferon  BP   74 21 5.205041e-20
+GO:0098542          defense response to other organism  BP  628 49 7.916235e-19
+GO:0006955                             immune response  BP 1177 67 2.011052e-18
+GO:0006952                            defense response  BP  913 57 2.286585e-17
+GO:0009605               response to external stimulus  BP 1674 76 1.969940e-15
+GO:0002376                       immune system process  BP 1887 80 1.245515e-14
+GO:0044419  interspecies interaction between organisms  BP 1439 68 1.548258e-14
+GO:0034341                response to interferon-gamma  BP  121 20 3.483005e-14
+GO:0071346       cellular response to interferon-gamma  BP  109 19 5.693487e-14
+GO:0002252                     immune effector process  BP  776 47 8.171695e-14
+GO:0060333 interferon-gamma-mediated signaling pathway  BP   61 15 1.316373e-13
+GO:0034097                        response to cytokine  BP  802 46 1.113023e-12</code></pre>
 <p>GSEA helps us to interpret the results of a differential expression analysis. The <code>camera</code> function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute’s Molecular Signatures Database <a href="http://software.broadinstitute.org/gsea/msigdb/index.jsp">MSigDB</a>.</p>
 <p>Build gene set indexes.</p>
 <pre><code>[1] &quot;Loading MSigDB Gene Sets ... &quot;
@@ -1601,6 +1716,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-all.Rmd/unnamed-chunk-24-1.png" target="_blank">d96660b</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2020-11-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/10dcedf7a44e759df3760eaf3a109c4c33ebefeb/docs/figure/STAR-FC-all.Rmd/unnamed-chunk-24-1.png" target="_blank">10dcedf</a>
 </td>
 <td>
@@ -1629,13 +1755,13 @@ Jovana Maksimovic
 <div id="summary" class="section level1">
 <h1>Summary</h1>
 <p>Although the effective library sizes were low, the data is generally of good quality. We found at total of 1 differentially expressed genes at FDR &lt; 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.</p>
-<pre><code>R version 3.6.1 (2019-07-05)
+<pre><code>R version 4.0.2 (2020-06-22)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: CentOS Linux 7 (Core)
 
 Matrix products: default
-BLAS:   /config/RStudio/R/3.6.1/lib64/R/lib/libRblas.so
-LAPACK: /config/RStudio/R/3.6.1/lib64/R/lib/libRlapack.so
+BLAS:   /config/binaries/R/4.0.2/lib64/R/lib/libRblas.so
+LAPACK: /config/binaries/R/4.0.2/lib64/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              
@@ -1650,100 +1776,107 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] RColorBrewer_1.1-2        EGSEA_1.12.0             
- [3] pathview_1.24.0           org.Hs.eg.db_3.8.2       
- [5] topGO_2.36.0              SparseM_1.77             
- [7] GO.db_3.8.2               graph_1.62.0             
- [9] gage_2.34.0               patchwork_1.0.1          
-[11] NMF_0.22.0                cluster_2.1.0            
-[13] rngtools_1.4              pkgmaker_0.27            
-[15] registry_0.5-1            edgeR_3.26.8             
-[17] limma_3.42.2              EnsDb.Hsapiens.v86_2.99.0
-[19] ensembldb_2.8.0           AnnotationFilter_1.8.0   
-[21] GenomicFeatures_1.36.4    AnnotationDbi_1.46.1     
-[23] Biobase_2.46.0            GenomicRanges_1.38.0     
-[25] GenomeInfoDb_1.22.1       IRanges_2.20.2           
-[27] S4Vectors_0.24.4          BiocGenerics_0.32.0      
-[29] forcats_0.4.0             stringr_1.4.0            
-[31] dplyr_1.0.0               purrr_0.3.4              
-[33] readr_1.3.1               tidyr_1.1.0              
-[35] tibble_3.0.1              ggplot2_3.3.2            
-[37] tidyverse_1.3.0           here_0.1                 
-[39] workflowr_1.6.2          
+ [1] RColorBrewer_1.1-2        EGSEA_1.18.1             
+ [3] pathview_1.30.1           topGO_2.42.0             
+ [5] SparseM_1.78              GO.db_3.12.1             
+ [7] graph_1.68.0              gage_2.40.1              
+ [9] patchwork_1.1.1           NMF_0.23.0               
+[11] cluster_2.1.0             rngtools_1.5             
+[13] pkgmaker_0.32.2           registry_0.5-1           
+[15] edgeR_3.32.1              limma_3.46.0             
+[17] EnsDb.Hsapiens.v86_2.99.0 ensembldb_2.14.0         
+[19] AnnotationFilter_1.14.0   GenomicFeatures_1.42.1   
+[21] AnnotationDbi_1.52.0      Biobase_2.50.0           
+[23] GenomicRanges_1.42.0      GenomeInfoDb_1.26.7      
+[25] IRanges_2.24.1            S4Vectors_0.28.1         
+[27] BiocGenerics_0.36.1       forcats_0.5.1            
+[29] stringr_1.4.0             dplyr_1.0.4              
+[31] purrr_0.3.4               readr_1.4.0              
+[33] tidyr_1.1.2               tibble_3.1.2             
+[35] ggplot2_3.3.5             tidyverse_1.3.0          
+[37] here_1.0.1                workflowr_1.6.2          
 
 loaded via a namespace (and not attached):
-  [1] utf8_1.1.4                  tidyselect_1.1.0           
-  [3] RSQLite_2.1.2               htmlwidgets_1.3            
-  [5] grid_3.6.1                  KEGG.db_3.2.3              
-  [7] BiocParallel_1.20.1         R2HTML_2.3.2               
-  [9] munsell_0.5.0               codetools_0.2-16           
- [11] statmod_1.4.32              DT_0.9                     
- [13] KEGGdzPathwaysGEO_1.22.0    withr_2.2.0                
- [15] colorspace_1.4-1            knitr_1.29                 
- [17] rstudioapi_0.11             gbRd_0.4-11                
- [19] labeling_0.3                Rdpack_0.11-0              
- [21] git2r_0.27.1                KEGGgraph_1.44.0           
- [23] org.Rn.eg.db_3.8.2          GenomeInfoDbData_1.2.1     
- [25] hwriter_1.3.2               farver_2.0.3               
- [27] bit64_0.9-7                 rprojroot_1.3-2            
- [29] vctrs_0.3.1                 generics_0.0.2             
- [31] xfun_0.15                   BiocFileCache_1.10.2       
- [33] R6_2.4.1                    doParallel_1.0.15          
- [35] Glimma_1.12.0               locfit_1.5-9.1             
- [37] bitops_1.0-6                DelayedArray_0.12.3        
- [39] assertthat_0.2.1            promises_1.1.1             
- [41] scales_1.1.1                gtable_0.3.0               
- [43] org.Mm.eg.db_3.8.2          rlang_0.4.6                
- [45] splines_3.6.1               rtracklayer_1.44.4         
- [47] lazyeval_0.2.2              PADOG_1.26.0               
- [49] broom_0.5.2                 yaml_2.2.1                 
- [51] reshape2_1.4.3              modelr_0.1.8               
- [53] backports_1.1.8             httpuv_1.5.4               
- [55] tools_3.6.1                 gridBase_0.4-7             
- [57] ellipsis_0.3.1              gplots_3.0.1.1             
- [59] HTMLUtils_0.1.7             Rcpp_1.0.4.6               
- [61] plyr_1.8.6                  progress_1.2.2             
- [63] zlibbioc_1.30.0             RCurl_1.95-4.12            
- [65] prettyunits_1.1.1           openssl_1.4.1              
- [67] hgu133plus2.db_3.2.3        SummarizedExperiment_1.16.1
- [69] haven_2.3.1                 fs_1.4.2                   
- [71] magrittr_1.5                data.table_1.12.8          
- [73] reprex_0.3.0                whisker_0.4                
- [75] ProtGenerics_1.16.0         matrixStats_0.56.0         
- [77] hms_0.5.3                   mime_0.9                   
- [79] evaluate_0.14               GSVA_1.32.0                
- [81] xtable_1.8-4                globaltest_5.40.0          
- [83] XML_3.98-1.20               hgu133a.db_3.2.3           
- [85] readxl_1.3.1                EGSEAdata_1.12.0           
- [87] compiler_3.6.1              biomaRt_2.42.1             
- [89] safe_3.24.0                 KernSmooth_2.23-15         
- [91] crayon_1.3.4                htmltools_0.5.0            
- [93] later_1.1.0.1               geneplotter_1.62.0         
- [95] lubridate_1.7.4             DBI_1.0.0                  
- [97] dbplyr_1.4.2                rappdirs_0.3.1             
- [99] Matrix_1.2-18               cli_2.0.2                  
-[101] gdata_2.18.0                metap_1.1                  
-[103] pkgconfig_2.0.3             GenomicAlignments_1.20.1   
-[105] plotly_4.9.0                xml2_1.3.2                 
-[107] foreach_1.5.0               annotate_1.62.0            
-[109] XVector_0.24.0              bibtex_0.4.2               
-[111] rvest_0.3.5                 doRNG_1.7.1                
-[113] digest_0.6.25               Biostrings_2.54.0          
-[115] rmarkdown_2.3               cellranger_1.1.0           
-[117] GSEABase_1.46.0             curl_4.3                   
-[119] shiny_1.3.2                 Rsamtools_2.0.1            
-[121] gtools_3.8.1                GSA_1.03.1                 
-[123] lifecycle_0.2.0             nlme_3.1-148               
-[125] jsonlite_1.7.0              viridisLite_0.3.0          
-[127] askpass_1.1                 fansi_0.4.1                
-[129] pillar_1.4.4                lattice_0.20-41            
-[131] survival_2.44-1.1           KEGGREST_1.24.0            
-[133] httr_1.4.1                  glue_1.4.1                 
-[135] png_0.1-7                   shinythemes_1.1.2          
-[137] iterators_1.0.12            bit_1.1-14                 
-[139] Rgraphviz_2.28.0            stringi_1.4.6              
-[141] blob_1.2.0                  caTools_1.17.1.2           
-[143] memoise_1.1.0              </code></pre>
+  [1] rappdirs_0.3.3              rtracklayer_1.50.0         
+  [3] Glimma_2.0.0                bit64_4.0.5                
+  [5] knitr_1.31                  multcomp_1.4-16            
+  [7] DelayedArray_0.16.3         data.table_1.13.6          
+  [9] hwriter_1.3.2               KEGGREST_1.30.1            
+ [11] RCurl_1.98-1.3              doParallel_1.0.16          
+ [13] generics_0.1.0              metap_1.4                  
+ [15] org.Mm.eg.db_3.12.0         TH.data_1.0-10             
+ [17] RSQLite_2.2.5               bit_4.0.4                  
+ [19] mutoss_0.1-12               xml2_1.3.2                 
+ [21] lubridate_1.7.9.2           httpuv_1.5.5               
+ [23] SummarizedExperiment_1.20.0 assertthat_0.2.1           
+ [25] xfun_0.23                   hms_1.0.0                  
+ [27] evaluate_0.14               promises_1.2.0.1           
+ [29] fansi_0.5.0                 progress_1.2.2             
+ [31] caTools_1.18.1              dbplyr_2.1.0               
+ [33] readxl_1.3.1                Rgraphviz_2.34.0           
+ [35] DBI_1.1.1                   geneplotter_1.68.0         
+ [37] tmvnsim_1.0-2               htmlwidgets_1.5.3          
+ [39] ellipsis_0.3.2              backports_1.2.1            
+ [41] annotate_1.68.0             PADOG_1.32.0               
+ [43] gbRd_0.4-11                 gridBase_0.4-7             
+ [45] biomaRt_2.46.3              MatrixGenerics_1.2.1       
+ [47] HTMLUtils_0.1.7             vctrs_0.3.8                
+ [49] cachem_1.0.4                withr_2.4.2                
+ [51] globaltest_5.44.0           GenomicAlignments_1.26.0   
+ [53] prettyunits_1.1.1           mnormt_2.0.2               
+ [55] lazyeval_0.2.2              crayon_1.4.1               
+ [57] genefilter_1.72.1           labeling_0.4.2             
+ [59] pkgconfig_2.0.3             nlme_3.1-152               
+ [61] ProtGenerics_1.22.0         GSA_1.03.1                 
+ [63] rlang_0.4.11                lifecycle_1.0.0            
+ [65] sandwich_3.0-0              BiocFileCache_1.14.0       
+ [67] mathjaxr_1.2-0              modelr_0.1.8               
+ [69] cellranger_1.1.0            rprojroot_2.0.2            
+ [71] GSVA_1.38.2                 matrixStats_0.59.0         
+ [73] Matrix_1.3-2                zoo_1.8-9                  
+ [75] reprex_1.0.0                whisker_0.4                
+ [77] png_0.1-7                   viridisLite_0.4.0          
+ [79] bitops_1.0-7                KernSmooth_2.23-18         
+ [81] Biostrings_2.58.0           blob_1.2.1                 
+ [83] R2HTML_2.3.2                doRNG_1.8.2                
+ [85] scales_1.1.1                memoise_2.0.0.9000         
+ [87] GSEABase_1.52.1             magrittr_2.0.1             
+ [89] plyr_1.8.6                  safe_3.30.0                
+ [91] gplots_3.1.1                zlibbioc_1.36.0            
+ [93] compiler_4.0.2              plotrix_3.8-1              
+ [95] KEGGgraph_1.50.0            DESeq2_1.30.1              
+ [97] Rsamtools_2.6.0             cli_3.0.0                  
+ [99] XVector_0.30.0              EGSEAdata_1.18.0           
+[101] MASS_7.3-53.1               tidyselect_1.1.0           
+[103] stringi_1.5.3               highr_0.8                  
+[105] yaml_2.2.1                  askpass_1.1                
+[107] locfit_1.5-9.4              grid_4.0.2                 
+[109] tools_4.0.2                 rstudioapi_0.13            
+[111] foreach_1.5.1               git2r_0.28.0               
+[113] farver_2.1.0                digest_0.6.27              
+[115] Rcpp_1.0.6                  broom_0.7.4                
+[117] later_1.1.0.1               org.Hs.eg.db_3.12.0        
+[119] httr_1.4.2                  Rdpack_2.1                 
+[121] colorspace_2.0-2            rvest_0.3.6                
+[123] XML_3.99-0.5                fs_1.5.0                   
+[125] splines_4.0.2               statmod_1.4.35             
+[127] sn_1.6-2                    multtest_2.46.0            
+[129] plotly_4.9.3                xtable_1.8-4               
+[131] jsonlite_1.7.2              R6_2.5.0                   
+[133] TFisher_0.2.0               KEGGdzPathwaysGEO_1.28.0   
+[135] pillar_1.6.1                htmltools_0.5.1.1          
+[137] hgu133plus2.db_3.2.3        glue_1.4.2                 
+[139] fastmap_1.1.0               DT_0.17                    
+[141] BiocParallel_1.24.1         codetools_0.2-18           
+[143] mvtnorm_1.1-1               utf8_1.2.1                 
+[145] lattice_0.20-41             numDeriv_2016.8-1.1        
+[147] hgu133a.db_3.2.3            curl_4.3                   
+[149] gtools_3.8.2                openssl_1.4.3              
+[151] survival_3.2-7              rmarkdown_2.6              
+[153] org.Rn.eg.db_3.12.0         munsell_0.5.0              
+[155] GenomeInfoDbData_1.2.4      iterators_1.0.13           
+[157] haven_2.3.1                 reshape2_1.4.4             
+[159] gtable_0.3.0                rbibutils_2.0              </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1752,13 +1885,13 @@ loaded via a namespace (and not attached):
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.6.1 (2019-07-05)
+<pre><code>R version 4.0.2 (2020-06-22)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: CentOS Linux 7 (Core)
 
 Matrix products: default
-BLAS:   /config/RStudio/R/3.6.1/lib64/R/lib/libRblas.so
-LAPACK: /config/RStudio/R/3.6.1/lib64/R/lib/libRlapack.so
+BLAS:   /config/binaries/R/4.0.2/lib64/R/lib/libRblas.so
+LAPACK: /config/binaries/R/4.0.2/lib64/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              
@@ -1773,100 +1906,107 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] RColorBrewer_1.1-2        EGSEA_1.12.0             
- [3] pathview_1.24.0           org.Hs.eg.db_3.8.2       
- [5] topGO_2.36.0              SparseM_1.77             
- [7] GO.db_3.8.2               graph_1.62.0             
- [9] gage_2.34.0               patchwork_1.0.1          
-[11] NMF_0.22.0                cluster_2.1.0            
-[13] rngtools_1.4              pkgmaker_0.27            
-[15] registry_0.5-1            edgeR_3.26.8             
-[17] limma_3.42.2              EnsDb.Hsapiens.v86_2.99.0
-[19] ensembldb_2.8.0           AnnotationFilter_1.8.0   
-[21] GenomicFeatures_1.36.4    AnnotationDbi_1.46.1     
-[23] Biobase_2.46.0            GenomicRanges_1.38.0     
-[25] GenomeInfoDb_1.22.1       IRanges_2.20.2           
-[27] S4Vectors_0.24.4          BiocGenerics_0.32.0      
-[29] forcats_0.4.0             stringr_1.4.0            
-[31] dplyr_1.0.0               purrr_0.3.4              
-[33] readr_1.3.1               tidyr_1.1.0              
-[35] tibble_3.0.1              ggplot2_3.3.2            
-[37] tidyverse_1.3.0           here_0.1                 
-[39] workflowr_1.6.2          
+ [1] RColorBrewer_1.1-2        EGSEA_1.18.1             
+ [3] pathview_1.30.1           topGO_2.42.0             
+ [5] SparseM_1.78              GO.db_3.12.1             
+ [7] graph_1.68.0              gage_2.40.1              
+ [9] patchwork_1.1.1           NMF_0.23.0               
+[11] cluster_2.1.0             rngtools_1.5             
+[13] pkgmaker_0.32.2           registry_0.5-1           
+[15] edgeR_3.32.1              limma_3.46.0             
+[17] EnsDb.Hsapiens.v86_2.99.0 ensembldb_2.14.0         
+[19] AnnotationFilter_1.14.0   GenomicFeatures_1.42.1   
+[21] AnnotationDbi_1.52.0      Biobase_2.50.0           
+[23] GenomicRanges_1.42.0      GenomeInfoDb_1.26.7      
+[25] IRanges_2.24.1            S4Vectors_0.28.1         
+[27] BiocGenerics_0.36.1       forcats_0.5.1            
+[29] stringr_1.4.0             dplyr_1.0.4              
+[31] purrr_0.3.4               readr_1.4.0              
+[33] tidyr_1.1.2               tibble_3.1.2             
+[35] ggplot2_3.3.5             tidyverse_1.3.0          
+[37] here_1.0.1                workflowr_1.6.2          
 
 loaded via a namespace (and not attached):
-  [1] utf8_1.1.4                  tidyselect_1.1.0           
-  [3] RSQLite_2.1.2               htmlwidgets_1.3            
-  [5] grid_3.6.1                  KEGG.db_3.2.3              
-  [7] BiocParallel_1.20.1         R2HTML_2.3.2               
-  [9] munsell_0.5.0               codetools_0.2-16           
- [11] statmod_1.4.32              DT_0.9                     
- [13] KEGGdzPathwaysGEO_1.22.0    withr_2.2.0                
- [15] colorspace_1.4-1            knitr_1.29                 
- [17] rstudioapi_0.11             gbRd_0.4-11                
- [19] labeling_0.3                Rdpack_0.11-0              
- [21] git2r_0.27.1                KEGGgraph_1.44.0           
- [23] org.Rn.eg.db_3.8.2          GenomeInfoDbData_1.2.1     
- [25] hwriter_1.3.2               farver_2.0.3               
- [27] bit64_0.9-7                 rprojroot_1.3-2            
- [29] vctrs_0.3.1                 generics_0.0.2             
- [31] xfun_0.15                   BiocFileCache_1.10.2       
- [33] R6_2.4.1                    doParallel_1.0.15          
- [35] Glimma_1.12.0               locfit_1.5-9.1             
- [37] bitops_1.0-6                DelayedArray_0.12.3        
- [39] assertthat_0.2.1            promises_1.1.1             
- [41] scales_1.1.1                gtable_0.3.0               
- [43] org.Mm.eg.db_3.8.2          rlang_0.4.6                
- [45] splines_3.6.1               rtracklayer_1.44.4         
- [47] lazyeval_0.2.2              PADOG_1.26.0               
- [49] broom_0.5.2                 yaml_2.2.1                 
- [51] reshape2_1.4.3              modelr_0.1.8               
- [53] backports_1.1.8             httpuv_1.5.4               
- [55] tools_3.6.1                 gridBase_0.4-7             
- [57] ellipsis_0.3.1              gplots_3.0.1.1             
- [59] HTMLUtils_0.1.7             Rcpp_1.0.4.6               
- [61] plyr_1.8.6                  progress_1.2.2             
- [63] zlibbioc_1.30.0             RCurl_1.95-4.12            
- [65] prettyunits_1.1.1           openssl_1.4.1              
- [67] hgu133plus2.db_3.2.3        SummarizedExperiment_1.16.1
- [69] haven_2.3.1                 fs_1.4.2                   
- [71] magrittr_1.5                data.table_1.12.8          
- [73] reprex_0.3.0                whisker_0.4                
- [75] ProtGenerics_1.16.0         matrixStats_0.56.0         
- [77] hms_0.5.3                   mime_0.9                   
- [79] evaluate_0.14               GSVA_1.32.0                
- [81] xtable_1.8-4                globaltest_5.40.0          
- [83] XML_3.98-1.20               hgu133a.db_3.2.3           
- [85] readxl_1.3.1                EGSEAdata_1.12.0           
- [87] compiler_3.6.1              biomaRt_2.42.1             
- [89] safe_3.24.0                 KernSmooth_2.23-15         
- [91] crayon_1.3.4                htmltools_0.5.0            
- [93] later_1.1.0.1               geneplotter_1.62.0         
- [95] lubridate_1.7.4             DBI_1.0.0                  
- [97] dbplyr_1.4.2                rappdirs_0.3.1             
- [99] Matrix_1.2-18               cli_2.0.2                  
-[101] gdata_2.18.0                metap_1.1                  
-[103] pkgconfig_2.0.3             GenomicAlignments_1.20.1   
-[105] plotly_4.9.0                xml2_1.3.2                 
-[107] foreach_1.5.0               annotate_1.62.0            
-[109] XVector_0.24.0              bibtex_0.4.2               
-[111] rvest_0.3.5                 doRNG_1.7.1                
-[113] digest_0.6.25               Biostrings_2.54.0          
-[115] rmarkdown_2.3               cellranger_1.1.0           
-[117] GSEABase_1.46.0             curl_4.3                   
-[119] shiny_1.3.2                 Rsamtools_2.0.1            
-[121] gtools_3.8.1                GSA_1.03.1                 
-[123] lifecycle_0.2.0             nlme_3.1-148               
-[125] jsonlite_1.7.0              viridisLite_0.3.0          
-[127] askpass_1.1                 fansi_0.4.1                
-[129] pillar_1.4.4                lattice_0.20-41            
-[131] survival_2.44-1.1           KEGGREST_1.24.0            
-[133] httr_1.4.1                  glue_1.4.1                 
-[135] png_0.1-7                   shinythemes_1.1.2          
-[137] iterators_1.0.12            bit_1.1-14                 
-[139] Rgraphviz_2.28.0            stringi_1.4.6              
-[141] blob_1.2.0                  caTools_1.17.1.2           
-[143] memoise_1.1.0              </code></pre>
+  [1] rappdirs_0.3.3              rtracklayer_1.50.0         
+  [3] Glimma_2.0.0                bit64_4.0.5                
+  [5] knitr_1.31                  multcomp_1.4-16            
+  [7] DelayedArray_0.16.3         data.table_1.13.6          
+  [9] hwriter_1.3.2               KEGGREST_1.30.1            
+ [11] RCurl_1.98-1.3              doParallel_1.0.16          
+ [13] generics_0.1.0              metap_1.4                  
+ [15] org.Mm.eg.db_3.12.0         TH.data_1.0-10             
+ [17] RSQLite_2.2.5               bit_4.0.4                  
+ [19] mutoss_0.1-12               xml2_1.3.2                 
+ [21] lubridate_1.7.9.2           httpuv_1.5.5               
+ [23] SummarizedExperiment_1.20.0 assertthat_0.2.1           
+ [25] xfun_0.23                   hms_1.0.0                  
+ [27] evaluate_0.14               promises_1.2.0.1           
+ [29] fansi_0.5.0                 progress_1.2.2             
+ [31] caTools_1.18.1              dbplyr_2.1.0               
+ [33] readxl_1.3.1                Rgraphviz_2.34.0           
+ [35] DBI_1.1.1                   geneplotter_1.68.0         
+ [37] tmvnsim_1.0-2               htmlwidgets_1.5.3          
+ [39] ellipsis_0.3.2              backports_1.2.1            
+ [41] annotate_1.68.0             PADOG_1.32.0               
+ [43] gbRd_0.4-11                 gridBase_0.4-7             
+ [45] biomaRt_2.46.3              MatrixGenerics_1.2.1       
+ [47] HTMLUtils_0.1.7             vctrs_0.3.8                
+ [49] cachem_1.0.4                withr_2.4.2                
+ [51] globaltest_5.44.0           GenomicAlignments_1.26.0   
+ [53] prettyunits_1.1.1           mnormt_2.0.2               
+ [55] lazyeval_0.2.2              crayon_1.4.1               
+ [57] genefilter_1.72.1           labeling_0.4.2             
+ [59] pkgconfig_2.0.3             nlme_3.1-152               
+ [61] ProtGenerics_1.22.0         GSA_1.03.1                 
+ [63] rlang_0.4.11                lifecycle_1.0.0            
+ [65] sandwich_3.0-0              BiocFileCache_1.14.0       
+ [67] mathjaxr_1.2-0              modelr_0.1.8               
+ [69] cellranger_1.1.0            rprojroot_2.0.2            
+ [71] GSVA_1.38.2                 matrixStats_0.59.0         
+ [73] Matrix_1.3-2                zoo_1.8-9                  
+ [75] reprex_1.0.0                whisker_0.4                
+ [77] png_0.1-7                   viridisLite_0.4.0          
+ [79] bitops_1.0-7                KernSmooth_2.23-18         
+ [81] Biostrings_2.58.0           blob_1.2.1                 
+ [83] R2HTML_2.3.2                doRNG_1.8.2                
+ [85] scales_1.1.1                memoise_2.0.0.9000         
+ [87] GSEABase_1.52.1             magrittr_2.0.1             
+ [89] plyr_1.8.6                  safe_3.30.0                
+ [91] gplots_3.1.1                zlibbioc_1.36.0            
+ [93] compiler_4.0.2              plotrix_3.8-1              
+ [95] KEGGgraph_1.50.0            DESeq2_1.30.1              
+ [97] Rsamtools_2.6.0             cli_3.0.0                  
+ [99] XVector_0.30.0              EGSEAdata_1.18.0           
+[101] MASS_7.3-53.1               tidyselect_1.1.0           
+[103] stringi_1.5.3               highr_0.8                  
+[105] yaml_2.2.1                  askpass_1.1                
+[107] locfit_1.5-9.4              grid_4.0.2                 
+[109] tools_4.0.2                 rstudioapi_0.13            
+[111] foreach_1.5.1               git2r_0.28.0               
+[113] farver_2.1.0                digest_0.6.27              
+[115] Rcpp_1.0.6                  broom_0.7.4                
+[117] later_1.1.0.1               org.Hs.eg.db_3.12.0        
+[119] httr_1.4.2                  Rdpack_2.1                 
+[121] colorspace_2.0-2            rvest_0.3.6                
+[123] XML_3.99-0.5                fs_1.5.0                   
+[125] splines_4.0.2               statmod_1.4.35             
+[127] sn_1.6-2                    multtest_2.46.0            
+[129] plotly_4.9.3                xtable_1.8-4               
+[131] jsonlite_1.7.2              R6_2.5.0                   
+[133] TFisher_0.2.0               KEGGdzPathwaysGEO_1.28.0   
+[135] pillar_1.6.1                htmltools_0.5.1.1          
+[137] hgu133plus2.db_3.2.3        glue_1.4.2                 
+[139] fastmap_1.1.0               DT_0.17                    
+[141] BiocParallel_1.24.1         codetools_0.2-18           
+[143] mvtnorm_1.1-1               utf8_1.2.1                 
+[145] lattice_0.20-41             numDeriv_2016.8-1.1        
+[147] hgu133a.db_3.2.3            curl_4.3                   
+[149] gtools_3.8.2                openssl_1.4.3              
+[151] survival_3.2-7              rmarkdown_2.6              
+[153] org.Rn.eg.db_3.12.0         munsell_0.5.0              
+[155] GenomeInfoDbData_1.2.4      iterators_1.0.13           
+[157] haven_2.3.1                 reshape2_1.4.4             
+[159] gtable_0.3.0                rbibutils_2.0              </code></pre>
 </div>
 </div>
 
@@ -1884,6 +2024,8 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
+
+
 </div>
 </div>
 
@@ -1893,7 +2035,7 @@ footer is added to webpages before the MathJax javascript. -->
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
