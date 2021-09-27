@@ -65,7 +65,7 @@ Mapping-based DGE analysis of **complete** cohort
 * DGE analysis (all samples)
     * [DGE results](STAR-FC-all.html): DGE analysis comparing 
     CMV positive and CMV negative samples of the full cohort, using
-    [[limma](https://bioconductor.org/packages/release/bioc/html/limma.html).
+    [limma](https://bioconductor.org/packages/release/bioc/html/limma.html).
 
 * DGE analysis (samples with ultrasound abnormalities excluded)
     * [DGE results](STAR-FC-exclude-US-ab.html): 
