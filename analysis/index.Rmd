@@ -27,8 +27,8 @@ further batch of 9 samples was subsequently sequenced.
 Follow the links below to explore the different parts of the analysis. 
 
 
-Pseudoalignment-based differential gene expression (DGE) analysis
------------------------------------------------------------------
+Pseudoalignment-based differential gene expression (DGE) analysis of **pilot** data
+-----------------------------------------------------------------------------------
 
 * Pseudoalignment and quality control.
     * [MultiQC report](multiqc_report.html): Pseudoalignment and quality statistics.
@@ -56,19 +56,30 @@ Pseudoalignment-based differential gene expression (DGE) analysis
     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html). 
 
     
-Mapping-based differential expression analysis
-----------------------------------------------
+Mapping-based DGE analysis of complete cohort
+---------------------------------------------
 
 * Read mapping, counting and quality control.
     * [MultiQC report](multiqc_report.html): Mapping and quality statistics.
 
-* Differential expression analysis (all samples)
+* DGE analysis (all samples)
+    * [DGE results](STAR-FC-all.html): DGE analysis comparing 
+    CMV positive and CMV negative samples of the full cohort, using
+    [[limma](https://bioconductor.org/packages/release/bioc/html/limma.html).
+
+* DGE analysis (samples with ultrasound abnormalities excluded)
+    * [DGE results](STAR-FC-exclude-US-ab.html): 
+    DGE analysis comparing CMV positive and CMV negative samples, excluding 
+    samples with ultrasound abnormalities, using 
+    [limma](https://bioconductor.org/packages/release/bioc/html/limma.html).
+    
+* DGE analysis (all samples)
     * [DGE results](STAR-FC-RUV-all.html): DGE analysis comparing 
     CMV positive and CMV negative samples of the full cohort, using
     [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to 
     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 
-* Differential expression analysis (samples with ultrasound abnormalities excluded)
+* DGE analysis (samples with ultrasound abnormalities excluded)
     * [DGE results](STAR-FC-RUV-exclude-US-ab.html): 
     DGE analysis comparing CMV positive and CMV negative samples, excluding 
     samples with ultrasound abnormalities, using 
@@ -76,10 +87,10 @@ Mapping-based differential expression analysis
     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 
 
-Differential exon usage (DEU) analysis
---------------------------------------------
+Mapping-based differential exon usage (DEU) analysis of complete cohort
+-----------------------------------------------------------------------
 
-* Differential exon usage analysis
+* DEU analysis
     * [DEU results](STAR-DEXSeq.html): DEU analysis comparing CMV positive and 
     CMV negative samples of the full cohort using [DEXSeq](https://bioconductor.org/packages/3.13/bioc/html/DEXSeq.html).
     * [DEU results](STAR-DEXSeq-exclude-US-ab.html): DEU analysis comparing CMV 
