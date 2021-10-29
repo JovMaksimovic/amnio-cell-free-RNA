@@ -1,5 +1,5 @@
 ---
-title: "Limma-voom paired analysis EXCLUDING samples with ultrasound abnormality"
+title: "Limma-voom paired analysis EXCLUDING US-ab samples"
 output:
   html_document:
     df_print: paged
@@ -265,7 +265,7 @@ These are the top 10 differentially expressed genes.
 
 ```{r, echo=FALSE, message=FALSE}
 top <- topTable(fit2, n = 500)
-readr::write_csv(top, path = here("output/star-fc-limma-voom-no_us_ab.csv"))
+readr::write_csv(top, file = here("output/star-fc-limma-voom-no_us_ab.csv"))
 head(top, n=10)
 ```
 
@@ -297,7 +297,7 @@ wrap_plots(p, guides = "collect", ncol = 3) &
 ```
 
 ```{r, fig.height=8, fig.width=7, echo=FALSE, message=FALSE}
-cut <- 0.1
+cut <- 0.05
 aheatmap(v$E[v$genes$Geneid %in% top$Geneid[top$adj.P.Val < cut],], 
           annCol = list(CMV_result = targets$CMV_status),
           labRow = v$genes$symbol[v$genes$Geneid %in% 
