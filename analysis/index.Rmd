@@ -50,10 +50,10 @@ Follow the links below to explore the different parts of the analysis.
 <!--     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).  -->
 
 # Mapping-based DGE analysis
-## limma-voom
 * Read mapping, counting and quality control.
     * [MultiQC report](multiqc_report.html): Mapping and quality statistics.
-
+    
+## limma-voom
 * DGE analysis (all samples)
     * [DGE results](STAR-FC-all.html): DGE analysis comparing 
     CMV positive and CMV negative samples of the full cohort, using
