@@ -49,8 +49,7 @@ Follow the links below to explore the different parts of the analysis.
 <!--     [RUVseq](https://bioconductor.org/packages/release/bioc/html/RUVSeq.html) to  -->
 <!--     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).  -->
 
-Mapping-based DGE analysis of **complete** cohort
--------------------------------------------------
+# Mapping-based DGE analysis
 ## limma-voom
 * Read mapping, counting and quality control.
     * [MultiQC report](multiqc_report.html): Mapping and quality statistics.
@@ -81,8 +80,7 @@ Mapping-based DGE analysis of **complete** cohort
     remove unwanted variation, followed by [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 
 
-Mapping-based differential exon usage (DEU) analysis of **complete** cohort
----------------------------------------------------------------------------
+# Mapping-based differential exon usage (DEU) analysis
 
 * DEU analysis
     * [DEU results](STAR-DEXSeq.html): DEU analysis comparing CMV positive and 
