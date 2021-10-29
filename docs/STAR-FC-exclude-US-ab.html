@@ -11,7 +11,7 @@
 
 
 
-<title>Limma-voom paired analysis EXCLUDING samples with ultrasound abnormality</title>
+<title>Limma-voom paired analysis EXCLUDING US-ab samples</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -389,7 +389,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Limma-voom paired analysis EXCLUDING samples with ultrasound abnormality</h1>
+<h1 class="title toc-ignore">Limma-voom paired analysis EXCLUDING US-ab samples</h1>
 
 </div>
 
@@ -414,7 +414,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-09-27
+<strong>Last updated:</strong> 2021-10-29
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -505,16 +505,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreeaf2af9775305a916d4b4cf16bf152a4d0845f4c7targetblankaf2af97a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/af2af9775305a916d4b4cf16bf152a4d0845f4c7" target="_blank">af2af97</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree02eba43280dae22d20df6c576303952b5f929127targetblank02eba43a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/02eba43280dae22d20df6c576303952b5f929127" target="_blank">02eba43</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreeaf2af9775305a916d4b4cf16bf152a4d0845f4c7targetblankaf2af97a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree02eba43280dae22d20df6c576303952b5f929127targetblank02eba43a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/af2af9775305a916d4b4cf16bf152a4d0845f4c7" target="_blank">af2af97</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/02eba43280dae22d20df6c576303952b5f929127" target="_blank">02eba43</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -564,6 +564,7 @@ Ignored files:
     Ignored:    output/keggEns.RData
 
 Untracked files:
+    Untracked:  code/est-rRNA-cont.groovy
     Untracked:  code/output.R
     Untracked:  code/rnaseq.salmon-quant.groovy
     Untracked:  code/rnaseq.star.count-exons.groovy
@@ -640,6 +641,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/02eba43280dae22d20df6c576303952b5f929127/analysis/STAR-FC-exclude-US-ab.Rmd" target="_blank">02eba43</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/STAR-FC-all.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a3deccff0f2cf23947643c18294660cb78b4d605/docs/STAR-FC-exclude-US-ab.html" target="_blank">a3deccf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1584,6 +1619,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a3deccff0f2cf23947643c18294660cb78b4d605/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-9-1.png" target="_blank">a3deccf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-9-1.png" target="_blank">d96660b</a>
 </td>
 <td>
@@ -1603,8 +1649,6 @@ NotSig     12791
 Up             8</code></pre>
 <p>There were 0 down-regulated and 8 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
 <p>These are the top 10 differentially expressed genes.</p>
-<pre><code>Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
-Please use the `file` argument instead.</code></pre>
 <pre><code>                  Geneid Length         Ensembl symbol entrezid     logFC
 8687  ENSG00000115415.20   9770 ENSG00000115415  STAT1     6772 1.0336003
 2095  ENSG00000137965.11   2038 ENSG00000137965  IFI44    10561 1.5521034
@@ -1651,6 +1695,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a3deccff0f2cf23947643c18294660cb78b4d605/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-11-1.png" target="_blank">a3deccf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-11-1.png" target="_blank">d96660b</a>
@@ -2262,6 +2317,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/a3deccff0f2cf23947643c18294660cb78b4d605/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-25-1.png" target="_blank">a3deccf</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-25-1.png" target="_blank">d96660b</a>

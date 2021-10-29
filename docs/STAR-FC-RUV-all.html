@@ -11,7 +11,7 @@
 
 
 
-<title>Limma-voom paired analysis of ALL samples</title>
+<title>RUVseq-edgeR paired analysis of ALL samples</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -389,7 +389,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Limma-voom paired analysis of ALL samples</h1>
+<h1 class="title toc-ignore">RUVseq-edgeR paired analysis of ALL samples</h1>
 
 </div>
 
@@ -414,7 +414,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-09-25
+<strong>Last updated:</strong> 2021-10-29
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -505,16 +505,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreee20c62d21447b7a1e31bb69f57e0e415e80bcf8atargetblanke20c62da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/e20c62d21447b7a1e31bb69f57e0e415e80bcf8a" target="_blank">e20c62d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree02eba43280dae22d20df6c576303952b5f929127targetblank02eba43a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/02eba43280dae22d20df6c576303952b5f929127" target="_blank">02eba43</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreee20c62d21447b7a1e31bb69f57e0e415e80bcf8atargetblanke20c62da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree02eba43280dae22d20df6c576303952b5f929127targetblank02eba43a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/e20c62d21447b7a1e31bb69f57e0e415e80bcf8a" target="_blank">e20c62d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/02eba43280dae22d20df6c576303952b5f929127" target="_blank">02eba43</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -564,7 +564,7 @@ Ignored files:
     Ignored:    output/keggEns.RData
 
 Untracked files:
-    Untracked:  analysis/STAR-DEXSeq-exclude-US-ab.Rmd
+    Untracked:  code/est-rRNA-cont.groovy
     Untracked:  code/output.R
     Untracked:  code/rnaseq.salmon-quant.groovy
     Untracked:  code/rnaseq.star.count-exons.groovy
@@ -578,6 +578,12 @@ Untracked files:
     Untracked:  output/salmon-limma-voom-keggCam-exclude-CMV11.csv
     Untracked:  output/salmon-limma-voom.csv
     Untracked:  output/salmon-ruvseq-edger.csv
+    Untracked:  output/star-fc-limma-voom-all-gsea-c2.csv
+    Untracked:  output/star-fc-limma-voom-all-gsea-c5.csv
+    Untracked:  output/star-fc-limma-voom-all.csv
+    Untracked:  output/star-fc-limma-voom-no_us_ab-gsea-c2.csv
+    Untracked:  output/star-fc-limma-voom-no_us_ab-gsea-c5.csv
+    Untracked:  output/star-fc-limma-voom-no_us_ab.csv
     Untracked:  output/star-fc-ruv-all-gsea-c2.csv
     Untracked:  output/star-fc-ruv-all-gsea-c5.csv
     Untracked:  output/star-fc-ruv-all.csv
@@ -635,6 +641,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/02eba43280dae22d20df6c576303952b5f929127/analysis/STAR-FC-RUV-all.Rmd" target="_blank">02eba43</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/STAR-FC-all.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/77ba079a747c0de04c91e94e3129beb7d7c4ee4b/docs/STAR-FC-RUV-all.html" target="_blank">77ba079</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -710,10 +750,36 @@ wflow_publish(c(“analysis/STAR-FC-all.Rmd”, “analysis/STAR-FC-exclude-US-a
 </div>
 </div>
 </div>
+<pre class="r"><code>library(here)
+library(tidyverse)
+library(EnsDb.Hsapiens.v86)
+library(readr)
+library(limma)
+library(edgeR)
+library(NMF)
+library(patchwork)
+library(EGSEA)
+library(RUVSeq)
+source(here(&quot;code/output.R&quot;))</code></pre>
 <p>The data showed some adapter contamination and sequence duplication issues. Adapters were removed using <code>Trimmomatic</code> and both paired and unpaired reads were retained. Only paired reads were initially mapped with <code>Star</code> in conjunction with <code>GRCh38</code> and <code>gencode_v34</code> to detect all junctions, across all samples. Paired and unpaired reads were then mapped to <code>GRCh38</code> separately using <code>Star</code>. Duplicates were removed from paired and unpaired mapped data using <code>Picard MarkDuplicates</code>. Reads were then counted across features from <code>gencode_v34</code> using <code>featureCounts</code>.</p>
 <div id="data-import" class="section level1">
 <h1>Data import</h1>
 <p>Set up <code>DGElist</code> object for downstream analysis. Sum paired and unpaired counts prior to downstream analysis.</p>
+<pre class="r"><code>rawPE &lt;- read_delim(here(&quot;data/star-genome-analysis/counts-pe/counts.txt&quot;), 
+                    delim = &quot;\t&quot;, skip = 1)
+rawSE &lt;- read_delim(here(&quot;data/star-genome-analysis/counts-se/counts.txt&quot;), 
+                    delim = &quot;\t&quot;, skip = 1)
+samps &lt;- strsplit2(colnames(rawPE)[c(7:ncol(rawPE))], &quot;_&quot;)[,5]
+batch &lt;- factor(strsplit2(colnames(rawPE)[c(7:ncol(rawPE))], 
+                                     &quot;_&quot;)[,1], labels = 1:2)
+batch &lt;- tibble(batch = batch, id = samps)
+colnames(rawPE)[7:ncol(rawPE)] &lt;- samps
+colnames(rawSE)[7:ncol(rawSE)] &lt;- samps
+
+counts &lt;- rawPE[, 7:ncol(rawPE)] + rawSE[, 7:ncol(rawSE)] 
+dge &lt;- DGEList(counts = counts,
+                 genes = rawPE[,c(1,6)])
+dge</code></pre>
 <pre><code>An object of class &quot;DGEList&quot;
 $counts
   CMV30 CMV31 CMV8 CMV9 CMV26 CMV27 CMV14 CMV15 CMV20 CMV21 CMV1 CMV2 CMV3 CMV4
@@ -754,6 +820,45 @@ $genes
 5 ENSG00000284332.1    138
 60664 more rows ...</code></pre>
 <p>Load sample information and file names.</p>
+<pre class="r"><code>samps1 &lt;- read_csv(here(&quot;data/CMV-AF-database-corrected-oct-2020.csv&quot;))
+samps2 &lt;- read_csv(here(&quot;data/samples.csv&quot;))
+
+samps1 %&gt;% full_join(samps2, by = c(&quot;sequencing_ID&quot; = &quot;SampleId&quot;)) %&gt;%
+  mutate(pair = ifelse(!is.na(matched_pair), matched_pair,
+                        ifelse(!is.na(MatchedPair), MatchedPair, NA)),
+         CMV_status = ifelse(!is.na(CMV_status), CMV_status,
+                         ifelse(!is.na(TestResult), TestResult, NA)),
+         Sex = toupper(Sex),
+         Indication = tolower(Indication)) %&gt;%
+  dplyr::rename(sex = Sex, 
+         id = sequencing_ID, 
+         indication = Indication,
+         GA_at_amnio = `GA_at_amnio-completed_weeks`) -&gt; samps
+       
+read_csv(file = here(&quot;data/metadata.csv&quot;)) %&gt;%
+  inner_join(read_csv(file = here(&quot;data/joindata.csv&quot;)), 
+                      by = c(&quot;Record.ID&quot; = &quot;UR&quot;)) %&gt;%
+  right_join(samps, by = c(&quot;ID post-extraction&quot; = &quot;id&quot;)) %&gt;%
+  na_if(&quot;NA&quot;) %&gt;%
+  mutate(sex = ifelse(!is.na(sex), sex,
+                        ifelse(!is.na(Sex), toupper(Sex), NA)),
+         GA_at_amnio = ifelse(!is.na(GA_at_amnio), GA_at_amnio,
+                         ifelse(!is.na(GA.at.amnio), GA.at.amnio, NA))) %&gt;%
+  dplyr::rename(id = `ID post-extraction`) %&gt;%
+  dplyr::select(id, 
+                CMV_status, 
+                pair, 
+                sex, 
+                GA_at_amnio, 
+                indication) %&gt;%
+  left_join(batch) %&gt;%
+  dplyr::filter(id %in% colnames(dge)) %&gt;%
+  drop_na() -&gt; targets
+
+m &lt;- match(colnames(dge), targets$id)
+targets &lt;- targets[m[!is.na(m)], ]
+  
+targets</code></pre>
 <pre><code># A tibble: 26 x 7
    id    CMV_status pair  sex   GA_at_amnio indication batch
    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;fct&gt;
@@ -773,6 +878,30 @@ $genes
 <h1>Quality control</h1>
 <p>Genes that do not have an adequate number of reads in any sample should be filtered out prior to downstream analyses. From a biological perspective, genes that are not expressed at a biologically meaningful level in any condition are not of interest. Statistically, we get a better estimate of the mean-variance relationship in the data and reduce the number of statistical tests that are performed during differential expression analyses.</p>
 <p>Filter out lowly expressed genes and genes without Entrez IDs and calculate TMM normalization factors.</p>
+<pre class="r"><code>z &lt;- dge[, colnames(dge) %in% targets$id] # retain only relevant samples
+z$genes$Ensembl &lt;- strsplit2(z$genes$Geneid, &quot;.&quot;, fixed = TRUE)[,1]
+z$group &lt;- targets$CMV_status
+
+edb &lt;- EnsDb.Hsapiens.v86 # add Gene Symbols and Entrez IDs
+z$genes &lt;- left_join(z$genes, ensembldb::genes(edb, 
+                                        filter = GeneIdFilter(z$genes$Ensembl), 
+                                        columns = c(&quot;gene_id&quot;, 
+                                                    &quot;symbol&quot;, 
+                                                    &quot;entrezid&quot;), 
+                                        return.type = &quot;data.frame&quot;), 
+                       by = c(&quot;Ensembl&quot; = &quot;gene_id&quot;))
+z$genes$entrezid &lt;- unlist(sapply(z$genes$entrezid, function(x) {
+  if(is.null(x)) NA else x[length(x)]
+}), use.names = FALSE)
+
+keep &lt;- !is.na(z$genes$entrezid) &amp; !is.null(z$genes$entrezid)
+x &lt;- z[keep, ] # remove genes without Entrez IDs
+
+keep &lt;- filterByExpr(x, group = z$group)
+x &lt;- x[keep, ] # remove lowly expressed genes
+
+y &lt;- calcNormFactors(x)
+y</code></pre>
 <pre><code>An object of class &quot;DGEList&quot;
 $counts
    CMV30 CMV31 CMV8 CMV9 CMV26 CMV14 CMV15 CMV20 CMV21 CMV1 CMV2 CMV3 CMV4
@@ -817,6 +946,32 @@ $group
 [1] &quot;pos&quot; &quot;neg&quot; &quot;neg&quot; &quot;pos&quot; &quot;pos&quot;
 21 more elements ...</code></pre>
 <p>Plotting the distribution log-CPM values shows that a majority of genes within each sample are either not expressed or lowly-expressed with log-CPM values that are small or negative.</p>
+<pre class="r"><code>L &lt;- mean(z$samples$lib.size) * 1e-6
+M &lt;- median(z$samples$lib.size) * 1e-6
+
+par(mfrow = c(1,2))
+lcpmz &lt;- cpm(z, log = TRUE)
+lcpm.cutoff &lt;- log2(10/M + 2/L)
+nsamples &lt;- ncol(z)
+col &lt;- scales::hue_pal()(nsamples)
+plot(density(lcpmz[,1]), col = col[1], lwd = 1, ylim = c(0, 2), las = 2, 
+     main = &quot;&quot;, xlab = &quot;&quot;)
+title(main = &quot;Unfiltered data&quot;, xlab = &quot;Log-cpm&quot;)
+abline(v = lcpm.cutoff, lty = 3)
+for (i in 2:nsamples){
+  den &lt;- density(lcpmz[,i])
+  lines(den$x, den$y, col = col[i], lwd = 1)
+}
+
+lcpmy &lt;- cpm(y, log=TRUE)
+plot(density(lcpmy[,1]), col = col[1], lwd = 1, ylim = c(0, 0.25), las = 2, 
+     main = &quot;&quot;, xlab = &quot;&quot;)
+title(main = &quot;Filtered data&quot;, xlab = &quot;Log-cpm&quot;)
+abline(v = lcpm.cutoff, lty = 3)
+for (i in 2:nsamples){
+  den &lt;- density(lcpmy[,i])
+  lines(den$x, den$y, col = col[i], lwd = 1)
+}</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
@@ -857,6 +1012,40 @@ Jovana Maksimovic
 </div>
 <p>Although in excess of 30 million reads were obtained per sample, we can see that after mapping, duplicate removal and quantification of gene expression the median library size is just under than 4 million reads. This suggests that we are likely to only be capturing the most abundant cfRNAs.</p>
 <p>It is assumed that all samples should have a similar range and distribution of expression values. The raw data looks fairly uniform between samples, although TMM normalization further improves this.</p>
+<pre class="r"><code>dat &lt;- data.frame(lib = y$samples$lib.size,
+                  status = y$group,
+                  sample = colnames(y))
+p1 &lt;- ggplot(dat, aes(x = sample, y = lib, fill = status)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = &quot;Sample&quot;, y = &quot;Library size&quot;,
+       fill = &quot;CMV Status&quot;) +
+  geom_hline(yintercept = median(dat$lib), linetype = &quot;dashed&quot;) +
+  scale_x_discrete(limits = dat$sample)
+
+dat &lt;- reshape2::melt(cpm(y, normalized.lib.sizes = FALSE, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(y$group, each = nrow(y))
+colnames(dat)[2] &lt;- &quot;sample&quot;
+p2 &lt;- ggplot(dat, aes(x = sample, y = cpm, fill = status)) +
+  geom_boxplot(show.legend = FALSE, outlier.size = 0.75) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7)) +
+  labs(x = &quot;Sample&quot;, y = &quot;Library size&quot;,
+       fill = &quot;CMV Status&quot;) +
+  geom_hline(yintercept = median(dat$lib), linetype = &quot;dashed&quot;)
+
+dat &lt;- reshape2::melt(cpm(y, normalized.lib.sizes = TRUE, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(y$group, each = nrow(y))
+colnames(dat)[2] &lt;- &quot;sample&quot;
+p3 &lt;- ggplot(dat, aes(x = sample, y = cpm, fill = status)) +
+  geom_boxplot(show.legend = FALSE, outlier.size = 0.75) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7)) +
+  labs(x = &quot;Sample&quot;, y = &quot;Library size&quot;,
+       fill = &quot;CMV Status&quot;) +
+  geom_hline(yintercept = median(dat$lib), linetype = &quot;dashed&quot;)
+
+p1 / (p2 + p3) + plot_layout(guides = &quot;collect&quot;)</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
@@ -897,6 +1086,34 @@ Jovana Maksimovic
 </div>
 <p>Multi-dimensional scaling (MDS) plots show the largest sources of variation in the data. They are a good way of exploring the relationships between the samples and identifying structure in the data. The following series of MDS plots examines the first four principal components. The samples are coloured by various known features of the samples such as CMV Status and foetal sex. The MDS plots do not show the samples strongly clustering by any of the known features of the data, although there does seem to be some separation between the CMV positive and negative samples in the 1st and 2nd principal components. This indicates that there are possibly some differentially expressed genes between CMV positive and negative samples.</p>
 <p>A weak batch effect is also evident in the 3rd principal component, when we examine the plots coloured by batch.</p>
+<pre class="r"><code>dims &lt;- list(c(1,2), c(1,3), c(2,3), c(3,4))
+vars &lt;- c(&quot;CMV_status&quot;, &quot;pair&quot;, &quot;sex&quot;, &quot;GA_at_amnio&quot;, &quot;indication&quot;, &quot;batch&quot;)
+patches &lt;- vector(&quot;list&quot;, length(vars))
+
+for(i in 1:length(vars)){
+  p &lt;- vector(&quot;list&quot;, length(dims))
+  
+  for(j in 1:length(dims)){
+    mds &lt;- plotMDS(cpm(y, log = TRUE), top = 1000, gene.selection=&quot;common&quot;, 
+                   plot = FALSE, dim.plot = dims[[j]])
+    dat &lt;- tibble::tibble(x = mds$x, y = mds$y,
+                          sample = targets$id,
+                          variable = pull(targets, vars[i]))
+    
+    p[[j]] &lt;- ggplot(dat, aes(x = x, y = y, colour = variable)) +
+      geom_text(aes(label = sample), size = 2.5) +
+      labs(x = glue::glue(&quot;Principal component {dims[[j]][1]}&quot;), 
+           y = glue::glue(&quot;Principal component {dims[[j]][2]}&quot;),
+           colour = vars[i])
+  }
+  
+  patches[[i]] &lt;- wrap_elements(wrap_plots(p, ncol = 2, guides = &quot;collect&quot;) +
+    plot_annotation(title = glue::glue(&quot;Coloured by: {vars[i]}&quot;)) &amp;
+    theme(legend.position = &quot;bottom&quot;))
+  
+}
+
+wrap_plots(patches, ncol = 1)</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
@@ -1042,7 +1259,7 @@ yRg2 &lt;- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=2)
 yRg3 &lt;- RUVg(y$counts, which(y$genes$symbol %in% hkGenes$SYMBOL), k=3)</code></pre>
 <p>The RLE plots below show that <code>RUVg</code> adjustment is a significant improvement over the raw data with k=1. The improvements with k=2 and k=3 are relatively minor in comparison.</p>
 <pre class="r"><code>par(mfrow=c(2,2))
-plotRLE(y$counts, ylim=c(-0.5,0.5), las=2, main=&quot;Raw&quot;, 
+plotRLE(y$counts, ylim=c(-0.5,0.5), las=2, main=&quot;Raw&quot;,
         cex.axis = 0.6)
 plotRLE(yRg1$normalizedCounts, ylim=c(-0.5,0.5), las=2, main=&quot;RUVg k=1&quot;, 
         cex.axis = 0.6)
@@ -1073,6 +1290,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/77ba079a747c0de04c91e94e3129beb7d7c4ee4b/docs/figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-11-1.png" target="_blank">77ba079</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-11-1.png" target="_blank">d96660b</a>
@@ -1201,8 +1429,11 @@ NotSig      12391
 Up            309</code></pre>
 <p>There were 32 down-regulated and 309 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
 <p>These are the top 10 differentially expressed genes.</p>
+<pre class="r"><code>top &lt;- topTags(lrt, n = 500)$table
+readr::write_csv(top, path = here(&quot;output/star-fc-ruv-all.csv&quot;))</code></pre>
 <pre><code>Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
 Please use the `file` argument instead.</code></pre>
+<pre class="r"><code>head(top, n=10)</code></pre>
 <pre><code>                  Geneid Length         Ensembl symbol entrezid    logFC
 51897 ENSG00000130303.13   1101 ENSG00000130303   BST2      684 3.362931
 19329 ENSG00000206337.12  11058 ENSG00000206337   HCP5    10866 4.774945
@@ -1226,6 +1457,28 @@ Please use the `file` argument instead.</code></pre>
 46903 5.948849  56.15016 6.714221e-14 9.498385e-11
 2095  5.029527  53.51359 2.568103e-13 3.269708e-10</code></pre>
 <p>The following plots show the expression of the top 12 ranked differentially expressed genes for CMV positive and CMV negative samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.</p>
+<pre class="r"><code>dat &lt;- reshape2::melt(cpm(norm$normalizedCounts, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(y$group, each = nrow(y))
+dat$gene &lt;- rep(y$genes$Geneid, ncol(y))
+
+p &lt;- vector(&quot;list&quot;, 12)
+
+for(i in 1:length(p)){
+p[[i]] &lt;- ggplot(data = subset(dat, dat$gene == top$Geneid[i]), 
+       aes(x = status, y = cpm, colour = status)) +
+  geom_jitter(width = 0.25) +
+  stat_summary(fun = &quot;mean&quot;, geom = &quot;crossbar&quot;) +
+  labs(x = &quot;Status&quot;, y = &quot;log2 Norm. CPM&quot;, colour = &quot;Status&quot;) +
+  ggtitle(top$symbol[i]) +
+  theme(plot.title = element_text(size = 8),
+        plot.subtitle = element_text(size = 7),
+        axis.title = element_text(size = 8),
+        axis.text.x = element_text(size = 7))
+}
+
+wrap_plots(p, guides = &quot;collect&quot;, ncol = 3) &amp; 
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
@@ -1251,6 +1504,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/77ba079a747c0de04c91e94e3129beb7d7c4ee4b/docs/figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-15-1.png" target="_blank">77ba079</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-25
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-15-1.png" target="_blank">d96660b</a>
 </td>
 <td>
@@ -1264,6 +1528,13 @@ Jovana Maksimovic
 </table>
 </div>
 </div>
+<pre class="r"><code>cut &lt;- 0.05
+aheatmap(cpm(norm$normalizedCounts[y$genes$Geneid %in% 
+                                     top$Geneid[top$FDR &lt; cut], ], 
+             log = TRUE), 
+          annCol = list(CMV_result = targets$CMV_status),
+          labRow = NA,
+          main = glue::glue(&quot;DEGs at FDR &lt; {cut}&quot;))</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
@@ -1306,6 +1577,9 @@ Jovana Maksimovic
 <div id="gene-set-enrichment-analysis-gsea" class="section level1">
 <h1>Gene set enrichment analysis (GSEA)</h1>
 <p>Testing for enrichment of Gene Ontology (GO) categories among statistically significant differentially expressed genes.</p>
+<pre class="r"><code>go &lt;- goana(top$entrezid[top$FDR &lt; 0.05], universe = y$genes$entrezid, 
+            trend = y$genes$Length)
+topGO(go)</code></pre>
 <pre><code>                                                 Term Ont    N  DE         P.DE
 GO:0043207       response to external biotic stimulus  BP  849  90 5.074108e-31
 GO:0051707                 response to other organism  BP  849  90 5.074108e-31
@@ -1329,6 +1603,8 @@ GO:0034341               response to interferon-gamma  BP  121  26 1.082392e-16
 GO:0071345     cellular response to cytokine stimulus  BP  740  63 1.372889e-16</code></pre>
 <p>GSEA helps us to interpret the results of a differential expression analysis. The <code>camera</code> function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute’s Molecular Signatures Database <a href="http://software.broadinstitute.org/gsea/msigdb/index.jsp">MSigDB</a>.</p>
 <p>Build gene set indexes.</p>
+<pre class="r"><code>gsAnnots &lt;- buildIdx(entrezIDs = y$genes$entrezid, species = &quot;human&quot;,
+                     msigdb.gsets = c(&quot;h&quot;, &quot;c2&quot;, &quot;c5&quot;))</code></pre>
 <pre><code>[1] &quot;Loading MSigDB Gene Sets ... &quot;
 [1] &quot;Loaded gene sets for the collection h ...&quot;
 [1] &quot;Indexed the collection h ...&quot;
@@ -1341,6 +1617,11 @@ GO:0071345     cellular response to cytokine stimulus  BP  740  63 1.372889e-16<
 [1] &quot;Created annotation for the collection c5 ...&quot;
 [1] &quot;Building KEGG pathways annotation object ... &quot;</code></pre>
 <p>The GO gene sets consist of genes annotated by the same GO terms.</p>
+<pre class="r"><code>c5Cam &lt;- camera(cpm(norm$normalizedCounts, log = TRUE), 
+                gsAnnots$c5@idx, design, contrast = 2, trend.var = TRUE)
+write.csv(c5Cam[c5Cam$FDR &lt; 0.05,], 
+          file = here(&quot;output/star-fc-ruv-all-gsea-c5.csv&quot;))
+head(c5Cam, n = 20)</code></pre>
 <pre><code>                                                                     NGenes
 GO_RESPONSE_TO_TYPE_I_INTERFERON                                         48
 GO_DEFENSE_RESPONSE_TO_VIRUS                                            111
@@ -1426,6 +1707,9 @@ GO_REGULATION_OF_T_CELL_MEDIATED_CYTOTOXICITY                        6.798773e-0
 GO_MHC_CLASS_I_PROTEIN_COMPLEX                                       7.574131e-05
 GO_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION                   8.376287e-05</code></pre>
 <p>The Hallmark gene sets are coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.</p>
+<pre class="r"><code>hCam &lt;- camera(cpm(norm$normalizedCounts, log = TRUE), 
+               gsAnnots$h@idx, design, contrast = 2, trend.var = TRUE)
+head(hCam, n = 20)</code></pre>
 <pre><code>                                   NGenes Direction       PValue          FDR
 HALLMARK_INTERFERON_ALPHA_RESPONSE     81        Up 2.406322e-46 1.203161e-44
 HALLMARK_INTERFERON_GAMMA_RESPONSE    147        Up 5.488726e-30 1.372182e-28
@@ -1448,6 +1732,11 @@ HALLMARK_COAGULATION                   84        Up 3.138665e-02 8.718515e-02
 HALLMARK_TGF_BETA_SIGNALING            52        Up 4.110544e-02 1.081722e-01
 HALLMARK_SPERMATOGENESIS               68      Down 4.658228e-02 1.150502e-01</code></pre>
 <p>Barcode plots show the enrichment of gene sets among up or down-regulated genes. The following barcode plots show the enrichment of the top 4 hallmark gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(lrt$table$logFC, gsAnnots$h@idx[[rownames(hCam)[i]]], 
+              main = rownames(hCam)[i], cex.main = 0.75)
+})</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-21-1">
@@ -1498,6 +1787,11 @@ NULL
 [[4]]
 NULL</code></pre>
 <p>The curated gene sets are compiled from online pathway databases, publications in PubMed, and knowledge of domain experts.</p>
+<pre class="r"><code>c2Cam &lt;- camera(cpm(norm$normalizedCounts, log = TRUE), 
+                gsAnnots$c2@idx, design, contrast = 2, trend.var = TRUE)
+write.csv(c2Cam[c2Cam$FDR &lt; 0.05,], 
+          file = here(&quot;output/star-fc-ruv-all-gsea-c2.csv&quot;))
+head(c2Cam, n = 20)</code></pre>
 <pre><code>                                                  NGenes Direction       PValue
 MOSERLE_IFNA_RESPONSE                                 27        Up 1.516967e-39
 BROWNE_INTERFERON_RESPONSIVE_GENES                    55        Up 1.246524e-37
@@ -1541,6 +1835,11 @@ SEITZ_NEOPLASTIC_TRANSFORMATION_BY_8P_DELETION_UP 1.442269e-13
 ZHU_CMV_8_HR_UP                                   6.868243e-13
 TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP        1.351177e-12</code></pre>
 <p>The following barcode plots show the enrichment of the top 4 curated gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(lrt$table$logFC, gsAnnots$c2@idx[[rownames(c2Cam)[i]]], 
+              main = rownames(c2Cam)[i], cex.main = 0.75)
+})</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-23-1">
@@ -1591,6 +1890,10 @@ NULL
 [[4]]
 NULL</code></pre>
 <p>The KEGG gene sets encompass all of the pathways defined in the <a href="https://www.genome.jp/kegg/pathway.html">Kegg pathway database</a>.</p>
+<pre class="r"><code>keggCam &lt;- camera(cpm(norm$normalizedCounts, log = TRUE), 
+                  gsAnnots$kegg@idx, design, contrast = 2,
+                  trend.var = TRUE)
+head(keggCam, n = 20)</code></pre>
 <pre><code>                                       NGenes Direction       PValue
 Mineral absorption                         36        Up 1.610996e-09
 Type I diabetes mellitus                   12        Up 5.757472e-07
@@ -1633,6 +1936,11 @@ Bile secretion                         1.954267e-03
 Measles                                1.954267e-03
 DNA replication                        2.332555e-03
 Cell adhesion molecules (CAMs)         2.478367e-03</code></pre>
+<pre class="r"><code>par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(lrt$table$logFC, gsAnnots$kegg@idx[[rownames(keggCam)[i]]], 
+              main = rownames(keggCam)[i], cex.main = 0.75)
+})</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-25-1">
@@ -1686,6 +1994,9 @@ NULL</code></pre>
 <div id="brain-development-genes" class="section level1">
 <h1>Brain development genes</h1>
 <p>Test only the specialised brain development gene set.</p>
+<pre class="r"><code>brainSet &lt;- readr::read_delim(file = here(&quot;data/brain-development-geneset.txt&quot;),
+                              delim = &quot;\t&quot;, skip = 2, col_names = &quot;BRAIN_DEV&quot;)
+brainSet</code></pre>
 <pre><code># A tibble: 51 x 1
    BRAIN_DEV 
    &lt;chr&gt;     
@@ -1700,10 +2011,18 @@ NULL</code></pre>
  9 CLN5      
 10 CNTN4     
 # … with 41 more rows</code></pre>
+<pre class="r"><code>bd &lt;- estimateGLMCommonDisp(y[y$genes$symbol %in% brainSet$BRAIN_DEV, ], design)
+bd &lt;- estimateGLMTagwiseDisp(bd, design)
+fit &lt;- glmFit(bd, design)
+lrt &lt;- glmLRT(fit, coef = 2)
+fitSum &lt;- summary(decideTests(lrt, p.value = 0.05))
+fitSum</code></pre>
 <pre><code>       CMV_status
 Down            1
 NotSig         26
 Up              0</code></pre>
+<pre class="r"><code>topBD &lt;- topTags(lrt, n = Inf)$table
+topBD</code></pre>
 <pre><code>                  Geneid Length         Ensembl  symbol entrezid        logFC
 54718 ENSG00000053438.11   1329 ENSG00000053438    NNAT     4826 -0.660321228
 47853  ENSG00000176749.9   3948 ENSG00000176749  CDK5R1     8851  0.266990157
@@ -1761,6 +2080,30 @@ Up              0</code></pre>
 28963 4.824794  0.005441858 9.411942e-01 0.959243167
 54624 7.391416  0.002611552 9.592432e-01 0.959243167</code></pre>
 <p>The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status.</p>
+<pre class="r"><code>b &lt;- norm$normalizedCounts[y$genes$entrezid %in% topBD$entrezid[1:9], ]
+dat &lt;- reshape2::melt(cpm(b, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(targets$CMV_status, each = nrow(b))
+dat$gene &lt;- rep(y$genes$Geneid[y$genes$entrezid %in% topBD$entrezid[1:9]], 
+                ncol(b))
+
+p &lt;- vector(&quot;list&quot;, 9)
+
+for(i in 1:length(p)){
+p[[i]] &lt;- ggplot(data = subset(dat, dat$gene == topBD$Geneid[i]), 
+       aes(x = status, y = cpm, colour = status)) +
+  geom_jitter(width = 0.25) +
+  stat_summary(fun = &quot;mean&quot;, geom = &quot;crossbar&quot;) +
+  labs(x = &quot;Status&quot;, y = &quot;log2 CPM&quot;, colour = &quot;Status&quot;) +
+  ggtitle(topBD$symbol[i]) +
+  theme(plot.title = element_text(size = 8),
+        plot.subtitle = element_text(size = 7),
+        axis.title = element_text(size = 8),
+        axis.text.x = element_text(size = 7))
+}
+
+wrap_plots(p, guides = &quot;collect&quot;, ncol = 3) &amp; 
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-29-1">
@@ -1786,6 +2129,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/77ba079a747c0de04c91e94e3129beb7d7c4ee4b/docs/figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-29-1.png" target="_blank">77ba079</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-09-25
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-RUV-all.Rmd/unnamed-chunk-29-1.png" target="_blank">d96660b</a>
 </td>
 <td>
@@ -1799,6 +2153,226 @@ Jovana Maksimovic
 </table>
 </div>
 </div>
+</div>
+<div id="compare-to-limma-voom-analysis" class="section level1">
+<h1>Compare to limma-voom analysis</h1>
+<pre class="r"><code>limma &lt;- read.csv(file = here(&quot;output/star-fc-limma-voom-all.csv&quot;))
+ruv &lt;- read.csv(file = here(&quot;output/star-fc-ruv-all.csv&quot;))
+
+sig &lt;- length(intersect(limma$symbol[limma$adj.P.Val &lt; 0.05], ruv$symbol[ruv$FDR &lt; 0.05]))
+tot &lt;- length(intersect(limma$symbol, ruv$symbol))
+first &lt;- min(which(!ruv$symbol[ruv$FDR &lt; 0.05] %in% limma$symbol[limma$adj.P.Val &lt; 0.05]))
+not &lt;- sum(!ruv$symbol[ruv$FDR &lt; 0.05] %in% limma$symbol)</code></pre>
+<p>There were 190 significant genes overlapping between the <em>RUVseq</em> and <em>limma</em> analyses. There were 373 genes overlapping between the top 500 genes as ranked by p-value by both analyses. The top ranked 78 genes from the <em>RUVseq</em> analysis are also ranked in the top 78 genes by the <code>limma</code> analysis. There are only 45 genes that are statistically significant in the <em>RUVseq</em> analysis that are not in the top 500 ranked genes of the <em>limma</em> analysis.</p>
+<p>The genes that are significant in the <em>RUVseq</em> analysis but not ranked in the top 500 <em>limma</em> genes are overrepresented in GO categories such as immune system process, immune response, response to external biotic stimulus etc. suggesting that they are still relevant to the biology of CMV infection.</p>
+<pre class="r"><code>go &lt;- goana(ruv$entrezid[!ruv$symbol[ruv$FDR &lt; 0.05] %in% limma$symbol], 
+            universe = y$genes$entrezid, 
+            trend = y$genes$Length)
+topGO(go) %&gt;% mutate(FDR = p.adjust(P.DE)) %&gt;% knitr::kable()</code></pre>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="50%" />
+<col width="4%" />
+<col width="5%" />
+<col width="3%" />
+<col width="10%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Term</th>
+<th align="left">Ont</th>
+<th align="right">N</th>
+<th align="right">DE</th>
+<th align="right">P.DE</th>
+<th align="right">FDR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="GO:0002376" class="uri">GO:0002376</a></td>
+<td align="left">immune system process</td>
+<td align="left">BP</td>
+<td align="right">1887</td>
+<td align="right">24</td>
+<td align="right">0.00e+00</td>
+<td align="right">0.0000009</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0006955" class="uri">GO:0006955</a></td>
+<td align="left">immune response</td>
+<td align="left">BP</td>
+<td align="right">1177</td>
+<td align="right">19</td>
+<td align="right">1.00e-07</td>
+<td align="right">0.0000011</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0043207" class="uri">GO:0043207</a></td>
+<td align="left">response to external biotic stimulus</td>
+<td align="left">BP</td>
+<td align="right">849</td>
+<td align="right">16</td>
+<td align="right">1.00e-07</td>
+<td align="right">0.0000020</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0051707" class="uri">GO:0051707</a></td>
+<td align="left">response to other organism</td>
+<td align="left">BP</td>
+<td align="right">849</td>
+<td align="right">16</td>
+<td align="right">1.00e-07</td>
+<td align="right">0.0000020</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0009607" class="uri">GO:0009607</a></td>
+<td align="left">response to biotic stimulus</td>
+<td align="left">BP</td>
+<td align="right">876</td>
+<td align="right">16</td>
+<td align="right">2.00e-07</td>
+<td align="right">0.0000027</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0002252" class="uri">GO:0002252</a></td>
+<td align="left">immune effector process</td>
+<td align="left">BP</td>
+<td align="right">776</td>
+<td align="right">14</td>
+<td align="right">1.40e-06</td>
+<td align="right">0.0000211</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0045087" class="uri">GO:0045087</a></td>
+<td align="left">innate immune response</td>
+<td align="left">BP</td>
+<td align="right">516</td>
+<td align="right">11</td>
+<td align="right">4.90e-06</td>
+<td align="right">0.0000687</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0006952" class="uri">GO:0006952</a></td>
+<td align="left">defense response</td>
+<td align="left">BP</td>
+<td align="right">913</td>
+<td align="right">14</td>
+<td align="right">9.40e-06</td>
+<td align="right">0.0001226</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0034340" class="uri">GO:0034340</a></td>
+<td align="left">response to type I interferon</td>
+<td align="left">BP</td>
+<td align="right">74</td>
+<td align="right">5</td>
+<td align="right">1.12e-05</td>
+<td align="right">0.0001345</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0031410" class="uri">GO:0031410</a></td>
+<td align="left">cytoplasmic vesicle</td>
+<td align="left">CC</td>
+<td align="right">1692</td>
+<td align="right">19</td>
+<td align="right">1.48e-05</td>
+<td align="right">0.0001623</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0097708" class="uri">GO:0097708</a></td>
+<td align="left">intracellular vesicle</td>
+<td align="left">CC</td>
+<td align="right">1695</td>
+<td align="right">19</td>
+<td align="right">1.51e-05</td>
+<td align="right">0.0001623</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0044419" class="uri">GO:0044419</a></td>
+<td align="left">interspecies interaction between organisms</td>
+<td align="left">BP</td>
+<td align="right">1439</td>
+<td align="right">17</td>
+<td align="right">2.61e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0002443" class="uri">GO:0002443</a></td>
+<td align="left">leukocyte mediated immunity</td>
+<td align="left">BP</td>
+<td align="right">509</td>
+<td align="right">10</td>
+<td align="right">2.86e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0006959" class="uri">GO:0006959</a></td>
+<td align="left">humoral immune response</td>
+<td align="left">BP</td>
+<td align="right">90</td>
+<td align="right">5</td>
+<td align="right">2.91e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0012505" class="uri">GO:0012505</a></td>
+<td align="left">endomembrane system</td>
+<td align="left">CC</td>
+<td align="right">3271</td>
+<td align="right">27</td>
+<td align="right">3.08e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0098542" class="uri">GO:0098542</a></td>
+<td align="left">defense response to other organism</td>
+<td align="left">BP</td>
+<td align="right">628</td>
+<td align="right">11</td>
+<td align="right">3.11e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0019730" class="uri">GO:0019730</a></td>
+<td align="left">antimicrobial humoral response</td>
+<td align="left">BP</td>
+<td align="right">48</td>
+<td align="right">4</td>
+<td align="right">3.95e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0005887" class="uri">GO:0005887</a></td>
+<td align="left">integral component of plasma membrane</td>
+<td align="left">CC</td>
+<td align="right">667</td>
+<td align="right">11</td>
+<td align="right">5.40e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="GO:0140352" class="uri">GO:0140352</a></td>
+<td align="left">export from cell</td>
+<td align="left">BP</td>
+<td align="right">947</td>
+<td align="right">13</td>
+<td align="right">6.77e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="GO:0031982" class="uri">GO:0031982</a></td>
+<td align="left">vesicle</td>
+<td align="left">CC</td>
+<td align="right">2804</td>
+<td align="right">24</td>
+<td align="right">6.83e-05</td>
+<td align="right">0.0002350</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
