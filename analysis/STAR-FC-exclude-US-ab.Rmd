@@ -296,24 +296,28 @@ wrap_plots(p, guides = "collect", ncol = 3) &
   theme(legend.position = "bottom")
 ```
 
-```{r, fig.height=8, fig.width=7, echo=FALSE, message=FALSE}
+```{r, fig.asp=1, message=FALSE}
 cut <- 0.05
-aheatmap(v$E[v$genes$Geneid %in% top$Geneid[top$adj.P.Val < cut],], 
-          annCol = list(CMV_result = targets$CMV_status),
-          labRow = v$genes$symbol[v$genes$Geneid %in% 
-                                    top$Geneid[top$adj.P.Val < cut]],
-          main = glue::glue("DEGs at FDR < {cut}"),
-         scale = "none")
+o <- order(targets$CMV_status)
+aheatmap(v$E[v$genes$Geneid %in% top$Geneid[top$adj.P.Val < cut], o], 
+         annCol = list(CMV_result = targets$CMV_status[o]),
+         Colv = NA,
+         labRow = v$genes$symbol[v$genes$Geneid %in% 
+                                   top$Geneid[top$adj.P.Val < cut]],
+         main = glue::glue("DEGs at FDR < {cut}"))
 ```
 
 # Gene set enrichment analysis (GSEA)
 
 Testing for enrichment of Gene Ontology (GO) categories among statistically significant differentially expressed genes.
 
-```{r, echo=FALSE, message=FALSE}
+```{r, message=FALSE}
 go <- goana(top$entrezid[top$adj.P.Val < 0.05], universe = v$genes$entrezid, 
             trend = v$genes$Length)
-topGO(go)
+topGO(go, number = Inf) %>%
+  mutate(FDR = p.adjust(P.DE)) %>%
+  dplyr::filter(FDR < 0.05) %>%
+  knitr::kable()
 ```
 
 GSEA helps us to interpret the results of a differential expression analysis. The `camera` function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute's Molecular Signatures Database [MSigDB](http://software.broadinstitute.org/gsea/msigdb/index.jsp).  
@@ -404,13 +408,13 @@ fitSum
 ```
 
 ```{r, echo=FALSE, message=FALSE}
-top <- topTable(fit2, n = Inf)
-top
+topBrain <- topTable(fit2, n = Inf)
+topBrain
 ```
 The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status. 
 
 ```{r, fig.width=7, fig.height=8, echo=FALSE, message=FALSE}
-b <- y[y$genes$entrezid %in% top$entrezid[1:9], ]
+b <- y[y$genes$entrezid %in% topBrain$entrezid[1:9], ]
 dat <- reshape2::melt(cpm(b, log = TRUE),
                       value.name = "cpm")
 dat$status <- rep(b$group, each = nrow(b))
@@ -419,12 +423,12 @@ dat$gene <- rep(b$genes$Geneid, ncol(b))
 p <- vector("list", 9)
 
 for(i in 1:length(p)){
-p[[i]] <- ggplot(data = subset(dat, dat$gene == top$Geneid[i]), 
+p[[i]] <- ggplot(data = subset(dat, dat$gene == topBrain$Geneid[i]), 
        aes(x = status, y = cpm, colour = status)) +
   geom_jitter(width = 0.25) +
   stat_summary(fun = "mean", geom = "crossbar") +
   labs(x = "Status", y = "log2 CPM", colour = "Status") +
-  ggtitle(top$symbol[i]) +
+  ggtitle(topBrain$symbol[i]) +
   theme(plot.title = element_text(size = 8),
         plot.subtitle = element_text(size = 7),
         axis.title = element_text(size = 8),
@@ -437,5 +441,5 @@ wrap_plots(p, guides = "collect", ncol = 3) &
 
 # Summary
 
-Although the effective library sizes were low, the data is generally of good quality. We found at total of `r sum(abs(decideTests(fit2, p.value = 0.05)[,1]))` differentially expressed genes at FDR < 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.
+Although the effective library sizes were low, the data is generally of good quality. We found at total of `r nrow(top[top$adj.P.Value < 0.05,])` differentially expressed genes at FDR < 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.
 

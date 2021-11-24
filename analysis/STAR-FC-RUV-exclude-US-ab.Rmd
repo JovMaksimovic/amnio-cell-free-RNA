@@ -399,14 +399,15 @@ wrap_plots(p, guides = "collect", ncol = 3) &
   theme(legend.position = "bottom")
 ```
 
-```{r, fig.height=8, fig.width=7, message=FALSE}
+```{r, fig.asp=1, message=FALSE}
 cut <- 0.05
 aheatmap(cpm(norm$normalizedCounts[y$genes$Geneid %in% 
                                      top$Geneid[top$FDR < cut], ], 
              log = TRUE), 
-          annCol = list(CMV_result = targets$CMV_status),
-          labRow = NA,
-          main = glue::glue("DEGs at FDR < {cut}"))
+         annCol = list(CMV_result = targets$CMV_status),
+         Colv = NA,
+         labRow = NA,
+         main = glue::glue("DEGs at FDR < {cut}"))
 ```
 
 # Gene set enrichment analysis (GSEA)
@@ -416,7 +417,10 @@ Testing for enrichment of Gene Ontology (GO) categories among statistically sign
 ```{r, message=FALSE}
 go <- goana(top$entrezid[top$FDR < 0.05], universe = y$genes$entrezid, 
             trend = y$genes$Length)
-topGO(go)
+topGO(go, number = Inf) %>%
+  mutate(FDR = p.adjust(P.DE)) %>%
+  dplyr::filter(FDR < 0.05) %>%
+  knitr::kable()
 ```
 
 GSEA helps us to interpret the results of a differential expression analysis. The `camera` function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute's Molecular Signatures Database [MSigDB](http://software.broadinstitute.org/gsea/msigdb/index.jsp).  
@@ -516,6 +520,7 @@ fitSum
 topBD <- topTags(lrt, n = Inf)$table
 topBD
 ```
+
 The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status. 
 
 ```{r, fig.width=7, fig.height=8, message=FALSE}
@@ -547,6 +552,6 @@ wrap_plots(p, guides = "collect", ncol = 3) &
 
 # Summary
 
-Although the effective library sizes were low, the data is generally of good quality. We found at total of `r sum(abs(decideTests(lrt, p.value = 0.05)[,1]))` differentially expressed genes at FDR < 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.
+Although the effective library sizes were low, the data is generally of good quality. We found at total of `r nrow(top[top$FDR < 0.05,])` differentially expressed genes at FDR < 0.05. The significant genes were enriched for GO terms associated with interferon response and similar. Further gene set testing results indicate an upregulation of interferon response genes in the CMV positive samples, relative to the CMV negative samples, which is consistent with the top genes from the DE analysis.
 
 
