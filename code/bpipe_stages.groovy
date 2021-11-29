@@ -1,3 +1,10 @@
+FASTQC = "fastqc"
+TRIMMOMATIC = "java -jar /config/binaries/trimmomatic/0.39/trimmomatic.jar"
+STAR = "STAR"
+FEATURECOUNTS = "featureCounts"
+MARK_DUPLICATES = "java -jar /config/binaries/picard/2.17.3/picard.jar MarkDuplicates"
+SAMTOOLS = "samtools"
+
 // File preparation
 concat_fastq = {
     // Concatenate fastq files from the same sample
@@ -11,51 +18,40 @@ concat_fastq = {
     }
 }
 
-fastp = {
-    // fastqc quality control
-    doc "Quality control using FASTP"
-    output.dir = "fastp"
-    def sample_name = branch.name
+trim_SE = {
+    // trim single-end reads using trimmomatic
+    doc "Trim poor quility bases and/or adapter sequences from reads using Trimmomatic"
+    output.dir = "trimmed"
 
-    produce(sample_name + '.trim.R1.fastq.gz',
-            sample_name + '.trim.R2.fastq.gz') {
+    produce("trim.fastq.gz"){
         exec """
-              $FASTP -i $input1.gz
-              -I $input2.gz
-              -o $output1.gz
-              -O $output2.gz
-              -y --detect_adapter_for_pe
-              --trim_front1 $TRIM_FRONT1
-              --trim_tail2 $TRIM_TAIL2
-              -h ${sample_name}.fastp.html
-              -j ${sample_name}.fastp.json
-    """
+            $TRIMMOMATIC SE -threads $NTHREADS $input.gz $output.gz $CLIPSTRING
+            TRAILING:$TRAILING LEADING:$LEADING MINLEN:$MINLEN
+        ""","trimmomatic"
     }
 }
 
-// Mapping
-star_genome_gen = {
-    //Generate STAR genome index
-    doc "Generate STAR genome index"
+trim_PE = {
+   // trim paired-end reads using trimmomatic
+   doc "Trim poor quility bases and/or adapter sequences from reads using Trimmomatic"
+   output.dir="trimmed"
+   def sample_name = branch.name
 
-    def gen_dir = "${GEN_DIR}";
+   //println inputs;
 
-    produce(gen_dir + "Genome") {
-            exec """module load star/2.7.5b;
-
-            STAR --runMode genomeGenerate
-		            --runThreadN $NTHREADS
-		            --genomeDir $GEN_DIR
-		            --genomeFastaFiles $GEN_FASTA
-		            --sjdbGTFfile $GTF
-		            --sjdbOverhang $SJBOHANG
-            ""","stargenind"
-    }
-
-    forward inputs
+   produce(sample_name+'.trim.R1.fastq.gz',
+           sample_name+'.trim.unpaired.R1.fastq.gz',
+           sample_name+'.trim.R2.fastq.gz',
+           sample_name+'.trim.unpaired.R2.fastq.gz') {
+        exec """
+                $TRIMMOMATIC PE -threads $NTHREADS
+                $input1.gz $input2.gz
+                $output1.gz ${output2.prefix}.gz
+                $output3.gz ${output4.prefix}.gz $CLIPSTRING
+                LEADING:$LEADING TRAILING:$TRAILING MINLEN:$MINLEN
+        ""","trimmomatic"
+   }
 }
-
-//STAR --runMode genomeGenerate --runThreadN 8 --genomeDir star_v2.7.5b --genomeFastaFiles fasta/hg38.fa --sjdbGTFfile gtf/gencode.v34.annotation.gtf --sjdbOverhang 149
 
 star_map_1pass_PE = {
   //Map paired-end reads using the STAR aligner: 1st pass
@@ -88,13 +84,37 @@ star_map_1pass_PE = {
         --readFilesCommand zcat
         --outSAMtype None
         --limitOutSJcollapsed $OUTSJCOLL
-        --peOverlapNbasesMin $PEOVERLAPMIN
         --runThreadN $NTHREADS
         --sjdbGTFfile $GTF
+        --outReadsUnmapped Fastx
         --outFileNamePrefix ${output.dir}/
       ""","star1pass"
     }
   }
+}
+
+star_map_2pass_SE = {
+    //Map single-end reads using the STAR aligner; 2nd pass
+    String files = "${inputs}";
+    files = files.replaceAll(' ',',');
+
+    doc "Map single-end reads using the STAR aligner: 2nd pass"
+    output.dir = "mapped"
+    def sample_name = branch.name
+
+   produce(sample_name+".SE.Aligned.out.bam") {
+        exec """
+	      	$STAR --genomeDir $GEN_DIR
+	      	--readFilesIn ${files}
+	      	--outFileNamePrefix ${output.prefix.prefix.prefix}.
+		      --sjdbFileChrStartEnd ${output.dir}/1pass/SJ.out.tab
+		      --sjdbOverhang $SJBOHANG
+	      	--readFilesCommand zcat
+	      	--limitSjdbInsertNsj $SJDBINSNSJ
+	      	--outSAMtype BAM Unsorted
+	      	--runThreadN $NTHREADS
+      	""","star2pass"
+   }
 }
 
 star_map_2pass_PE = {
@@ -102,30 +122,82 @@ star_map_2pass_PE = {
   doc "Map paired-end reads using the STAR aligner: 2nd pass"
   output.dir = "mapped"
 
-   def sample_name = branch.name.substring(0, branch.name.length() - 2)
+   def sample_name = branch.name
 
-   produce(sample_name + "Aligned.sortedByCoord.out.bam") {
+   produce(sample_name+".PE.Aligned.out.bam") {
     exec """
         $STAR --genomeDir $GEN_DIR
         --readFilesIn $input1.gz $input2.gz
 	      --sjdbFileChrStartEnd ${output.dir}/1pass/SJ.out.tab
 	      --sjdbOverhang $SJBOHANG
-        --outFileNamePrefix ${output.dir}/$sample_name
+        --outFileNamePrefix ${output.prefix.prefix.prefix}.
         --readFilesCommand zcat
         --limitSjdbInsertNsj $SJDBINSNSJ
-        --peOverlapNbasesMin $PEOVERLAPMIN
-        --outSAMtype BAM SortedByCoordinate
-        --quantMode TranscriptomeSAM GeneCounts
-        --outReadsUnmapped Fastx
+        --outSAMtype BAM Unsorted
         --runThreadN $NTHREADS
     ""","star2pass"
   }
 }
 
-samtools_index = {
+count_reads_RNA_PE = {
+    //Count reads across features using RNA data
+    doc "Count reads across features from RNA data"
+    output.dir = "counts-pe"
+
+    produce("counts.txt") {
+        exec """
+            $FEATURECOUNTS
+            -p
+            -M
+            --primary
+            -t exon
+            -g $IDENT
+            -T $NTHREADS
+            -F GTF
+            -a $GTF
+            -s $STRAND
+            -o $output $inputs.bam
+        ""","count"
+    }
+}
+
+count_reads_RNA_SE = {
+    //Count reads across features using RNA data
+    doc "Count reads across features from RNA data"
+    output.dir = "counts-se"
+
+    produce("counts.txt") {
+        exec """
+            $FEATURECOUNTS
+            -M
+            --primary
+            -t exon
+            -g $IDENT
+            -T $NTHREADS
+            -F GTF
+            -a $GTF
+            -s $STRAND
+            -o $output $inputs.bam
+        ""","count"
+    }
+}
+
+sort_bam = {
+    // sort bam files
+    doc "Sort bam files"
+    output.dir = "sorted"
+
+    filter("srt") {
+        exec """
+		$SAMTOOLS sort -m 1G -@ $NTHREADS -o $output $input
+	""","srtindex"
+    }
+}
+
+index_bam = {
     // index bam files
     doc "Index bam files"
-    output.dir = "mapped"
+    output.dir = "$INDEXOUTDIR"
 
     transform("bam") to ("bam.bai") {
         exec """
@@ -135,25 +207,6 @@ samtools_index = {
     forward input
 }
 
-salmon_quant = {
-    doc "Quasi-map and quantify paired-end RNAseq reads using Salmon"
-    output.dir = "quants/" + branch.name.substring(0, branch.name.length() - 2) + "/"
-
-    def reads = '-r ' + inputs
-    if (reads.size() > 1) {
-        reads = '-1 ' + inputs[0] + ' -2 ' + inputs[1]
-    }
-
-    produce('quant.sf') {
-        exec """
-        $SALMON quant --seqBias --gcBias --dumpEq
-        --index $SALMONINDEX
-        -l A $reads
-        -p $NTHREADS
-        -o ${output.dir}
-        """, "salmon"
-    }
-}
 
 multiqc = {
    // summarise statistics from all tools using multiqc
@@ -166,7 +219,5 @@ multiqc = {
 	 multiqc -f -o $MULTIQCOUTDIR
 	 --ignore .bpipe/
 	 --ignore-samples 1pass
-	 --ignore ignore-overlap-mapping/
-	 $MULTIQCDIR
    """, "multiqc"
 }

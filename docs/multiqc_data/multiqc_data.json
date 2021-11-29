@@ -66,7 +66,6 @@
         },
         "Picard": {
             "DuplicationMetrics": {
-                "multiqc_data": "/oshlack_lab/jovana.maksimovic/projects/MCRI/lisa.hui/amnio-cell-free-RNA/data/star-genome-analysis/multiqc_data/multiqc_data.json",
                 "190717_A00692_0021_TL1906142_CMV10_MAN-20190712_OvationSoloRNA_L000.SE": "/oshlack_lab/jovana.maksimovic/projects/MCRI/lisa.hui/amnio-cell-free-RNA/data/star-genome-analysis/deduped/190717_A00692_0021_TL1906142_CMV10_MAN-20190712_OvationSoloRNA_L000.SE.Aligned.out.srt.dedup.metrics",
                 "200612_A00692_0107_ML205840_CMV56_MAN-20200611_OvationSoloRNA_L000.SE": "/oshlack_lab/jovana.maksimovic/projects/MCRI/lisa.hui/amnio-cell-free-RNA/data/star-genome-analysis/deduped/200612_A00692_0107_ML205840_CMV56_MAN-20200611_OvationSoloRNA_L000.SE.Aligned.out.srt.dedup.metrics",
                 "200612_A00692_0107_ML205841_CMV57_MAN-20200611_OvationSoloRNA_L000.SE": "/oshlack_lab/jovana.maksimovic/projects/MCRI/lisa.hui/amnio-cell-free-RNA/data/star-genome-analysis/deduped/200612_A00692_0107_ML205841_CMV57_MAN-20200611_OvationSoloRNA_L000.SE.Aligned.out.srt.dedup.metrics",
@@ -3744,34 +3743,6 @@
                 "unmapped_mismatches": 0,
                 "unmapped_tooshort": 1804238,
                 "unmapped_other": 91095
-            },
-            "1pass": {
-                "total_reads": 653178785.0,
-                "avg_input_read_length": 299.0,
-                "uniquely_mapped": 357055761.0,
-                "uniquely_mapped_percent": 54.66,
-                "avg_mapped_read_length": 290.39,
-                "num_splices": 314699162.0,
-                "num_annotated_splices": 303986146.0,
-                "num_GTAG_splices": 305980262.0,
-                "num_GCAG_splices": 2507009.0,
-                "num_ATAC_splices": 241396.0,
-                "num_noncanonical_splices": 5970495.0,
-                "mismatch_rate": 0.64,
-                "deletion_rate": 0.03,
-                "deletion_length": 1.85,
-                "insertion_rate": 0.02,
-                "insertion_length": 2.07,
-                "multimapped": 171298280.0,
-                "multimapped_percent": 26.23,
-                "multimapped_toomany": 4396610.0,
-                "multimapped_toomany_percent": 0.67,
-                "unmapped_mismatches_percent": 0.0,
-                "unmapped_tooshort_percent": 18.3,
-                "unmapped_other_percent": 0.13,
-                "unmapped_mismatches": 0,
-                "unmapped_tooshort": 119578668,
-                "unmapped_other": 849466
             }
         },
         {
@@ -4237,7 +4208,7 @@
                 "floor": null,
                 "minRange": null,
                 "placement": 1000.0,
-                "dmax": 357.05576099999996,
+                "dmax": 68.393969,
                 "dmin": 0.0
             }
         },
@@ -4303,7 +4274,7 @@
                 "floor": null,
                 "minRange": null,
                 "placement": 1000.0,
-                "dmax": 357.05576099999996,
+                "dmax": 68.393969,
                 "dmin": 0.0
             }
         },
@@ -4409,12 +4380,12 @@
                 "floor": null,
                 "minRange": null,
                 "placement": 1000.0,
-                "dmax": 357.05576099999996,
+                "dmax": 68.393969,
                 "dmin": 0.0
             }
         }
     ],
-    "report_multiqc_command": "/config/binaries/multiqc/1.8/bin/multiqc -f . --ignore sortmerna --ignore .bpipe",
+    "report_multiqc_command": "/config/binaries/multiqc/1.8/bin/multiqc . --ignore sortmerna --ignore .bpipe",
     "report_plot_data": {
         "featureCounts_assignment_plot": {
             "plot_type": "bar_graph",
@@ -5203,7 +5174,6 @@
                     "190717_A00692_0021_TL1906147_Corriel_MAN-20190712_OvationSoloRNA_L000.SE",
                     "190717_A00692_0021_TL1906148_NTC-2_MAN-20190712_OvationSoloRNA_L000.PE",
                     "190717_A00692_0021_TL1906148_NTC-2_MAN-20190712_OvationSoloRNA_L000.SE",
-                    "1pass",
                     "200612_A00692_0107_ML205836_CMV51_MAN-20200611_OvationSoloRNA_L000.PE",
                     "200612_A00692_0107_ML205836_CMV51_MAN-20200611_OvationSoloRNA_L000.SE",
                     "200612_A00692_0107_ML205837_CMV52_MAN-20200611_OvationSoloRNA_L000.PE",
@@ -5271,7 +5241,6 @@
                             7810247.0,
                             38663.0,
                             30658.0,
-                            357055761.0,
                             11638652.0,
                             2515349.0,
                             10037743.0,
@@ -5338,7 +5307,6 @@
                             2034714.0,
                             1903.0,
                             9793.0,
-                            171298280.0,
                             4147431.0,
                             1705952.0,
                             3727643.0,
@@ -5405,7 +5373,6 @@
                             581806.0,
                             300.0,
                             2295.0,
-                            4396610.0,
                             1087511.0,
                             286657.0,
                             1045944.0,
@@ -5472,7 +5439,6 @@
                             2542649.0,
                             318772.0,
                             213159.0,
-                            119578668.0,
                             4003151.0,
                             3190981.0,
                             3865825.0,
@@ -5539,7 +5505,6 @@
                             84842.0,
                             3303.0,
                             4532.0,
-                            849466.0,
                             700983.0,
                             180428.0,
                             575638.0,
@@ -105234,34 +105199,6 @@
                 "unmapped_mismatches": 0,
                 "unmapped_tooshort": 1804238,
                 "unmapped_other": 91095
-            },
-            "1pass": {
-                "total_reads": 653178785.0,
-                "avg_input_read_length": 299.0,
-                "uniquely_mapped": 357055761.0,
-                "uniquely_mapped_percent": 54.66,
-                "avg_mapped_read_length": 290.39,
-                "num_splices": 314699162.0,
-                "num_annotated_splices": 303986146.0,
-                "num_GTAG_splices": 305980262.0,
-                "num_GCAG_splices": 2507009.0,
-                "num_ATAC_splices": 241396.0,
-                "num_noncanonical_splices": 5970495.0,
-                "mismatch_rate": 0.64,
-                "deletion_rate": 0.03,
-                "deletion_length": 1.85,
-                "insertion_rate": 0.02,
-                "insertion_length": 2.07,
-                "multimapped": 171298280.0,
-                "multimapped_percent": 26.23,
-                "multimapped_toomany": 4396610.0,
-                "multimapped_toomany_percent": 0.67,
-                "unmapped_mismatches_percent": 0.0,
-                "unmapped_tooshort_percent": 18.3,
-                "unmapped_other_percent": 0.13,
-                "unmapped_mismatches": 0,
-                "unmapped_tooshort": 119578668,
-                "unmapped_other": 849466
             }
         },
         "multiqc_fastqc": {
@@ -106993,10 +106930,6 @@
                 "STAR_mqc-generalstats-star-uniquely_mapped_percent": 29.51,
                 "STAR_mqc-generalstats-star-uniquely_mapped": 1184042.0
             },
-            "1pass": {
-                "STAR_mqc-generalstats-star-uniquely_mapped_percent": 54.66,
-                "STAR_mqc-generalstats-star-uniquely_mapped": 357055761.0
-            },
             "190717_A00692_0021_TL1906146_CMV35_MAN-20190712_OvationSoloRNA_L000_R1": {
                 "FastQC_mqc-generalstats-fastqc-percent_duplicates": 69.19441886327625,
                 "FastQC_mqc-generalstats-fastqc-percent_gc": 55.0,
@@ -107425,7 +107358,7 @@
     "config_analysis_dir": [
         "."
     ],
-    "config_creation_date": "2021-11-26, 13:04",
+    "config_creation_date": "2021-11-29, 13:14",
     "config_git_hash": null,
     "config_intro_text": null,
     "config_report_comment": null,
