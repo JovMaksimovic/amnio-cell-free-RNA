@@ -415,7 +415,7 @@ go <- goana(top$entrezid[top$FDR < 0.05], universe = y$genes$entrezid,
 topGO(go, number = Inf) %>%
   mutate(FDR = p.adjust(P.DE)) %>%
   dplyr::filter(FDR < 0.05) %>%
-  knitr::kable()
+  knitr::kable(format.args = list(scientific = -1), digits = 50)
 ```
 
 

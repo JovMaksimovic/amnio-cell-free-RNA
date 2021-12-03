@@ -317,7 +317,7 @@ go <- goana(top$entrezid[top$adj.P.Val < 0.05], universe = v$genes$entrezid,
 topGO(go, number = Inf) %>%
   mutate(FDR = p.adjust(P.DE)) %>%
   dplyr::filter(FDR < 0.05) %>%
-  knitr::kable()
+  knitr::kable(format.args = list(scientific = -1), digits = 50)
 ```
 
 GSEA helps us to interpret the results of a differential expression analysis. The `camera` function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute's Molecular Signatures Database [MSigDB](http://software.broadinstitute.org/gsea/msigdb/index.jsp).  
