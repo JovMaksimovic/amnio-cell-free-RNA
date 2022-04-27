@@ -394,6 +394,21 @@ p[[i]] <- ggplot(data = subset(dat, dat$gene == top$Geneid[i]),
 wrap_plots(p, guides = "collect", ncol = 3) & 
   theme(legend.position = "bottom")
 ```
+```{r}
+topTags(lrt, n = Inf)$table %>% 
+  mutate(sig = ifelse(FDR <= 0.05, "<= 0.05", "> 0.05")) -> dat
+
+ggplot(dat, aes(x = logFC, y = -log10(PValue), color = sig)) +
+  geom_point(alpha = 0.75) +
+  ggrepel::geom_text_repel(data = subset(dat, FDR < 0.05), 
+            aes(x = logFC, y = -log10(PValue), 
+                label = symbol), 
+            size = 2, colour = "black", max.overlaps = 15) +
+  labs(x = expression(~log[2]~"(Fold Change)"), 
+       y = expression(~-log[10]~"(P-value)"),
+       colour = "FDR") +
+  scale_colour_brewer(palette = "Set1")
+```
 
 ```{r, fig.asp=1, message=FALSE}
 cut <- 0.05
