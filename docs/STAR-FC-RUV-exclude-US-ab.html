@@ -414,7 +414,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-12-03
+<strong>Last updated:</strong> 2022-04-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -505,16 +505,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree85a6971cc195341e42411f91783be878d7568f42targetblank85a6971a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/85a6971cc195341e42411f91783be878d7568f42" target="_blank">85a6971</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree43f8f24d17e15e69c14ea3ec1dbc37c8a1962cactargetblank43f8f24a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/43f8f24d17e15e69c14ea3ec1dbc37c8a1962cac" target="_blank">43f8f24</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree85a6971cc195341e42411f91783be878d7568f42targetblank85a6971a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree43f8f24d17e15e69c14ea3ec1dbc37c8a1962cactargetblank43f8f24a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/85a6971cc195341e42411f91783be878d7568f42" target="_blank">85a6971</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/43f8f24d17e15e69c14ea3ec1dbc37c8a1962cac" target="_blank">43f8f24</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -597,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/43f8f24d17e15e69c14ea3ec1dbc37c8a1962cac/analysis/STAR-FC-RUV-exclude-US-ab.Rmd" target="_blank">43f8f24</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+<td>
+wflow_publish(c("analysis/STAR-FC-all.Rmd", "analysis/STAR-FC-exclude-US-ab.Rmd",
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/3b51ada987f7ae87ba11b74b4348e87371af1a29/docs/STAR-FC-RUV-exclude-US-ab.html" target="_blank">3b51ada</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2021-12-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1568,14 +1602,21 @@ Jovana Maksimovic
 </table>
 </div>
 </div>
-<pre class="r"><code>cut &lt;- 0.05
-aheatmap(cpm(norm$normalizedCounts[y$genes$Geneid %in% 
-                                     top$Geneid[top$FDR &lt; cut], ], 
-             log = TRUE), 
-         annCol = list(CMV_result = targets$CMV_status),
-         Colv = NA,
-         labRow = NA,
-         main = glue::glue(&quot;DEGs at FDR &lt; {cut}&quot;))</code></pre>
+<pre class="r"><code>topTags(lrt, n = Inf)$table %&gt;% 
+  mutate(sig = ifelse(FDR &lt;= 0.05, &quot;&lt;= 0.05&quot;, &quot;&gt; 0.05&quot;)) -&gt; dat
+
+ggplot(dat, aes(x = logFC, y = -log10(PValue), color = sig)) +
+  geom_point(alpha = 0.75) +
+  ggrepel::geom_text_repel(data = subset(dat, FDR &lt; 0.05), 
+            aes(x = logFC, y = -log10(PValue), 
+                label = symbol), 
+            size = 2, colour = &quot;black&quot;, max.overlaps = 15) +
+  labs(x = expression(~log[2]~&quot;(Fold Change)&quot;), 
+       y = expression(~-log[10]~&quot;(P-value)&quot;),
+       colour = &quot;FDR&quot;) +
+  scale_colour_brewer(palette = &quot;Set1&quot;)</code></pre>
+<pre><code>Warning: ggrepel: 22 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
 <p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
@@ -1625,6 +1666,15 @@ Jovana Maksimovic
 </table>
 </div>
 </div>
+<pre class="r"><code>cut &lt;- 0.05
+aheatmap(cpm(norm$normalizedCounts[y$genes$Geneid %in% 
+                                     top$Geneid[top$FDR &lt; cut], ], 
+             log = TRUE), 
+         annCol = list(CMV_result = targets$CMV_status),
+         Colv = NA,
+         labRow = NA,
+         main = glue::glue(&quot;DEGs at FDR &lt; {cut}&quot;))</code></pre>
+<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="gene-set-enrichment-analysis-gsea" class="section level1">
 <h1>Gene set enrichment analysis (GSEA)</h1>
@@ -2419,44 +2469,7 @@ sapply(1:4, function(i){
   barcodeplot(lrt$table$logFC, gsAnnots$h@idx[[rownames(hCam)[i]]], 
               main = rownames(hCam)[i], cex.main = 0.75)
 })</code></pre>
-<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-21-1">
-Past versions of unnamed-chunk-21-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-21-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/4af30fbdc861e2d9d8b7665cd9f77306a9310a2e/docs/figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-21-1.png" target="_blank">4af30fb</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-12-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -2522,44 +2535,7 @@ sapply(1:4, function(i){
   barcodeplot(lrt$table$logFC, gsAnnots$c2@idx[[rownames(c2Cam)[i]]], 
               main = rownames(c2Cam)[i], cex.main = 0.75)
 })</code></pre>
-<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-23-1">
-Past versions of unnamed-chunk-23-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-23-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/4af30fbdc861e2d9d8b7665cd9f77306a9310a2e/docs/figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-23-1.png" target="_blank">4af30fb</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-12-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -2623,44 +2599,7 @@ sapply(1:4, function(i){
   barcodeplot(lrt$table$logFC, gsAnnots$kegg@idx[[rownames(keggCam)[i]]], 
               main = rownames(keggCam)[i], cex.main = 0.75)
 })</code></pre>
-<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-25-1">
-Past versions of unnamed-chunk-25-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-25-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/4af30fbdc861e2d9d8b7665cd9f77306a9310a2e/docs/figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-25-1.png" target="_blank">4af30fb</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-12-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-26-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -2786,55 +2725,7 @@ p[[i]] &lt;- ggplot(data = subset(dat, dat$gene == topBD$Geneid[i]),
 
 wrap_plots(p, guides = &quot;collect&quot;, ncol = 3) &amp; 
   theme(legend.position = &quot;bottom&quot;)</code></pre>
-<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-29-1">
-Past versions of unnamed-chunk-29-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-29-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/77ba079a747c0de04c91e94e3129beb7d7c4ee4b/docs/figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-29-1.png" target="_blank">77ba079</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2021-09-25
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/4af30fbdc861e2d9d8b7665cd9f77306a9310a2e/docs/figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-29-1.png" target="_blank">4af30fb</a>
-</td>
-<td>
-Jovana Maksimovic
-</td>
-<td>
-2020-12-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/STAR-FC-RUV-exclude-US-ab.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
@@ -2930,24 +2821,24 @@ loaded via a namespace (and not attached):
  [97] cli_3.0.0                EGSEAdata_1.18.0         MASS_7.3-53.1           
 [100] tidyselect_1.1.0         stringi_1.5.3            highr_0.8               
 [103] yaml_2.2.1               askpass_1.1              locfit_1.5-9.4          
-[106] latticeExtra_0.6-29      grid_4.0.2               tools_4.0.2             
-[109] rstudioapi_0.13          foreach_1.5.1            git2r_0.28.0            
-[112] farver_2.1.0             digest_0.6.27            Rcpp_1.0.6              
-[115] broom_0.7.4              later_1.1.0.1            org.Hs.eg.db_3.12.0     
-[118] httr_1.4.2               Rdpack_2.1               colorspace_2.0-2        
-[121] rvest_0.3.6              XML_3.99-0.5             fs_1.5.0                
-[124] splines_4.0.2            sn_1.6-2                 multtest_2.46.0         
-[127] plotly_4.9.3             xtable_1.8-4             jsonlite_1.7.2          
-[130] R6_2.5.0                 TFisher_0.2.0            KEGGdzPathwaysGEO_1.28.0
-[133] pillar_1.6.1             htmltools_0.5.1.1        hgu133plus2.db_3.2.3    
-[136] glue_1.4.2               fastmap_1.1.0            DT_0.17                 
-[139] codetools_0.2-18         mvtnorm_1.1-1            utf8_1.2.1              
-[142] lattice_0.20-41          numDeriv_2016.8-1.1      hgu133a.db_3.2.3        
-[145] curl_4.3                 gtools_3.8.2             openssl_1.4.3           
-[148] survival_3.2-7           rmarkdown_2.6            org.Rn.eg.db_3.12.0     
-[151] munsell_0.5.0            GenomeInfoDbData_1.2.4   iterators_1.0.13        
-[154] haven_2.3.1              reshape2_1.4.4           gtable_0.3.0            
-[157] rbibutils_2.0           </code></pre>
+[106] ggrepel_0.9.1            latticeExtra_0.6-29      grid_4.0.2              
+[109] tools_4.0.2              rstudioapi_0.13          foreach_1.5.1           
+[112] git2r_0.28.0             farver_2.1.0             digest_0.6.27           
+[115] Rcpp_1.0.6               broom_0.7.4              later_1.1.0.1           
+[118] org.Hs.eg.db_3.12.0      httr_1.4.2               Rdpack_2.1              
+[121] colorspace_2.0-2         rvest_0.3.6              XML_3.99-0.5            
+[124] fs_1.5.0                 splines_4.0.2            sn_1.6-2                
+[127] multtest_2.46.0          plotly_4.9.3             xtable_1.8-4            
+[130] jsonlite_1.7.2           R6_2.5.0                 TFisher_0.2.0           
+[133] KEGGdzPathwaysGEO_1.28.0 pillar_1.6.1             htmltools_0.5.1.1       
+[136] hgu133plus2.db_3.2.3     glue_1.4.2               fastmap_1.1.0           
+[139] DT_0.17                  codetools_0.2-18         mvtnorm_1.1-1           
+[142] utf8_1.2.1               lattice_0.20-41          numDeriv_2016.8-1.1     
+[145] hgu133a.db_3.2.3         curl_4.3                 gtools_3.8.2            
+[148] openssl_1.4.3            survival_3.2-7           rmarkdown_2.6           
+[151] org.Rn.eg.db_3.12.0      munsell_0.5.0            GenomeInfoDbData_1.2.4  
+[154] iterators_1.0.13         haven_2.3.1              reshape2_1.4.4          
+[157] gtable_0.3.0             rbibutils_2.0           </code></pre>
 </div>
 </div>
 
