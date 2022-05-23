@@ -414,7 +414,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-04-27
+<strong>Last updated:</strong> 2022-05-23
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -505,16 +505,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree43f8f24d17e15e69c14ea3ec1dbc37c8a1962cactargetblank43f8f24a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/43f8f24d17e15e69c14ea3ec1dbc37c8a1962cac" target="_blank">43f8f24</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreeeb94c339d7fc743228fca80c8e04166ee3a17278targetblankeb94c33a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/eb94c339d7fc743228fca80c8e04166ee3a17278" target="_blank">eb94c33</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatree43f8f24d17e15e69c14ea3ec1dbc37c8a1962cactargetblank43f8f24a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsatlassianpetermacorgaubitbucketscmosamniocellfreernatreeeb94c339d7fc743228fca80c8e04166ee3a17278targetblankeb94c33a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/43f8f24d17e15e69c14ea3ec1dbc37c8a1962cac" target="_blank">43f8f24</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/tree/eb94c339d7fc743228fca80c8e04166ee3a17278" target="_blank">eb94c33</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -597,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/eb94c339d7fc743228fca80c8e04166ee3a17278/analysis/STAR-FC-exclude-US-ab.Rmd" target="_blank">eb94c33</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-05-23
+</td>
+<td>
+wflow_publish("analysis/STAR-FC-exclude-US-ab.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/9554b21c4d91039e6578f58e2ba7e81c7a3a8411/docs/STAR-FC-exclude-US-ab.html" target="_blank">9554b21</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -842,10 +876,34 @@ wflow_publish(c("analysis/STAR-FC-all.Rmd", "analysis/STAR-FC-exclude-US-ab.Rmd"
 </div>
 </div>
 </div>
+<pre class="r"><code>library(here)
+library(tidyverse)
+library(EnsDb.Hsapiens.v86)
+library(readr)
+library(limma)
+library(edgeR)
+library(NMF)
+library(patchwork)
+library(EGSEA)
+library(gt)
+source(here(&quot;code/output.R&quot;))</code></pre>
 <p>The data showed some adapter contamination and sequence duplication issues. Adapters were removed using <code>Trimmomatic</code> and both paired and unpaired reads were retained. Only paired reads were initially mapped with <code>Star</code> in conjunction with <code>GRCh38</code> and <code>gencode_v34</code> to detect all junctions, across all samples. Paired and unpaired reads were then mapped to <code>GRCh38</code> separately using <code>Star</code>. Duplicates were removed from paired and unpaired mapped data using <code>Picard MarkDuplicates</code>. Reads were then counted across features from <code>gencode_v34</code> using <code>featureCounts</code>.</p>
 <div id="data-import" class="section level1">
 <h1>Data import</h1>
 <p>Set up <code>DGElist</code> object for downstream analysis. Sum paired and unpaired counts prior to downstream analysis.</p>
+<pre class="r"><code>rawPE &lt;- read_delim(here(&quot;data/star-genome-analysis/counts-pe/counts.txt&quot;), delim = &quot;\t&quot;, skip = 1)
+rawSE &lt;- read_delim(here(&quot;data/star-genome-analysis/counts-se/counts.txt&quot;), delim = &quot;\t&quot;, skip = 1)
+samps &lt;- strsplit2(colnames(rawPE)[c(7:ncol(rawPE))], &quot;_&quot;)[,5]
+batch &lt;- factor(strsplit2(colnames(rawPE)[c(7:ncol(rawPE))], 
+                                     &quot;_&quot;)[,1], labels = 1:2)
+batch &lt;- tibble(batch = batch, id = samps)
+colnames(rawPE)[7:ncol(rawPE)] &lt;- samps
+colnames(rawSE)[7:ncol(rawSE)] &lt;- samps
+
+counts &lt;- rawPE[, 7:ncol(rawPE)] + rawSE[, 7:ncol(rawSE)] 
+dge &lt;- DGEList(counts = counts,
+                 genes = rawPE[,c(1,6)])
+dge</code></pre>
 <pre><code>An object of class &quot;DGEList&quot;
 $counts
   CMV30 CMV31 CMV8 CMV9 CMV26 CMV27 CMV14 CMV15 CMV20 CMV21 CMV1 CMV2 CMV3 CMV4
@@ -886,6 +944,46 @@ $genes
 5 ENSG00000284332.1    138
 60664 more rows ...</code></pre>
 <p>Load sample information and file names. Exclude samples with ultrasound abnormalities.</p>
+<pre class="r"><code>samps1 &lt;- read_csv(here(&quot;data/CMV-AF-database-corrected-oct-2020.csv&quot;))
+samps2 &lt;- read_csv(here(&quot;data/samples.csv&quot;))
+
+samps1 %&gt;% full_join(samps2, by = c(&quot;sequencing_ID&quot; = &quot;SampleId&quot;)) %&gt;%
+  mutate(pair = ifelse(!is.na(matched_pair), matched_pair,
+                        ifelse(!is.na(MatchedPair), MatchedPair, NA)),
+         CMV_status = ifelse(!is.na(CMV_status), CMV_status,
+                         ifelse(!is.na(TestResult), TestResult, NA)),
+         Sex = toupper(Sex),
+         Indication = tolower(Indication)) %&gt;%
+  dplyr::rename(sex = Sex, 
+         id = sequencing_ID, 
+         indication = Indication,
+         GA_at_amnio = `GA_at_amnio-completed_weeks`) -&gt; samps
+       
+read_csv(file = here(&quot;data/metadata.csv&quot;)) %&gt;%
+  inner_join(read_csv(file = here(&quot;data/joindata.csv&quot;)), 
+                      by = c(&quot;Record.ID&quot; = &quot;UR&quot;)) %&gt;%
+  right_join(samps, by = c(&quot;ID post-extraction&quot; = &quot;id&quot;)) %&gt;%
+  na_if(&quot;NA&quot;) %&gt;%
+  mutate(sex = ifelse(!is.na(sex), sex,
+                        ifelse(!is.na(Sex), toupper(Sex), NA)),
+         GA_at_amnio = ifelse(!is.na(GA_at_amnio), GA_at_amnio,
+                         ifelse(!is.na(GA.at.amnio), GA.at.amnio, NA))) %&gt;%
+  dplyr::rename(id = `ID post-extraction`) %&gt;%
+  dplyr::select(id, 
+                CMV_status, 
+                pair, 
+                sex, 
+                GA_at_amnio, 
+                indication) %&gt;%
+  left_join(batch) %&gt;%
+  dplyr::filter(id %in% colnames(dge)) %&gt;%
+  drop_na() -&gt; targets
+
+m &lt;- match(colnames(dge), targets$id)
+targets &lt;- targets[m[!is.na(m)], ]
+targets &lt;- targets[targets$indication %in% &quot;no_us_ab&quot;,]
+
+targets</code></pre>
 <pre><code># A tibble: 23 x 7
    id    CMV_status pair  sex   GA_at_amnio indication batch
    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;fct&gt;
@@ -905,6 +1003,30 @@ $genes
 <h1>Quality control</h1>
 <p>Genes that do not have an adequate number of reads in any sample should be filtered out prior to downstream analyses. From a biological perspective, genes that are not expressed at a biologically meaningful level in any condition are not of interest. Statistically, we get a better estimate of the mean-variance relationship in the data and reduce the number of statistical tests that are performed during differential expression analyses.</p>
 <p>Filter out lowly expressed genes and genes without Entrez IDs and calculate TMM normalization factors.</p>
+<pre class="r"><code>z &lt;- dge[, colnames(dge) %in% targets$id] # retain only relevant samples
+z$genes$Ensembl &lt;- strsplit2(z$genes$Geneid, &quot;.&quot;, fixed = TRUE)[,1]
+z$group &lt;- targets$CMV_status
+
+edb &lt;- EnsDb.Hsapiens.v86 # add Gene Symbols and Entrez IDs
+z$genes &lt;- left_join(z$genes, ensembldb::genes(edb, 
+                                        filter = GeneIdFilter(z$genes$Ensembl), 
+                                        columns = c(&quot;gene_id&quot;, 
+                                                    &quot;symbol&quot;, 
+                                                    &quot;entrezid&quot;), 
+                                        return.type = &quot;data.frame&quot;), 
+                       by = c(&quot;Ensembl&quot; = &quot;gene_id&quot;))
+z$genes$entrezid &lt;- unlist(sapply(z$genes$entrezid, function(x) {
+  if(is.null(x)) NA else x[length(x)]
+}), use.names = FALSE)
+
+keep &lt;- !is.na(z$genes$entrezid) &amp; !is.null(z$genes$entrezid)
+x &lt;- z[keep, ] # remove genes without Entrez IDs
+
+keep &lt;- filterByExpr(x, group = z$group)
+x &lt;- x[keep, ] # remove lowly expressed genes
+
+y &lt;- calcNormFactors(x)
+y</code></pre>
 <pre><code>An object of class &quot;DGEList&quot;
 $counts
    CMV30 CMV31 CMV8 CMV9 CMV26 CMV14 CMV15 CMV20 CMV21 CMV1 CMV2 CMV3 CMV4
@@ -943,6 +1065,32 @@ $group
 [1] &quot;pos&quot; &quot;neg&quot; &quot;neg&quot; &quot;pos&quot; &quot;pos&quot;
 18 more elements ...</code></pre>
 <p>Plotting the distribution log-CPM values shows that a majority of genes within each sample are either not expressed or lowly-expressed with log-CPM values that are small or negative.</p>
+<pre class="r"><code>L &lt;- mean(z$samples$lib.size) * 1e-6
+M &lt;- median(z$samples$lib.size) * 1e-6
+
+par(mfrow = c(1,2))
+lcpmz &lt;- cpm(z, log = TRUE)
+lcpm.cutoff &lt;- log2(10/M + 2/L)
+nsamples &lt;- ncol(z)
+col &lt;- scales::hue_pal()(nsamples)
+plot(density(lcpmz[,1]), col = col[1], lwd = 1, ylim = c(0, 2), las = 2, 
+     main = &quot;&quot;, xlab = &quot;&quot;)
+title(main = &quot;Unfiltered data&quot;, xlab = &quot;Log-cpm&quot;)
+abline(v = lcpm.cutoff, lty = 3)
+for (i in 2:nsamples){
+  den &lt;- density(lcpmz[,i])
+  lines(den$x, den$y, col = col[i], lwd = 1)
+}
+
+lcpmy &lt;- cpm(y, log=TRUE)
+plot(density(lcpmy[,1]), col = col[1], lwd = 1, ylim = c(0, 0.25), las = 2, 
+     main = &quot;&quot;, xlab = &quot;&quot;)
+title(main = &quot;Filtered data&quot;, xlab = &quot;Log-cpm&quot;)
+abline(v = lcpm.cutoff, lty = 3)
+for (i in 2:nsamples){
+  den &lt;- density(lcpmy[,i])
+  lines(den$x, den$y, col = col[i], lwd = 1)
+}</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
@@ -983,6 +1131,40 @@ Jovana Maksimovic
 </div>
 <p>Although in excess of 30 million reads were obtained per sample, we can see that after mapping, duplicate removal and quantification of gene expression the median library size is just under than 4 million reads. This suggests that we are likely to only be capturing the most abundant cfRNAs.</p>
 <p>It is assumed that all samples should have a similar range and distribution of expression values. The raw data looks fairly uniform between samples, although TMM normalization further improves this.</p>
+<pre class="r"><code>dat &lt;- data.frame(lib = y$samples$lib.size,
+                  status = y$group,
+                  sample = colnames(y))
+p1 &lt;- ggplot(dat, aes(x = sample, y = lib, fill = status)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = &quot;Sample&quot;, y = &quot;Library size&quot;,
+       fill = &quot;CMV Status&quot;) +
+  geom_hline(yintercept = median(dat$lib), linetype = &quot;dashed&quot;) +
+  scale_x_discrete(limits = dat$sample)
+
+dat &lt;- reshape2::melt(cpm(y, normalized.lib.sizes = FALSE, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(y$group, each = nrow(y))
+colnames(dat)[2] &lt;- &quot;sample&quot;
+p2 &lt;- ggplot(dat, aes(x = sample, y = cpm, fill = status)) +
+  geom_boxplot(show.legend = FALSE, outlier.size = 0.75) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7)) +
+  labs(x = &quot;Sample&quot;, y = &quot;Library size&quot;,
+       fill = &quot;CMV Status&quot;) +
+  geom_hline(yintercept = median(dat$lib), linetype = &quot;dashed&quot;)
+
+dat &lt;- reshape2::melt(cpm(y, normalized.lib.sizes = TRUE, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(y$group, each = nrow(y))
+colnames(dat)[2] &lt;- &quot;sample&quot;
+p3 &lt;- ggplot(dat, aes(x = sample, y = cpm, fill = status)) +
+  geom_boxplot(show.legend = FALSE, outlier.size = 0.75) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7)) +
+  labs(x = &quot;Sample&quot;, y = &quot;Library size&quot;,
+       fill = &quot;CMV Status&quot;) +
+  geom_hline(yintercept = median(dat$lib), linetype = &quot;dashed&quot;)
+
+p1 / (p2 + p3) + plot_layout(guides = &quot;collect&quot;)</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
@@ -1023,6 +1205,34 @@ Jovana Maksimovic
 </div>
 <p>Multi-dimensional scaling (MDS) plots show the largest sources of variation in the data. They are a good way of exploring the relationships between the samples and identifying structure in the data. The following series of MDS plots examines the first four principal components. The samples are coloured by various known features of the samples such as CMV Status and foetal sex. The MDS plots do not show the samples strongly clustering by any of the known features of the data, although there does seem to be some separation between the CMV positive and negative samples in the 1st and 2nd principal components. This indicates that there are possibly some differentially expressed genes between CMV positive and negative samples.</p>
 <p>A weak batch effect is also evident in the 3rd principal component, when we examine the plots coloured by batch.</p>
+<pre class="r"><code>dims &lt;- list(c(1,2), c(1,3), c(2,3), c(3,4))
+vars &lt;- c(&quot;CMV_status&quot;, &quot;pair&quot;, &quot;sex&quot;, &quot;GA_at_amnio&quot;, &quot;indication&quot;, &quot;batch&quot;)
+patches &lt;- vector(&quot;list&quot;, length(vars))
+
+for(i in 1:length(vars)){
+  p &lt;- vector(&quot;list&quot;, length(dims))
+  
+  for(j in 1:length(dims)){
+    mds &lt;- plotMDS(cpm(y, log = TRUE), top = 1000, gene.selection=&quot;common&quot;, 
+                   plot = FALSE, dim.plot = dims[[j]])
+    dat &lt;- tibble::tibble(x = mds$x, y = mds$y,
+                          sample = targets$id,
+                          variable = pull(targets, vars[i]))
+    
+    p[[j]] &lt;- ggplot(dat, aes(x = x, y = y, colour = variable)) +
+      geom_text(aes(label = sample), size = 2.5) +
+      labs(x = glue::glue(&quot;Principal component {dims[[j]][1]}&quot;), 
+           y = glue::glue(&quot;Principal component {dims[[j]][2]}&quot;),
+           colour = vars[i])
+  }
+  
+  patches[[i]] &lt;- wrap_elements(wrap_plots(p, ncol = 2, guides = &quot;collect&quot;) +
+    plot_annotation(title = glue::glue(&quot;Coloured by: {vars[i]}&quot;)) &amp;
+    theme(legend.position = &quot;bottom&quot;))
+  
+}
+
+wrap_plots(patches, ncol = 1)</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
@@ -1062,6 +1272,17 @@ Jovana Maksimovic
 </div>
 </div>
 <p>Check XIST expression to confirm that all sex assignments are correct.</p>
+<pre class="r"><code>dat &lt;- data.frame(targets, XIST = z$counts[which(z$genes$symbol == &quot;XIST&quot;),]) 
+dat %&gt;% gt() %&gt;%
+  tab_style(
+    style = cell_fill(color = &quot;lightgreen&quot;),
+    locations = cells_body(
+      rows = (sex == &quot;F&quot; &amp; XIST &lt; 10) | (sex == &quot;M&quot; &amp; XIST &gt;= 10))
+  ) %&gt;% 
+  tab_style(
+    style = cell_text(weight = &quot;bold&quot;),
+    locations = cells_column_labels(columns = 1:ncol(dat))
+  ) </code></pre>
 <pre><code>Warning: The `.dots` argument of `group_by()` is deprecated as of dplyr 1.0.0.</code></pre>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -1652,6 +1873,9 @@ Jovana Maksimovic
 <div id="differential-expression-analysis" class="section level1">
 <h1>Differential expression analysis</h1>
 <p>Due to the variability in the data, the TMM normalised data was transformed using <code>voomWithQualityWeights</code>. This takes into account the differing library sizes and the mean variance relationship in the data as well as calculating sample-specific quality weights. Linear models were fit in <code>limma</code>, taking into account the <code>voom</code> weights. The CMV positive samples were compared to the CMV negative samples, taking into account the sample pairs. A summary of the number of differentially expressed genes is shown below.</p>
+<pre class="r"><code>design &lt;- model.matrix(~0 + y$group + targets$pair, data = targets)
+colnames(design) &lt;- c(levels(factor(y$group)), unique(targets$pair)[-1])
+v &lt;- voomWithQualityWeights(y, design, plot = TRUE)</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
@@ -1701,12 +1925,22 @@ Jovana Maksimovic
 </table>
 </div>
 </div>
+<pre class="r"><code>cont &lt;- makeContrasts(contrasts = &quot;pos - neg&quot;,
+                      levels = design)
+fit &lt;- lmFit(v, design)
+cfit &lt;- contrasts.fit(fit, cont)
+fit2 &lt;- eBayes(cfit, robust = TRUE)
+fitSum &lt;- summary(decideTests(fit2, p.value = 0.05))
+fitSum</code></pre>
 <pre><code>       pos - neg
 Down           0
 NotSig     12791
 Up             8</code></pre>
 <p>There were 0 down-regulated and 8 up-regulated genes between CMV positive and CMV negative samples at FDR &lt; 0.05.</p>
 <p>These are the top 10 differentially expressed genes.</p>
+<pre class="r"><code>top &lt;- topTable(fit2, n = 500)
+readr::write_csv(top, file = here(&quot;output/star-fc-limma-voom-no_us_ab.csv&quot;))
+head(top, n=10)</code></pre>
 <pre><code>                  Geneid Length         Ensembl symbol entrezid     logFC
 8687  ENSG00000115415.20   9770 ENSG00000115415  STAT1     6772 1.0336003
 2095  ENSG00000137965.11   2038 ENSG00000137965  IFI44    10561 1.5521034
@@ -1730,6 +1964,28 @@ Up             8</code></pre>
 14201 1.798125 6.773025 9.546537e-06 0.02036436 1.967012
 2226  3.910000 5.942386 5.355300e-05 0.05483173 1.904474</code></pre>
 <p>The following plots show the expression of the top 12 ranked differentially expressed genes for CMV positive and CMV negative samples. Although there is significant variability within the groups and the log2 fold changes are not large, there are obvious differences in expression for the top ranked genes.</p>
+<pre class="r"><code>dat &lt;- reshape2::melt(cpm(y, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(y$group, each = nrow(y))
+dat$gene &lt;- rep(y$genes$Geneid, ncol(y))
+
+p &lt;- vector(&quot;list&quot;, 12)
+
+for(i in 1:length(p)){
+p[[i]] &lt;- ggplot(data = subset(dat, dat$gene == top$Geneid[i]), 
+       aes(x = status, y = cpm, colour = status)) +
+  geom_jitter(width = 0.25) +
+  stat_summary(fun = &quot;mean&quot;, geom = &quot;crossbar&quot;) +
+  labs(x = &quot;Status&quot;, y = &quot;log2 CPM&quot;, colour = &quot;Status&quot;) +
+  ggtitle(top$symbol[i]) +
+  theme(plot.title = element_text(size = 8),
+        plot.subtitle = element_text(size = 7),
+        axis.title = element_text(size = 8),
+        axis.text.x = element_text(size = 7))
+}
+
+wrap_plots(p, guides = &quot;collect&quot;, ncol = 3) &amp; 
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
@@ -1828,6 +2084,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/9554b21c4d91039e6578f58e2ba7e81c7a3a8411/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-12-1.png" target="_blank">9554b21</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/41ad3da570378dd8d2d52bbe22e2bbe31705d445/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-12-1.png" target="_blank">41ad3da</a>
 </td>
 <td>
@@ -1872,6 +2139,43 @@ aheatmap(v$E[v$genes$Geneid %in% top$Geneid[top$adj.P.Val &lt; cut], o],
                                    top$Geneid[top$adj.P.Val &lt; cut]],
          main = glue::glue(&quot;DEGs at FDR &lt; {cut}&quot;))</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/9554b21c4d91039e6578f58e2ba7e81c7a3a8411/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-13-1.png" target="_blank">9554b21</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="gene-set-enrichment-analysis-gsea" class="section level1">
 <h1>Gene set enrichment analysis (GSEA)</h1>
@@ -1971,6 +2275,8 @@ topGO(go, number = Inf) %&gt;%
 </table>
 <p>GSEA helps us to interpret the results of a differential expression analysis. The <code>camera</code> function performs a competitive test to assess whether the genes in a given set are highly ranked in terms of differential expression relative to genes that are not in the set. We have tested several collections of gene sets from the Broad Institute’s Molecular Signatures Database <a href="http://software.broadinstitute.org/gsea/msigdb/index.jsp">MSigDB</a>.</p>
 <p>Build gene set indexes.</p>
+<pre class="r"><code>gsAnnots &lt;- buildIdx(entrezIDs = v$genes$entrezid, species = &quot;human&quot;,
+                     msigdb.gsets = c(&quot;h&quot;, &quot;c2&quot;, &quot;c5&quot;))</code></pre>
 <pre><code>[1] &quot;Loading MSigDB Gene Sets ... &quot;
 [1] &quot;Loaded gene sets for the collection h ...&quot;
 [1] &quot;Indexed the collection h ...&quot;
@@ -1983,6 +2289,10 @@ topGO(go, number = Inf) %&gt;%
 [1] &quot;Created annotation for the collection c5 ...&quot;
 [1] &quot;Building KEGG pathways annotation object ... &quot;</code></pre>
 <p>The GO gene sets consist of genes annotated by the same GO terms.</p>
+<pre class="r"><code>c5Cam &lt;- camera(v, gsAnnots$c5@idx, design, contrast = cont, trend.var = TRUE)
+write.csv(c5Cam[c5Cam$FDR &lt; 0.05,], 
+          file = here(&quot;output/star-fc-limma-voom-no_us_ab-gsea-c5.csv&quot;))
+head(c5Cam, n = 20)</code></pre>
 <pre><code>                                                                      NGenes
 GO_RESPONSE_TO_TYPE_I_INTERFERON                                          47
 GO_CYTOSOLIC_RIBOSOME                                                     98
@@ -2068,6 +2378,8 @@ GO_CYTOSOLIC_PART                                                     8.415260e-
 GO_CYTOSOLIC_SMALL_RIBOSOMAL_SUBUNIT                                  6.925280e-06
 GO_CELLULAR_RESPONSE_TO_INTERFERON_GAMMA                              1.346236e-05</code></pre>
 <p>The Hallmark gene sets are coherently expressed signatures derived by aggregating many MSigDB gene sets to represent well-defined biological states or processes.</p>
+<pre class="r"><code>hCam &lt;- camera(v, gsAnnots$h@idx, design, contrast = cont, trend.var = TRUE)
+head(hCam, n = 20)</code></pre>
 <pre><code>                                         NGenes Direction       PValue
 HALLMARK_INTERFERON_ALPHA_RESPONSE           80        Up 4.978711e-36
 HALLMARK_INTERFERON_GAMMA_RESPONSE          147        Up 2.315239e-26
@@ -2111,6 +2423,11 @@ HALLMARK_ANDROGEN_RESPONSE               1.304412e-01
 HALLMARK_APICAL_JUNCTION                 1.443318e-01
 HALLMARK_TGF_BETA_SIGNALING              1.584204e-01</code></pre>
 <p>Barcode plots show the enrichment of gene sets among up or down-regulated genes. The following barcode plots show the enrichment of the top 4 hallmark gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(fit2$t[,1], gsAnnots$h@idx[[rownames(hCam)[i]]], 
+              main = rownames(hCam)[i], cex.main = 0.75)
+})</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
@@ -2134,6 +2451,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/9554b21c4d91039e6578f58e2ba7e81c7a3a8411/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-18-1.png" target="_blank">9554b21</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-18-1.png" target="_blank">d96660b</a>
@@ -2172,6 +2500,10 @@ NULL
 [[4]]
 NULL</code></pre>
 <p>The curated gene sets are compiled from online pathway databases, publications in PubMed, and knowledge of domain experts.</p>
+<pre class="r"><code>c2Cam &lt;- camera(v, gsAnnots$c2@idx, design, contrast = cont, trend.var = TRUE)
+write.csv(c2Cam[c2Cam$FDR &lt; 0.05,], 
+          file = here(&quot;output/star-fc-limma-voom-no_us_ab-gsea-c2.csv&quot;))
+head(c2Cam, n = 20)</code></pre>
 <pre><code>                                                           NGenes Direction
 MOSERLE_IFNA_RESPONSE                                          27        Up
 BROWNE_INTERFERON_RESPONSIVE_GENES                             54        Up
@@ -2236,6 +2568,11 @@ RADAEVA_RESPONSE_TO_IFNA1_UP                               7.695771e-14
 ZHANG_INTERFERON_RESPONSE                                  1.252713e-13
 TAKEDA_TARGETS_OF_NUP98_HOXA9_FUSION_3D_UP                 7.065823e-13</code></pre>
 <p>The following barcode plots show the enrichment of the top 4 curated gene sets among the genes differentially expressed between CMV positive and CMV negative samples.</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(fit2$t[,1], gsAnnots$c2@idx[[rownames(c2Cam)[i]]], 
+              main = rownames(c2Cam)[i], cex.main = 0.75)
+})</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
@@ -2259,6 +2596,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/9554b21c4d91039e6578f58e2ba7e81c7a3a8411/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-20-1.png" target="_blank">9554b21</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/d96660bec01347bcec29e84c1c4313e95abc8d04/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-20-1.png" target="_blank">d96660b</a>
@@ -2297,6 +2645,9 @@ NULL
 [[4]]
 NULL</code></pre>
 <p>The KEGG gene sets encompass all of the pathways defined in the <a href="https://www.genome.jp/kegg/pathway.html">Kegg pathway database</a>.</p>
+<pre class="r"><code>keggCam &lt;- camera(v, gsAnnots$kegg@idx, design, contrast = cont, 
+                  trend.var = TRUE)
+head(keggCam, n = 20)</code></pre>
 <pre><code>                                       NGenes Direction       PValue
 Ribosome                                  125      Down 5.467771e-14
 Oxidative phosphorylation                 117      Down 4.406319e-08
@@ -2339,7 +2690,49 @@ Cysteine and methionine metabolism     2.238091e-02
 Systemic lupus erythematosus           2.352333e-02
 Bile secretion                         2.415866e-02
 Nucleotide excision repair             2.464038e-02</code></pre>
+<pre class="r"><code>par(mfrow=c(2,2))
+sapply(1:4, function(i){
+  barcodeplot(fit2$t[,1], gsAnnots$kegg@idx[[rownames(keggCam)[i]]], 
+              main = rownames(keggCam)[i], cex.main = 0.75)
+})</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-22-1">
+Past versions of unnamed-chunk-22-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-22-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/9554b21c4d91039e6578f58e2ba7e81c7a3a8411/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-22-1.png" target="_blank">9554b21</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[[1]]
 NULL
 
@@ -2355,6 +2748,9 @@ NULL</code></pre>
 <div id="brain-development-genes" class="section level1">
 <h1>Brain development genes</h1>
 <p>Test only the specialised brain development gene set for differential expression between CMV positive and CMV negative samples. This reduces the multiple testing burden and can identify DEGs from a particular set of interest.</p>
+<pre class="r"><code>brainSet &lt;- readr::read_delim(file = here(&quot;data/brain-development-geneset.txt&quot;),
+                              delim = &quot;\t&quot;, skip = 2, col_names = &quot;BRAIN_DEV&quot;)
+brainSet</code></pre>
 <pre><code># A tibble: 51 x 1
    BRAIN_DEV 
    &lt;chr&gt;     
@@ -2369,10 +2765,17 @@ NULL</code></pre>
  9 CLN5      
 10 CNTN4     
 # … with 41 more rows</code></pre>
+<pre class="r"><code>fit &lt;- lmFit(v[v$genes$symbol %in% brainSet$BRAIN_DEV, ], design)
+cfit &lt;- contrasts.fit(fit, cont)
+fit2 &lt;- eBayes(cfit, robust = TRUE)
+fitSum &lt;- summary(decideTests(fit2, p.value = 0.05))
+fitSum</code></pre>
 <pre><code>       pos - neg
 Down           0
 NotSig        28
 Up             0</code></pre>
+<pre class="r"><code>topBrain &lt;- topTable(fit2, n = Inf)
+topBrain</code></pre>
 <pre><code>                  Geneid Length         Ensembl  symbol entrezid        logFC
 54718 ENSG00000053438.11   1329 ENSG00000053438    NNAT     4826 -0.671253771
 39440 ENSG00000041515.16   8816 ENSG00000041515   MYO16    23026 -0.958193686
@@ -2432,7 +2835,67 @@ Up             0</code></pre>
 57747 5.907350  0.600226106 0.558660411 0.86423014 -5.951425
 47791 7.838658  0.038879216 0.969576624 0.99267104 -6.112922</code></pre>
 <p>The following plots show the expression of the top 9 genes from the brain development set as ranked by their differential expression with regard to CMV positive and CMV negative status.</p>
+<pre class="r"><code>b &lt;- y[y$genes$entrezid %in% topBrain$entrezid[1:9], ]
+dat &lt;- reshape2::melt(cpm(b, log = TRUE),
+                      value.name = &quot;cpm&quot;)
+dat$status &lt;- rep(b$group, each = nrow(b))
+dat$gene &lt;- rep(b$genes$Geneid, ncol(b))
+
+p &lt;- vector(&quot;list&quot;, 9)
+
+for(i in 1:length(p)){
+p[[i]] &lt;- ggplot(data = subset(dat, dat$gene == topBrain$Geneid[i]), 
+       aes(x = status, y = cpm, colour = status)) +
+  geom_jitter(width = 0.25) +
+  stat_summary(fun = &quot;mean&quot;, geom = &quot;crossbar&quot;) +
+  labs(x = &quot;Status&quot;, y = &quot;log2 CPM&quot;, colour = &quot;Status&quot;) +
+  ggtitle(topBrain$symbol[i]) +
+  theme(plot.title = element_text(size = 8),
+        plot.subtitle = element_text(size = 7),
+        axis.title = element_text(size = 8),
+        axis.text.x = element_text(size = 7))
+}
+
+wrap_plots(p, guides = &quot;collect&quot;, ncol = 3) &amp; 
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-26-1">
+Past versions of unnamed-chunk-26-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-26-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://atlassian.petermac.org.au/bitbucket/scm/os/amnio-cell-free-rna/blob/9554b21c4d91039e6578f58e2ba7e81c7a3a8411/docs/figure/STAR-FC-exclude-US-ab.Rmd/unnamed-chunk-26-1.png" target="_blank">9554b21</a>
+</td>
+<td>
+Jovana Maksimovic
+</td>
+<td>
+2022-04-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
